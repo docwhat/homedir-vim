@@ -61,6 +61,9 @@ Bundle 'pyflakes.vim'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'tpope/vim-surround'
 
+" :A Switches between header and implementation file.
+Bundle 'a.vim'
+
 " original repos on github
 "Bundle 'tpope/vim-fugitive'
 "Bundle 'Lokaltog/vim-easymotion'

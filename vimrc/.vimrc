@@ -114,20 +114,20 @@ let g:obviousModeModifiedVertSplitHi  = "term = reverse ctermfg = 227 ctermbg = 
 "-----------------------------------------------------------------------------
 set laststatus=2          " show status line all the time
 set scrolloff=5           " don't scroll any closer to top/bottom
-set statusline=%t         "tail of the filename
-set statusline+=\ 
+set statusline=%t         " tail of the filename
+set statusline+=\         " whitespace
 set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
-set statusline+=%{&ff}]   "file format
-set statusline+=\   
-set statusline+=%h        "help file flag
-set statusline+=%m        "modified flag
-set statusline+=%r        "read only flag
-set statusline+=%y        "filetype
-set statusline+=%w        "filetype
-set statusline+=%=        "left/right separator
-set statusline+=%c,       "cursor column
-set statusline+=%l/%L     "cursor line/total lines
-set statusline+=\ %P      "percent through file
+set statusline+=%{&ff}]   " file format
+set statusline+=\         " whitespace
+set statusline+=%h        " help file flag
+set statusline+=%m        " modified flag
+set statusline+=%r        " read only flag
+set statusline+=%y        " filetype
+set statusline+=%w        " filetype
+set statusline+=%=        " left/right separator
+set statusline+=%c,       " cursor column
+set statusline+=%l/%L     " cursor line/total lines
+set statusline+=\ %P      " percent through file
 
 "colorscheme dawn
 set background=dark
@@ -178,6 +178,14 @@ if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
   \ | wincmd p | diffthis
 endif
+
+
+function! StripTrailingWhite()
+  let l:winview = winsaveview()
+  silent! %s/\s\+$//
+  call winrestview(l:winview)
+endfunction
+autocmd BufWritePre *  call StripTrailingWhite()
 
 "-----------------------------------------------------------------------------
 " CScope

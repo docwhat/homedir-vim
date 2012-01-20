@@ -41,7 +41,6 @@ if !exists(":BundleInstall")
   echomsg "You need to install vundle into ~/.vim/bundle/vundle: "
   echomsg "   git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle"
   echomsg "   vim -c ':BundleInstall' -c ':qa!'"
-  qa!
 else
   " let Vundle manage Vundle
   " required!

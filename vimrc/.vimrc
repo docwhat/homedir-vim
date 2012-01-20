@@ -37,56 +37,61 @@ filetype off                   " required!
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" let Vundle manage Vundle
-" required! 
-Bundle 'gmarik/vundle'
+if !exists(":BundleInstall")
+  echomsg "You need to install vundle into ~/.vim/bundle/vundle: "
+  echomsg "   git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle"
+  echomsg "   vim -c ':BundleInstall' -c ':qa!'"
+else
+  " let Vundle manage Vundle
+  " required!
+  Bundle 'gmarik/vundle'
 
-Bundle 'The-NERD-tree'
-Bundle 'dawn'
-Bundle 'The-NERD-Commenter'
+  Bundle 'The-NERD-tree'
+  Bundle 'The-NERD-Commenter'
 
-Bundle 'MarcWeber/vim-addon-mw-utils'
-Bundle 'tomtom/tlib_vim'
-Bundle 'garbas/vim-snipmate'
-Bundle 'snipmate-snippets'
+  Bundle 'MarcWeber/vim-addon-mw-utils'
+  Bundle 'tomtom/tlib_vim'
+  Bundle 'garbas/vim-snipmate'
+  Bundle 'snipmate-snippets'
 
-Bundle 'bsl/obviousmode'
+  Bundle 'bsl/obviousmode'
 
-Bundle 'L9'
-Bundle 'FuzzyFinder'
+  Bundle 'L9'
+  Bundle 'FuzzyFinder'
 
-Bundle 'delimitMate.vim'
+  Bundle 'delimitMate.vim'
 
-" Exhuberant CTags browsers
-Bundle 'Tagbar'
+  " Exhuberant CTags browsers
+  Bundle 'Tagbar'
 
-" Python Linting
-if has("python")
-  Bundle 'pyflakes.vim'
+  " Python Linting
+  if has("python")
+    Bundle 'pyflakes.vim'
+  endif
+
+  " The only theme worth knowing.
+  Bundle 'altercation/vim-colors-solarized'
+
+  " ds/cs/ys for deleting, changing, your surrounding chars (like ', ", etc.)
+  Bundle 'tpope/vim-surround'
+
+  " :A Switches between header and implementation file.
+  Bundle 'a.vim'
+
+  " original repos on github
+  "Bundle 'tpope/vim-fugitive'
+  "Bundle 'Lokaltog/vim-easymotion'
+  "Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+  "Bundle 'tpope/vim-rails.git'
+  "" vim-scripts repos
+  "Bundle 'L9'
+  "Bundle 'FuzzyFinder'
+  "" non github repos
+  "Bundle 'git://git.wincent.com/command-t.git'
+  "" ...
 endif
 
-" The only theme worth knowing.
-Bundle 'altercation/vim-colors-solarized'
-
-" ds/cs/ys for deleting, changing, your surrounding chars (like ', ", etc.)
-Bundle 'tpope/vim-surround'
-
-" :A Switches between header and implementation file.
-Bundle 'a.vim'
-
-" original repos on github
-"Bundle 'tpope/vim-fugitive'
-"Bundle 'Lokaltog/vim-easymotion'
-"Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-"Bundle 'tpope/vim-rails.git'
-"" vim-scripts repos
-"Bundle 'L9'
-"Bundle 'FuzzyFinder'
-"" non github repos
-"Bundle 'git://git.wincent.com/command-t.git'
-"" ...
-
-filetype plugin indent on     " required! 
+filetype plugin indent on     " required!
 "
 " Brief help
 " :BundleList          - list configured bundles
@@ -109,20 +114,20 @@ let g:obviousModeModifiedVertSplitHi  = "term = reverse ctermfg = 227 ctermbg = 
 "-----------------------------------------------------------------------------
 set laststatus=2          " show status line all the time
 set scrolloff=5           " don't scroll any closer to top/bottom
-set statusline=%t         "tail of the filename
-set statusline+=\ 
+set statusline=%t         " tail of the filename
+set statusline+=\         " whitespace
 set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
-set statusline+=%{&ff}]   "file format
-set statusline+=\   
-set statusline+=%h        "help file flag
-set statusline+=%m        "modified flag
-set statusline+=%r        "read only flag
-set statusline+=%y        "filetype
-set statusline+=%w        "filetype
-set statusline+=%=        "left/right separator
-set statusline+=%c,       "cursor column
-set statusline+=%l/%L     "cursor line/total lines
-set statusline+=\ %P      "percent through file
+set statusline+=%{&ff}]   " file format
+set statusline+=\         " whitespace
+set statusline+=%h        " help file flag
+set statusline+=%m        " modified flag
+set statusline+=%r        " read only flag
+set statusline+=%y        " filetype
+set statusline+=%w        " filetype
+set statusline+=%=        " left/right separator
+set statusline+=%c,       " cursor column
+set statusline+=%l/%L     " cursor line/total lines
+set statusline+=\ %P      " percent through file
 
 "colorscheme dawn
 set background=dark
@@ -173,6 +178,14 @@ if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
   \ | wincmd p | diffthis
 endif
+
+
+function! StripTrailingWhite()
+  let l:winview = winsaveview()
+  silent! %s/\s\+$//
+  call winrestview(l:winview)
+endfunction
+autocmd BufWritePre *  call StripTrailingWhite()
 
 "-----------------------------------------------------------------------------
 " CScope
@@ -230,6 +243,9 @@ au FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/python %
 au FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
 au FileType python set efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
 au FileType python set textwidth=79 " PEP-8 Friendly
+au FileType python set tabstop=4
+au FileType python set shiftwidth=4
+au FileType python set softtabstop=4
 
 "-----------------------------------------------------------------------------
 " Ruby specific settings

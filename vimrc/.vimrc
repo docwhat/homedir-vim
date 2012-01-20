@@ -56,9 +56,19 @@ Bundle 'L9'
 Bundle 'FuzzyFinder'
 
 Bundle 'delimitMate.vim'
+
+" Exhuberant CTags browsers
 Bundle 'Tagbar'
-Bundle 'pyflakes.vim'
+
+" Python Linting
+if has("python")
+  Bundle 'pyflakes.vim'
+endif
+
+" The only theme worth knowing.
 Bundle 'altercation/vim-colors-solarized'
+
+" ds/cs/ys for deleting, changing, your surrounding chars (like ', ", etc.)
 Bundle 'tpope/vim-surround'
 
 " :A Switches between header and implementation file.

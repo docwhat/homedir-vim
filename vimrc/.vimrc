@@ -37,56 +37,61 @@ filetype off                   " required!
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" let Vundle manage Vundle
-" required! 
-Bundle 'gmarik/vundle'
+if !exists(":BundleInstall")
+  echomsg "You need to install vundle into ~/.vim/bundle/vundle: "
+  echomsg "   git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle"
+  qa!
+else
+  " let Vundle manage Vundle
+  " required!
+  Bundle 'gmarik/vundle'
 
-Bundle 'The-NERD-tree'
-Bundle 'dawn'
-Bundle 'The-NERD-Commenter'
+  Bundle 'The-NERD-tree'
+  Bundle 'The-NERD-Commenter'
 
-Bundle 'MarcWeber/vim-addon-mw-utils'
-Bundle 'tomtom/tlib_vim'
-Bundle 'garbas/vim-snipmate'
-Bundle 'snipmate-snippets'
+  Bundle 'MarcWeber/vim-addon-mw-utils'
+  Bundle 'tomtom/tlib_vim'
+  Bundle 'garbas/vim-snipmate'
+  Bundle 'snipmate-snippets'
 
-Bundle 'bsl/obviousmode'
+  Bundle 'bsl/obviousmode'
 
-Bundle 'L9'
-Bundle 'FuzzyFinder'
+  Bundle 'L9'
+  Bundle 'FuzzyFinder'
 
-Bundle 'delimitMate.vim'
+  Bundle 'delimitMate.vim'
 
-" Exhuberant CTags browsers
-Bundle 'Tagbar'
+  " Exhuberant CTags browsers
+  Bundle 'Tagbar'
 
-" Python Linting
-if has("python")
-  Bundle 'pyflakes.vim'
+  " Python Linting
+  if has("python")
+    Bundle 'pyflakes.vim'
+  endif
+
+  " The only theme worth knowing.
+  Bundle 'altercation/vim-colors-solarized'
+
+  " ds/cs/ys for deleting, changing, your surrounding chars (like ', ", etc.)
+  Bundle 'tpope/vim-surround'
+
+  " :A Switches between header and implementation file.
+  Bundle 'a.vim'
+
+  " original repos on github
+  "Bundle 'tpope/vim-fugitive'
+  "Bundle 'Lokaltog/vim-easymotion'
+  "Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+  "Bundle 'tpope/vim-rails.git'
+  "" vim-scripts repos
+  "Bundle 'L9'
+  "Bundle 'FuzzyFinder'
+  "" non github repos
+  "Bundle 'git://git.wincent.com/command-t.git'
+  "" ...
 endif
 
-" The only theme worth knowing.
-Bundle 'altercation/vim-colors-solarized'
-
-" ds/cs/ys for deleting, changing, your surrounding chars (like ', ", etc.)
-Bundle 'tpope/vim-surround'
-
-" :A Switches between header and implementation file.
-Bundle 'a.vim'
-
-" original repos on github
-"Bundle 'tpope/vim-fugitive'
-"Bundle 'Lokaltog/vim-easymotion'
-"Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-"Bundle 'tpope/vim-rails.git'
-"" vim-scripts repos
-"Bundle 'L9'
-"Bundle 'FuzzyFinder'
-"" non github repos
-"Bundle 'git://git.wincent.com/command-t.git'
-"" ...
-
-filetype plugin indent on     " required! 
+filetype plugin indent on     " required!
 "
 " Brief help
 " :BundleList          - list configured bundles

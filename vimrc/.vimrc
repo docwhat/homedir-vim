@@ -212,9 +212,9 @@ nmap <F2> :NERDTreeToggle<CR>
 let NERDTreeBookmarksFile="~/.vim/NERDTreeBookmarks"
 let NERDTreeShowBookmarks=1
 let NERDTreeIgnore=['\.o$', '\.so$', '\.bmp$', '\.class$', '^core.*',
-\ '\.vim$', '\~$', '\.pyc$', '\.pyo$', '\.jpg$', '\.gif$',
-\ '\.png$', '\.ico$', '\.exe$', '\.cod$', '\.obj$', '\.mac$',
-\ '\.1st', '\.dll$', '\.pyd$', '\.zip$', '\.modules$']
+  \ '\.vim$', '\~$', '\.pyc$', '\.pyo$', '\.jpg$', '\.gif$',
+  \ '\.png$', '\.ico$', '\.exe$', '\.cod$', '\.obj$', '\.mac$',
+  \ '\.1st', '\.dll$', '\.pyd$', '\.zip$', '\.modules$']
 
 "-----------------------------------------------------------------------------
 " Python specific settings
@@ -230,16 +230,14 @@ au FileType python set textwidth=79 " PEP-8 Friendly
 " Ruby specific settings
 "-----------------------------------------------------------------------------
 au FileType ruby set smartindent cinwords=do
-au FileType ruby set tabstop=2
-au FileType ruby set shiftwidth=2
-au FileType ruby set softtabstop=2
 
 "-----------------------------------------------------------------------------
-" Java specific settings
+" java/c/cpp/objc specific settings
 "-----------------------------------------------------------------------------
-au FileType java set tabstop=4
-au FileType java set shiftwidth=4
-au FileType java set softtabstop=4
+au FileType java,c,cpp,objc set tabstop=4
+au FileType java,c,cpp,objc set shiftwidth=4
+au FileType java,c,cpp,objc set softtabstop=4
+au FileType java,c,cpp,objc let b:loaded_delimitMate = 1
 
 "-----------------------------------------------------------------------------
 " Fix constant spelling mistakes

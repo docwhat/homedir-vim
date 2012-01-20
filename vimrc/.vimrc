@@ -40,6 +40,7 @@ call vundle#rc()
 if !exists(":BundleInstall")
   echomsg "You need to install vundle into ~/.vim/bundle/vundle: "
   echomsg "   git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle"
+  echomsg "   vim -c ':BundleInstall' -c ':qa!'"
   qa!
 else
   " let Vundle manage Vundle
@@ -238,6 +239,9 @@ au FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/python %
 au FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
 au FileType python set efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
 au FileType python set textwidth=79 " PEP-8 Friendly
+au FileType python set tabstop=4
+au FileType python set shiftwidth=4
+au FileType python set softtabstop=4
 
 "-----------------------------------------------------------------------------
 " Ruby specific settings

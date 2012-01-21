@@ -34,14 +34,7 @@ set matchpairs=(:),{:},[:]
 
 filetype off                   " required!
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-if !exists(":BundleInstall")
-  echomsg "You need to install vundle into ~/.vim/bundle/vundle: "
-  echomsg "   git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle"
-  echomsg "   vim -c ':BundleInstall' -c ':qa!'"
-else
+function LoadBundles()
   " let Vundle manage Vundle
   " required!
   Bundle 'gmarik/vundle'
@@ -89,7 +82,18 @@ else
   "" non github repos
   "Bundle 'git://git.wincent.com/command-t.git'
   "" ...
-endif
+endfunction
+
+try
+  set rtp+=~/.vim/bundle/vundle/
+  call vundle#rc()
+  call LoadBundles()
+:catch /^Vim\%((\a\+)\)\=:E117/
+  echomsg "Failed to load vundle and/or bundles. Perhaps vundle isn't installed."
+  echomsg "You need to install vundle into ~/.vim/bundle/vundle: "
+  echomsg "   git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle"
+  echomsg "   vim -c ':BundleInstall' -c ':qa!'"
+endtry
 
 filetype plugin indent on     " required!
 "
@@ -102,7 +106,9 @@ filetype plugin indent on     " required!
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
 
-" obviousmode
+"-----------------------------------------------------------------------------
+"  Bundle 'bsl/obviousmode' settings
+"-----------------------------------------------------------------------------
 let g:obviousModeInsertHi             = "term = reverse ctermfg = 227 ctermbg = 52"
 let g:obviousModeCmdwinHi             = "term = reverse ctermfg = 227 ctermbg = 22"
 let g:obviousModeModifiedCurrentHi    = "term = reverse ctermfg = 227 ctermbg = 30"
@@ -129,9 +135,12 @@ set statusline+=%c,       " cursor column
 set statusline+=%l/%L     " cursor line/total lines
 set statusline+=\ %P      " percent through file
 
-"colorscheme dawn
 set background=dark
-colorscheme solarized
+try
+  colorscheme solarized
+catch /^Vim\%((\a\+)\)\=:E185/
+  " deal wit it
+endtry
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -151,7 +160,7 @@ set display=uhex                     " Show unprintables as <xx>
 
 " viminfo stores the the state of your previous editing session
 " Save it to less noisy place: ~/.vim/backups
-if isdirectory($HOME.'.vim/backups') == 0
+if isdirectory($HOME . '/.vim/backups') == 0
   :silent !mkdir -p ~/.vim/backups >/dev/null 2>&1
 endif
 set backupdir-=.

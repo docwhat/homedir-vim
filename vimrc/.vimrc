@@ -34,7 +34,7 @@ set matchpairs=(:),{:},[:]
 
 filetype off                   " required!
 
-function LoadBundles()
+function! LoadBundles()
   " let Vundle manage Vundle
   " required!
   Bundle 'gmarik/vundle'

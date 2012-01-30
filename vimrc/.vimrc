@@ -211,10 +211,23 @@ set nocscopeverbose
 map ]c ]czz
 map [c [czz
 
-map <silent> \b :buffers<CR>
-map <silent> \h :noh<CR>
-map <silent> \v :split ~/.vimrc<CR>
-map <silent> \V :split ~/.gvimrc<CR>
+map <silent> <Leader>b :buffers<CR>
+map <silent> <Leader>h :noh<CR>
+
+" Shortcuts for editing .vimrc
+map <silent> <Leader>ve :edit ~/.vimrc<CR>
+map <silent> <Leader>vs :split ~/.vimrc<CR>
+map <silent> <Leader>vv :vsplit ~/.vimrc<CR>
+
+" Shortcuts for FuzzyFinder
+map <silent> <Leader>ff :FufFile<CR>
+map <silent> <Leader>fb :FufBuffer<CR>
+map <silent> <Leader>fh :FufHelp<CR>
+map <silent> <Leader>fl :FufLine<CR>
+map <silent> <Leader>fq :FufQuickfix<CR>
+map <silent> <Leader>ft :FufTag<CR>
+map <silent> <Leader>fd :FufDir<CR>
+
 
 " With a visual block seleced, fold on space. Refold on space in command mode.
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':'1')<CR>

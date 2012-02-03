@@ -9,7 +9,6 @@ set softtabstop=2
 set expandtab
 
 set autoindent
-set smartindent
 set nowrap
 set backspace=indent,eol,start   " Set for maximum backspace smartness
 
@@ -221,6 +220,7 @@ map <silent> <Leader>vv :vsplit ~/.vimrc<CR>
 
 " Shortcuts for FuzzyFinder
 map <silent> <Leader>ff :FufFile<CR>
+map <silent> <Leader>fc :FufCoverageFile<CR>
 map <silent> <Leader>fb :FufBuffer<CR>
 map <silent> <Leader>fh :FufHelp<CR>
 map <silent> <Leader>fl :FufLine<CR>
@@ -259,27 +259,23 @@ let NERDTreeIgnore=['\.o$', '\.so$', '\.bmp$', '\.class$', '^core.*',
 "-----------------------------------------------------------------------------
 " Python specific settings
 "-----------------------------------------------------------------------------
-au FileType python set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+au FileType python set cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 au FileType python set omnifunc=pythoncomplete#Complete
 au FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/python %
 au FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
 au FileType python set efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
-au FileType python set textwidth=79 " PEP-8 Friendly
-au FileType python set tabstop=4
-au FileType python set shiftwidth=4
-au FileType python set softtabstop=4
+"au FileType python set textwidth=79 " PEP-8 Friendly
+au FileType python set tabstop=4 shiftwidth=4 softtabstop=4
 
 "-----------------------------------------------------------------------------
 " Ruby specific settings
 "-----------------------------------------------------------------------------
-au FileType ruby set smartindent cinwords=do
+au FileType ruby set cinwords=do
 
 "-----------------------------------------------------------------------------
 " java/c/cpp/objc specific settings
 "-----------------------------------------------------------------------------
-au FileType java,c,cpp,objc set tabstop=4
-au FileType java,c,cpp,objc set shiftwidth=4
-au FileType java,c,cpp,objc set softtabstop=4
+au FileType java,c,cpp,objc set smartindent tabstop=4 shiftwidth=4 softtabstop=4
 au FileType java,c,cpp,objc let b:loaded_delimitMate = 1
 
 "-----------------------------------------------------------------------------

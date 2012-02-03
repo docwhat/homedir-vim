@@ -135,6 +135,7 @@ set statusline+=%l/%L     " cursor line/total lines
 set statusline+=\ %P      " percent through file
 
 set background=dark
+set cursorline            " highlights the current line
 try
   colorscheme solarized
 catch /^Vim\%((\a\+)\)\=:E185/

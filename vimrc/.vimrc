@@ -53,6 +53,8 @@ function! LoadBundles()
 
   Bundle 'delimitMate.vim'
 
+  Bundle 'godlygeek/tabular'
+
   " Exhuberant CTags browsers
   Bundle 'Tagbar'
 

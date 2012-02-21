@@ -231,6 +231,8 @@ map <silent> <Leader>fq :FufQuickfix<CR>
 map <silent> <Leader>ft :FufTag<CR>
 map <silent> <Leader>fd :FufDir<CR>
 
+" Paste from tmux
+map <silent> <Leader>tp !!tmux show-buffer <Bar> cat<CR>
 
 " With a visual block seleced, fold on space. Refold on space in command mode.
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':'1')<CR>

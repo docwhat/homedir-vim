@@ -245,6 +245,9 @@ vnoremap <Space> zf
 vnoremap < <gv
 vnoremap > >gv
 
+" Make Y behave like other capitals.
+map Y y$
+
 " Don't use Ex mode, use Q for formatting
 map Q gq
 

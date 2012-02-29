@@ -166,8 +166,8 @@ set display=uhex                     " Show unprintables as <xx>
 if isdirectory($HOME . '/.vim/backup') == 0
   :silent !mkdir -p ~/.vim/backup >/dev/null 2>&1
 endif
-set backupdir-=./.vimbackup
-set backupdir^=~/.vim/backup
+set backupdir-=./.vimbackup//
+set backupdir^=~/.vim/backup//
 set backupdir^=.
 
 " Save your swp files to a less annoying place than the current directory.
@@ -176,8 +176,8 @@ set backupdir^=.
 if isdirectory($HOME . '/.vim/swap') == 0
   :silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
 endif
-set directory-=./.vim-swap
-set directory^=~/.vim/swap
+set directory-=./.vim-swap//
+set directory^=~/.vim/swap//
 set directory^=.
 
 " viminfo stores the the state of your previous editing session

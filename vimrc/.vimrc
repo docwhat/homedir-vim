@@ -160,13 +160,27 @@ endif
 set list listchars=tab:»·,trail:·    " Show the leading whitespaces
 set display=uhex                     " Show unprintables as <xx>
 
-" viminfo stores the the state of your previous editing session
-" Save it to less noisy place: ~/.vim/backups
-if isdirectory($HOME . '/.vim/backups') == 0
-  :silent !mkdir -p ~/.vim/backups >/dev/null 2>&1
+" Save your backups to a less annoying place than the current directory.
+" If you have .vim-backup in the current directory, it'll use that.
+" Otherwise it saves it to ~/.vim/backup
+if isdirectory($HOME . '/.vim/backup') == 0
+  :silent !mkdir -p ~/.vim/backup >/dev/null 2>&1
 endif
-set backupdir-=.
-set backupdir^=~/.vim/backups
+set backupdir-=./.vimbackup
+set backupdir^=~/.vim/backup
+set backupdir^=.
+
+" Save your swp files to a less annoying place than the current directory.
+" If you have .vim-swap in the current directory, it'll use that.
+" Otherwise it saves it to ~/.vim/swap
+if isdirectory($HOME . '/.vim/swap') == 0
+  :silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
+endif
+set directory-=./.vim-swap
+set directory^=~/.vim/swap
+set directory^=.
+
+" viminfo stores the the state of your previous editing session
 set viminfo+=n~/.vim/viminfo
 
 " When editing a file, always jump to the last known cursor position.

@@ -265,8 +265,10 @@ map <silent> <Leader>fd :FufDir<CR>
 " Paste from tmux
 map <silent> <Leader>tp !!tmux show-buffer <Bar> cat<CR>
 
-" Cut and Paste from Mac's paste buffer
-map <silent> <Leader>pp !!pbpaste<CR>
+if version >= 730 && has("macunix")
+  " Default yank and paste go to Mac's clipboard
+  set clipboard=unnamed
+end
 
 " With a visual block seleced, fold on space. Refold on space in command mode.
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':'1')<CR>

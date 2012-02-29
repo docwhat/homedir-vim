@@ -137,7 +137,15 @@ set statusline+=%l/%L     " cursor line/total lines
 set statusline+=\ %P      " percent through file
 
 set background=dark
-set cursorline            " highlights the current line
+
+" highlights the current line
+autocmd WinLeave * set nocursorline
+autocmd WinEnter * set cursorline
+
+" The Smash Escape
+inoremap jk <Esc>
+inoremap kj <Esc>
+
 try
   colorscheme solarized
 catch /^Vim\%((\a\+)\)\=:E185/

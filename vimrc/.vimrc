@@ -323,6 +323,11 @@ au FileType java,c,cpp,objc set smartindent tabstop=4 shiftwidth=4 softtabstop=4
 au FileType java,c,cpp,objc let b:loaded_delimitMate = 1
 
 "-----------------------------------------------------------------------------
+" markdown specific settings
+"-----------------------------------------------------------------------------
+au BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown set filetype=markdown
+
+"-----------------------------------------------------------------------------
 " Fix constant spelling mistakes
 "-----------------------------------------------------------------------------
 iab teh the

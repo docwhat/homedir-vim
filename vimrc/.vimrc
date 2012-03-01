@@ -53,8 +53,6 @@ function! LoadBundles()
   Bundle 'garbas/vim-snipmate'
   Bundle 'snipmate-snippets'
 
-  Bundle 'bsl/obviousmode'
-
   Bundle 'L9'
   Bundle 'FuzzyFinder'
 
@@ -72,6 +70,9 @@ function! LoadBundles()
     Bundle 'pyflakes.vim'
   endif
 
+  " Syntax checking
+  Bundle 'scrooloose/syntastic'
+
   " Latest vim-ruby
   Bundle 'vim-ruby/vim-ruby'
 
@@ -86,6 +87,9 @@ function! LoadBundles()
 
   " Get me some RVM support
   Bundle 'tpope/vim-rvm'
+
+  " Fancy status bar theme
+  Bundle 'Lokaltog/vim-powerline'
 
   " :A Switches between header and implementation file.
   Bundle 'a.vim'
@@ -126,33 +130,33 @@ filetype plugin indent on     " required!
 " NOTE: comments after Bundle command are not allowed..
 
 "-----------------------------------------------------------------------------
-"  Bundle 'bsl/obviousmode' settings
-"-----------------------------------------------------------------------------
-let g:obviousModeInsertHi             = "term = reverse ctermfg = 227 ctermbg = 52"
-let g:obviousModeCmdwinHi             = "term = reverse ctermfg = 227 ctermbg = 22"
-let g:obviousModeModifiedCurrentHi    = "term = reverse ctermfg = 227 ctermbg = 30"
-let g:obviousModeModifiedNonCurrentHi = "term = reverse ctermfg = 227 ctermbg = 23"
-let g:obviousModeModifiedVertSplitHi  = "term = reverse ctermfg = 227 ctermbg = 23"
-
-"-----------------------------------------------------------------------------
 " Terminal/Display settings
 "-----------------------------------------------------------------------------
-set laststatus=2          " show status line all the time
-set scrolloff=5           " don't scroll any closer to top/bottom
-set statusline=%t         " tail of the filename
-set statusline+=\         " whitespace
-set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
-set statusline+=%{&ff}]   " file format
-set statusline+=\         " whitespace
-set statusline+=%h        " help file flag
-set statusline+=%m        " modified flag
-set statusline+=%r        " read only flag
-set statusline+=%y        " filetype
-set statusline+=%w        " filetype
-set statusline+=%=        " left/right separator
-set statusline+=%c,       " cursor column
-set statusline+=%l/%L     " cursor line/total lines
-set statusline+=\ %P      " percent through file
+set laststatus=2                                                                    " show status line all the time
+set scrolloff=5                                                                     " don't scroll any closer to top/bottom
+let g:Powerline_symbols = 'unicode'
+
+                                                                                    " NOTE: The statusline settings below is ignored if powerline is loaded.
+set statusline=%t                                                                   " tail of the filename
+set statusline+=\                                                                   " whitespace
+set statusline+=[%{strlen(&fenc)?&fenc:'none'},                                     " file encoding
+set statusline+=%{&ff}]                                                             " file format
+set statusline+=%h                                                                  " help file flag
+set statusline+=%m                                                                  " modified flag
+set statusline+=%r                                                                  " read only flag
+set statusline+=%y                                                                  " filetype
+set statusline+=%w                                                                  " filetype
+set statusline+=%{exists('g:loaded_fugitive')?fugitive#statusline():''}
+set statusline+=%=                                                                  " left/right separator
+set statusline+=\ %#warningmsg#                                                     " start warnings highlight group
+set statusline+=%{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''} " SyntasticStatusLine
+set statusline+=%*                                                                  " end highlight group
+set statusline+=%c,                                                                 " cursor column
+set statusline+=%l/%L                                                               " cursor line/total lines
+set statusline+=\ %P                                                                " percent through file
+
+" Syntastical statusline format - Ignored when powerline is enabled.
+let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
 set background=dark
 

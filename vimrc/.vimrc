@@ -23,7 +23,9 @@ set wildmenu
 set showcmd                      " display incomplete commands
 
 set showmatch                    " Show the matching bracket
-set matchpairs=(:),{:},[:]
+set matchpairs=(:),{:},[:]       " List of characters we match with
+
+set cursorline                   " highlights the current line
 
 "-----------------------------------------------------------------------------
 " Vundler
@@ -159,10 +161,6 @@ set statusline+=\ %P                                                            
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
 set background=dark
-
-" highlights the current line
-autocmd WinLeave * set nocursorline
-autocmd WinEnter * set cursorline
 
 " The Smash Escape
 inoremap jk <Esc>

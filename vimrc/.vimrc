@@ -29,7 +29,10 @@ set matchpairs=(:),{:},[:]
 " Vundler
 "-----------------------------------------------------------------------------
 " Install with:
-"    git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+"    mkdir -p ~/.vim/bundle && git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim -c ':BundleInstall' -c ':qa!''
+" Update with:
+"    vim -c ':BundleInstall!' -c ':qa!'
+
 
 filetype off                   " required!
 

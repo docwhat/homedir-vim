@@ -45,7 +45,11 @@ function! LoadBundles()
   Bundle 'The-NERD-Commenter'
 
   Bundle 'MarcWeber/vim-addon-mw-utils'
+
+  " TMux Support
   Bundle 'tomtom/tlib_vim'
+
+  " Snippets - Use <C-n> to use a snippet in insert mode or <r-Tab> to show all.
   Bundle 'garbas/vim-snipmate'
   Bundle 'snipmate-snippets'
 
@@ -54,8 +58,10 @@ function! LoadBundles()
   Bundle 'L9'
   Bundle 'FuzzyFinder'
 
-  Bundle 'delimitMate.vim'
+  " Autopair mode - If you type '(', it'll fill in ')'
+  Bundle 'Raimondi/delimitMate'
 
+  " lets you align comments, equal signs, etc.
   Bundle 'godlygeek/tabular'
 
   " Exhuberant CTags browsers
@@ -66,11 +72,20 @@ function! LoadBundles()
     Bundle 'pyflakes.vim'
   endif
 
+  " Latest vim-ruby
+  Bundle 'vim-ruby/vim-ruby'
+
   " The only theme worth knowing.
   Bundle 'altercation/vim-colors-solarized'
 
   " ds/cs/ys for deleting, changing, your surrounding chars (like ', ", etc.)
   Bundle 'tpope/vim-surround'
+
+  " Deal with git in a sane way
+  Bundle 'tpope/vim-fugitive'
+
+  " Get me some RVM support
+  Bundle 'tpope/vim-rvm'
 
   " :A Switches between header and implementation file.
   Bundle 'a.vim'

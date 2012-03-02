@@ -278,11 +278,6 @@ map [c [czz
 map <silent> <Leader>b :buffers<CR>
 map <silent> <Leader>h :noh<CR>
 
-" Shortcuts for editing .vimrc
-map <silent> <Leader>ve :edit ~/.vimrc<CR>
-map <silent> <Leader>vs :split ~/.vimrc<CR>
-map <silent> <Leader>vv :vsplit ~/.vimrc<CR>
-
 " Shortcuts for FuzzyFinder
 map <silent> <Leader>ff :FufFile<CR>
 map <silent> <Leader>fc :FufCoverageFile<CR>

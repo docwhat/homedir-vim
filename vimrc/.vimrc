@@ -48,7 +48,6 @@ function! LoadBundles()
 
   Bundle 'MarcWeber/vim-addon-mw-utils'
 
-  " TMux Support
   Bundle 'tomtom/tlib_vim'
 
   " Snippets - Use <C-n> to use a snippet in insert mode or <r-Tab> to show all.

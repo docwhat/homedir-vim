@@ -1,12 +1,25 @@
-" Configuration file for VIM
+" Configuration file for VIM {
+" vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
 " By Christian Holtje & Shawn Zabel
+" }
 "
 " Install with:
 "    mkdir -p ~/.vim/bundle && git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim -c ':BundleInstall' -c ':qa!''
 " Update with:
 "    vim -c ':BundleInstall!' -c ':BundleClean' -c ':qa!'
+"
+" You may also wish to install some extra tools to make it work better:
+" * Exuberant ctags - Used for Tagbar to show you where you are in the file. (mac: brew install ctags)
+" * flake8          - Used by Syntastical to check Python. (all: easy_install flake8)
+" * jslint          - Used by Syntastical to check Javascript. (mac: brew install jslint)
+"
+" This file uses folding mode in vim. To navigate this file, use the following
+" command mode keys:
+" * zR      - Open all folds.
+" * zM      - Close all folds.
+" * <space> - Toggle the current fold.
 
-" Options                                                                                                                                                    {{{1
+" Options                                                                                                                                                    {1
 set nocompatible                 " The most important VIM option
 
 set smarttab
@@ -33,14 +46,13 @@ set showmatch                    " Show the matching bracket
 set matchpairs=(:),{:},[:],<:>   " List of characters we expect in balanced pairs
 
 set cursorline                   " highlights the current line
-" }}}1
+" }1
 
 
-" Vundler - vim package manager                                                                                                                              {{{1
+" Vundler - vim package manager                                                                                                                              {1
 "-----------------------------------------------------------------------------
 filetype off                   " required!
 
-" bundles to load                                                                                                                                            {{{
 function! LoadBundles()
   " let Vundle manage Vundle
   " required!
@@ -60,7 +72,7 @@ function! LoadBundles()
 
   " Snippets - Use <C-n> to use a snippet in insert mode or <r-Tab> to show all.
   Bundle 'garbas/vim-snipmate'
-  Bundle 'snipmate-snippets'
+  Bundle 'scrooloose/snipmate-snippets'
 
   Bundle 'L9'
   Bundle 'FuzzyFinder'
@@ -73,12 +85,7 @@ function! LoadBundles()
   Bundle 'godlygeek/tabular'
 
   " Exhuberant CTags browsers
-  Bundle 'Tagbar'
-
-  " Python Linting
-  if has("python")
-    Bundle 'pyflakes.vim'
-  endif
+  Bundle 'majutsushi/tagbar'
 
   " Syntax checking
   Bundle 'scrooloose/syntastic'
@@ -116,7 +123,6 @@ function! LoadBundles()
   "Bundle 'git://git.wincent.com/command-t.git'
   "" ...
 endfunction
-" }}}
 
 try
   set rtp+=~/.vim/bundle/vundle/
@@ -139,10 +145,10 @@ filetype plugin indent on     " required!
 "
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
-" }}}1
+" }1
 
 
-" Terminal and display settings                                                                                                                              {{{1
+" Terminal and display settings                                                                                                                              {1
 "-----------------------------------------------------------------------------
 set laststatus=2                                                                    " show status line all the time
 set scrolloff=5                                                                     " don't scroll any closer to top/bottom
@@ -198,10 +204,10 @@ endif
 set list listchars=tab:»·,trail:·    " Show the leading whitespaces
 set display=uhex                     " Show unprintables as <xx>
 
-" display settings }}}
+" display settings }
 
 
-" Backups, undos, and swap files                                                                                                                             {{{1
+" Backups, undos, and swap files                                                                                                                             {1
 "-----------------------------------------------------------------------------
 " Save your backups to a less annoying place than the current directory.
 " If you have .vim-backup in the current directory, it'll use that.
@@ -256,10 +262,10 @@ autocmd BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
-" backups, undos, swaps }}}
+" backups, undos, swaps }
 
 
-" Misc. Commands                                                                                                                                             {{{1
+" Misc. Commands                                                                                                                                             {1
 "-----------------------------------------------------------------------------
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -277,10 +283,10 @@ function! StripTrailingWhite()
 endfunction
 autocmd BufWritePre *  call StripTrailingWhite()
 
-" misc. commands }}}1
+" misc. commands }1
 
 
-" Key bindings                                                                                                                                               {{{1
+" Key bindings                                                                                                                                               {1
 "-----------------------------------------------------------------------------
 " In diff mode, recenter after changing to next/previous diff
 map ]c ]czz
@@ -323,32 +329,29 @@ map Y y$
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
-" key bindings }}}1
+" key bindings }1
 
 
-" Plugin, syntax, etc. options                                                                                                                               {{{1
+" Plugin, syntax, etc. options                                                                                                                               {1
 "-----------------------------------------------------------------------------
 
-" CScope                                                                                                                                                     {{{
+" CScope
 "-----------------------------------------------------------------------------
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set nocscopeverbose
-" }}}
 
-" delimitMate options                                                                                                                                        {{{
+" delimitMate options
 "-----------------------------------------------------------------------------
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space = 1
 let g:delimitMate_smart_quotes = 0  " This seems broken, turn it off
 let g:delimitMate_balance_matchpairs = 1
-" }}}
 
-" FuzzyFinder                                                                                                                                                {{{
+" FuzzyFinder
 "-----------------------------------------------------------------------------
 let g:fuf_file_exclude = '\v\~$|\.(o|exe|dll|bak|class|meta|lock|orig|jar|swp|pyc|pyo)$|/test/data\.|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
-" }}}
 
-" NERD Tree                                                                                                                                                  {{{
+" NERD Tree
 "-----------------------------------------------------------------------------
 nmap <F2> :NERDTreeToggle<CR>
 let NERDTreeBookmarksFile="~/.vim/NERDTreeBookmarks"
@@ -357,9 +360,8 @@ let NERDTreeIgnore=['\.o$', '\.so$', '\.bmp$', '\.class$', '^core.*',
   \ '\.vim$', '\~$', '\.pyc$', '\.pyo$', '\.jpg$', '\.gif$',
   \ '\.png$', '\.ico$', '\.exe$', '\.cod$', '\.obj$', '\.mac$',
   \ '\.1st', '\.dll$', '\.pyd$', '\.zip$', '\.modules$']
-" }}}
 
-" Python language                                                                                                                                            {{{
+" Python language
 "-----------------------------------------------------------------------------
 au FileType python set cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 au FileType python set omnifunc=pythoncomplete#Complete
@@ -368,32 +370,30 @@ au FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr
 au FileType python set efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
 "au FileType python set textwidth=79 " PEP-8 Friendly
 au FileType python set tabstop=4 shiftwidth=4 softtabstop=4
-" }}}
 
-" delimitMate options                                                                                                                                        {{{
+" delimitMate options
 "-----------------------------------------------------------------------------
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space = 1
 let g:delimitMate_smart_quotes = 0  " This seems broken, turn it off
 let g:delimitMate_balance_matchpairs = 1
 
-" Ruby syntax                                                                                                                                                {{{
+" Ruby syntax                                                                                                                                                {
 "-----------------------------------------------------------------------------
 au FileType ruby set cinwords=do
-" }}}
+" }
 
-" java/c/cpp/objc syntax                                                                                                                                     {{{
+" java/c/cpp/objc syntax
 "-----------------------------------------------------------------------------
 au FileType java,c,cpp,objc set smartindent tabstop=4 shiftwidth=4 softtabstop=4
 au FileType java,c,cpp,objc let b:loaded_delimitMate = 1
-" }}}
+"
 
-" markdown specific settings                                                                                                                                 {{{
+" markdown specific settings
 "-----------------------------------------------------------------------------
 au BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown set filetype=markdown
-" }}}
 
-" Fix constant spelling mistakes                                                                                                                             {{{
+" Fix constant spelling mistakes
 "-----------------------------------------------------------------------------
 iab teh the
 iab Teh The
@@ -403,8 +403,6 @@ iab alos also
 iab Alos Also
 iab aslo also
 iab Aslo Also
-" }}}
 
-" Plugin, syntax, etc. }}}1
+" Plugin, syntax, etc. }1
 
-" vim: foldmethod=marker

@@ -43,11 +43,16 @@ function! LoadBundles()
   " required!
   Bundle 'gmarik/vundle'
 
-  Bundle 'The-NERD-tree'
-  Bundle 'The-NERD-Commenter'
+  " Press F2 to see a list of files and directories from your
+  " current working directory
+  Bundle 'scrooloose/nerdtree'
+
+  " Command and uncomment code easily
+  Bundle 'scrooloose/nerdcommenter'
 
   Bundle 'MarcWeber/vim-addon-mw-utils'
 
+  " Utility functions for vim
   Bundle 'tomtom/tlib_vim'
 
   " Snippets - Use <C-n> to use a snippet in insert mode or <r-Tab> to show all.

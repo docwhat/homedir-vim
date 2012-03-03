@@ -343,6 +343,14 @@ au FileType python set efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
 au FileType python set tabstop=4 shiftwidth=4 softtabstop=4
 
 "-----------------------------------------------------------------------------
+" delimitMate options
+"-----------------------------------------------------------------------------
+let g:delimitMate_expand_cr=1
+let g:delimitMate_expand_space = 1
+let g:delimitMate_smart_quotes = 0  " This seems broken, turn it off
+let g:delimitMate_balance_matchpairs = 1
+
+"-----------------------------------------------------------------------------
 " Ruby specific settings
 "-----------------------------------------------------------------------------
 au FileType ruby set cinwords=do

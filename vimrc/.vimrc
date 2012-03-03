@@ -6,6 +6,7 @@
 " Update with:
 "    vim -c ':BundleInstall!' -c ':BundleClean' -c ':qa!'
 
+" Options                                                                                                                                                    {{{1
 set nocompatible                 " The most important VIM option
 
 set smarttab
@@ -29,13 +30,17 @@ set wildmenu
 set showcmd                      " display incomplete commands
 
 set showmatch                    " Show the matching bracket
-set matchpairs=(:),{:},[:]       " List of characters we match with
+set matchpairs=(:),{:},[:],<:>   " List of characters we expect in balanced pairs
 
 set cursorline                   " highlights the current line
+" }}}1
 
 
+" Vundler - vim package manager                                                                                                                              {{{1
+"-----------------------------------------------------------------------------
 filetype off                   " required!
 
+" bundles to load                                                                                                                                            {{{
 function! LoadBundles()
   " let Vundle manage Vundle
   " required!
@@ -61,6 +66,7 @@ function! LoadBundles()
   Bundle 'FuzzyFinder'
 
   " Autopair mode - If you type '(', it'll fill in ')'
+  "Bundle 'delimitMate'
   Bundle 'Raimondi/delimitMate'
 
   " lets you align comments, equal signs, etc.
@@ -110,6 +116,7 @@ function! LoadBundles()
   "Bundle 'git://git.wincent.com/command-t.git'
   "" ...
 endfunction
+" }}}
 
 try
   set rtp+=~/.vim/bundle/vundle/
@@ -132,16 +139,17 @@ filetype plugin indent on     " required!
 "
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
+" }}}1
 
-"-----------------------------------------------------------------------------
-" Terminal/Display settings
+
+" Terminal and display settings                                                                                                                              {{{1
 "-----------------------------------------------------------------------------
 set laststatus=2                                                                    " show status line all the time
 set scrolloff=5                                                                     " don't scroll any closer to top/bottom
 let g:Powerline_symbols = 'unicode'
 
                                                                                     " NOTE: The statusline settings below is ignored if powerline is loaded.
-set statusline=%t                                                                   " tail of the filename
+set statusline=%t                                                                   " tail of the filename"
 set statusline+=\                                                                   " whitespace
 set statusline+=[%{strlen(&fenc)?&fenc:'none'},                                     " file encoding
 set statusline+=%{&ff}]                                                             " file format
@@ -190,6 +198,11 @@ endif
 set list listchars=tab:»·,trail:·    " Show the leading whitespaces
 set display=uhex                     " Show unprintables as <xx>
 
+" display settings }}}
+
+
+" Backups, undos, and swap files                                                                                                                             {{{1
+"-----------------------------------------------------------------------------
 " Save your backups to a less annoying place than the current directory.
 " If you have .vim-backup in the current directory, it'll use that.
 " Otherwise it saves it to ~/.vim/backup or . if all else fails.
@@ -243,9 +256,10 @@ autocmd BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
+" backups, undos, swaps }}}
 
-"-----------------------------------------------------------------------------
-" Misc. Commands
+
+" Misc. Commands                                                                                                                                             {{{1
 "-----------------------------------------------------------------------------
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -263,17 +277,11 @@ function! StripTrailingWhite()
 endfunction
 autocmd BufWritePre *  call StripTrailingWhite()
 
-"-----------------------------------------------------------------------------
-" CScope
-"-----------------------------------------------------------------------------
-set cscopequickfix=s-,c-,d-,i-,t-,e-
-set nocscopeverbose
+" misc. commands }}}1
 
 
+" Key bindings                                                                                                                                               {{{1
 "-----------------------------------------------------------------------------
-" Key Bindings
-"-----------------------------------------------------------------------------
-
 " In diff mode, recenter after changing to next/previous diff
 map ]c ]czz
 map [c [czz
@@ -315,13 +323,32 @@ map Y y$
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
+" key bindings }}}1
+
+
+" Plugin, syntax, etc. options                                                                                                                               {{{1
 "-----------------------------------------------------------------------------
-" FuzzyFinder Settings
+
+" CScope                                                                                                                                                     {{{
+"-----------------------------------------------------------------------------
+set cscopequickfix=s-,c-,d-,i-,t-,e-
+set nocscopeverbose
+" }}}
+
+" delimitMate options                                                                                                                                        {{{
+"-----------------------------------------------------------------------------
+let g:delimitMate_expand_cr=1
+let g:delimitMate_expand_space = 1
+let g:delimitMate_smart_quotes = 0  " This seems broken, turn it off
+let g:delimitMate_balance_matchpairs = 1
+" }}}
+
+" FuzzyFinder                                                                                                                                                {{{
 "-----------------------------------------------------------------------------
 let g:fuf_file_exclude = '\v\~$|\.(o|exe|dll|bak|class|meta|lock|orig|jar|swp|pyc|pyo)$|/test/data\.|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
+" }}}
 
-"-----------------------------------------------------------------------------
-" NERD Tree Plugin Settings
+" NERD Tree                                                                                                                                                  {{{
 "-----------------------------------------------------------------------------
 nmap <F2> :NERDTreeToggle<CR>
 let NERDTreeBookmarksFile="~/.vim/NERDTreeBookmarks"
@@ -330,9 +357,9 @@ let NERDTreeIgnore=['\.o$', '\.so$', '\.bmp$', '\.class$', '^core.*',
   \ '\.vim$', '\~$', '\.pyc$', '\.pyo$', '\.jpg$', '\.gif$',
   \ '\.png$', '\.ico$', '\.exe$', '\.cod$', '\.obj$', '\.mac$',
   \ '\.1st', '\.dll$', '\.pyd$', '\.zip$', '\.modules$']
+" }}}
 
-"-----------------------------------------------------------------------------
-" Python specific settings
+" Python language                                                                                                                                            {{{
 "-----------------------------------------------------------------------------
 au FileType python set cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 au FileType python set omnifunc=pythoncomplete#Complete
@@ -341,33 +368,32 @@ au FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr
 au FileType python set efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
 "au FileType python set textwidth=79 " PEP-8 Friendly
 au FileType python set tabstop=4 shiftwidth=4 softtabstop=4
+" }}}
 
-"-----------------------------------------------------------------------------
-" delimitMate options
+" delimitMate options                                                                                                                                        {{{
 "-----------------------------------------------------------------------------
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space = 1
 let g:delimitMate_smart_quotes = 0  " This seems broken, turn it off
 let g:delimitMate_balance_matchpairs = 1
 
-"-----------------------------------------------------------------------------
-" Ruby specific settings
+" Ruby syntax                                                                                                                                                {{{
 "-----------------------------------------------------------------------------
 au FileType ruby set cinwords=do
+" }}}
 
-"-----------------------------------------------------------------------------
-" java/c/cpp/objc specific settings
+" java/c/cpp/objc syntax                                                                                                                                     {{{
 "-----------------------------------------------------------------------------
 au FileType java,c,cpp,objc set smartindent tabstop=4 shiftwidth=4 softtabstop=4
 au FileType java,c,cpp,objc let b:loaded_delimitMate = 1
+" }}}
 
-"-----------------------------------------------------------------------------
-" markdown specific settings
+" markdown specific settings                                                                                                                                 {{{
 "-----------------------------------------------------------------------------
 au BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown set filetype=markdown
+" }}}
 
-"-----------------------------------------------------------------------------
-" Fix constant spelling mistakes
+" Fix constant spelling mistakes                                                                                                                             {{{
 "-----------------------------------------------------------------------------
 iab teh the
 iab Teh The
@@ -377,4 +403,8 @@ iab alos also
 iab Alos Also
 iab aslo also
 iab Aslo Also
+" }}}
 
+" Plugin, syntax, etc. }}}1
+
+" vim: foldmethod=marker

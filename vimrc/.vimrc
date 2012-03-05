@@ -365,10 +365,10 @@ au FileType python set efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
 "au FileType python set textwidth=79 " PEP-8 Friendly
 au FileType python set tabstop=4 shiftwidth=4 softtabstop=4
 
-" Ruby syntax                                                                                                                                                {
+" Ruby syntax
 "-----------------------------------------------------------------------------
 au FileType ruby set cinwords=do
-" }
+"
 
 " java/c/cpp/objc syntax
 "-----------------------------------------------------------------------------

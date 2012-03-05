@@ -43,7 +43,7 @@ set wildmenu
 set showcmd                      " display incomplete commands
 
 set showmatch                    " Show the matching bracket
-set matchpairs=(:),{:},[:],<:>   " List of characters we expect in balanced pairs
+set matchpairs=(:),{:},[:]       " List of characters we expect in balanced pairs
 
 set cursorline                   " highlights the current line
 " }1

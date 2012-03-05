@@ -78,8 +78,10 @@ function! LoadBundles()
   Bundle 'FuzzyFinder'
 
   " Autopair mode - If you type '(', it'll fill in ')'
-  "Bundle 'delimitMate'
   Bundle 'Raimondi/delimitMate'
+
+  " Adds matching 'end*' type syntax for ruby, vimscript, and lua
+  Bundle 'tpope/vim-endwise'
 
   " lets you align comments, equal signs, etc.
   Bundle 'godlygeek/tabular'

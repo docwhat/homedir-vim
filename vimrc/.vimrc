@@ -314,6 +314,9 @@ vnoremap <Space> zf
 vnoremap < <gv
 vnoremap > >gv
 
+" Indent whole file
+map <silent> <Leader>g mzgg=G'z<CR>
+
 " Make Y behave like other capitals.
 map Y y$
 

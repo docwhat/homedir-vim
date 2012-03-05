@@ -21,6 +21,7 @@
 
 " Options                                                                                                                                                    {1
 set nocompatible                 " The most important VIM option
+set modelines=5                  " The Vim that comes with OS X changed the default value for some reason. Setting it back.
 
 set smarttab
 set tabstop=2                    " set the default tabstops

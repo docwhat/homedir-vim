@@ -19,6 +19,9 @@
 " * zM      - Close all folds.
 " * <space> - Toggle the current fold.
 
+" Remove ALL autocommands to prevent them from being loaded twice.
+autocmd!
+
 " Options                                                                                                                                                    {1
 set nocompatible                 " The most important VIM option
 set modelines=5                  " The Vim that comes with OS X changed the default value for some reason. Setting it back.

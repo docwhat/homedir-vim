@@ -1,7 +1,6 @@
-" Configuration file for VIM {
-" vim: set foldmarker={,} foldlevel=0 foldmethod=marker spell:
+" Configuration file for VIM
+"
 " By Christian Holtje & Shawn Zabel
-" }
 "
 " Install with:
 "    mkdir -p ~/.vim/bundle && git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim -c ':BundleInstall' -c ':qa!''
@@ -22,7 +21,8 @@
 " Remove ALL autocommands to prevent them from being loaded twice.
 autocmd!
 
-" Options                                                                                                                                                    {1
+" Options
+"-----------------------------------------------------------------------------
 set nocompatible                 " The most important VIM option
 set modelines=5                  " The Vim that comes with OS X changed the default value for some reason. Setting it back.
 
@@ -50,10 +50,9 @@ set showmatch                    " Show the matching bracket
 set matchpairs=(:),{:},[:]       " List of characters we expect in balanced pairs
 
 set cursorline                   " highlights the current line
-" }1
 
 
-" Vundler - vim package manager                                                                                                                              {1
+" Vundler - vim package manager
 "-----------------------------------------------------------------------------
 filetype off                   " required!
 
@@ -140,17 +139,16 @@ filetype plugin indent on     " required!
 "
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
-" }1
 
 
-" Terminal and display settings                                                                                                                              {1
+" Terminal and display settings
 "-----------------------------------------------------------------------------
 set laststatus=2                                                                    " show status line all the time
 set scrolloff=5                                                                     " don't scroll any closer to top/bottom
 let g:Powerline_symbols = 'unicode'
 
                                                                                     " NOTE: The statusline settings below is ignored if powerline is loaded.
-set statusline=%t                                                                   " tail of the filename"
+set statusline=%t                                                                   " tail of the filename
 set statusline+=\                                                                   " whitespace
 set statusline+=[%{strlen(&fenc)?&fenc:'none'},                                     " file encoding
 set statusline+=%{&ff}]                                                             " file format
@@ -198,8 +196,6 @@ endif
 
 set list listchars=tab:»·,trail:·    " Show the leading whitespaces
 set display=uhex                     " Show unprintables as <xx>
-
-" display settings }
 
 
 " Backups, undos, and swap files                                                                                                                             {1
@@ -257,10 +253,9 @@ autocmd BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
-" backups, undos, swaps }
 
 
-" Misc. Commands                                                                                                                                             {1
+" Misc. Commands
 "-----------------------------------------------------------------------------
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -278,10 +273,9 @@ function! StripTrailingWhite()
 endfunction
 autocmd BufWritePre *  call StripTrailingWhite()
 
-" misc. commands }1
 
 
-" Key bindings                                                                                                                                               {1
+" Key bindings
 "-----------------------------------------------------------------------------
 " In diff mode, recenter after changing to next/previous diff
 map ]c ]czz
@@ -327,10 +321,8 @@ map Y y$
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
-" key bindings }1
 
-
-" Plugin, syntax, etc. options                                                                                                                               {1
+" Plugin, syntax, etc. options
 "-----------------------------------------------------------------------------
 
 " CScope

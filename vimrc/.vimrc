@@ -342,8 +342,9 @@ set nocscopeverbose
 "-----------------------------------------------------------------------------
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space = 1
-let g:delimitMate_smart_quotes = 0  " This seems broken, turn it off
+let g:delimitMate_smart_quotes = 1
 let g:delimitMate_balance_matchpairs = 1
+au FileType python let b:delimitMate_nesting_quotes = ['"']
 
 " FuzzyFinder
 "-----------------------------------------------------------------------------

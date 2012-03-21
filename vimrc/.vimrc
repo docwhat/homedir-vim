@@ -388,5 +388,10 @@ iab Alos Also
 iab aslo also
 iab Aslo Also
 
-" Plugin, syntax, etc. }1
+" Local vimrc settings
+"-----------------------------------------------------------------------------
+" If the file ~/.vimrc.local exists, then it will be loaded as well.
 
+if filereadable($HOME . '/.vimrc.local')
+  execute 'source ' . $HOME . '/.vimrc.local'
+endif

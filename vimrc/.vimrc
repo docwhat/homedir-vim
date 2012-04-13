@@ -370,7 +370,7 @@ let g:fuf_file_exclude = '\v\~$|\.(o|exe|dll|bak|class|meta|lock|orig|jar|swp|py
 " NERD Tree
 "-----------------------------------------------------------------------------
 nmap <F2> :NERDTreeToggle<CR>
-let NERDTreeBookmarksFile="~/.vim/NERDTreeBookmarks"
+let NERDTreeBookmarksFile = expand('~/.vim/NERDTreeBookmarks')
 let NERDTreeShowBookmarks=1
 let NERDTreeIgnore=['\.o$', '\.so$', '\.bmp$', '\.class$', '^core.*',
   \ '\.vim$', '\~$', '\.pyc$', '\.pyo$', '\.jpg$', '\.gif$',

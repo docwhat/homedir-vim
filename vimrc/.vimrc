@@ -85,8 +85,10 @@ function! LoadBundles()
   Bundle 'garbas/vim-snipmate'
   Bundle 'scrooloose/snipmate-snippets'
 
-  Bundle 'L9'
-  Bundle 'FuzzyFinder'
+  if v:version > 700
+    Bundle 'L9'
+    Bundle 'FuzzyFinder'
+  endif
 
   " Autopair mode - If you type '(', it'll fill in ')'
   Bundle 'Raimondi/delimitMate'
@@ -98,10 +100,14 @@ function! LoadBundles()
   Bundle 'godlygeek/tabular'
 
   " Exhuberant CTags browsers
-  Bundle 'majutsushi/tagbar'
+  if v:version > 700
+    Bundle 'majutsushi/tagbar'
+  endif
 
   " Syntax checking
-  Bundle 'scrooloose/syntastic'
+  if exists('*getmatches')
+    Bundle 'scrooloose/syntastic'
+  endif
 
   " Latest vim-ruby
   Bundle 'vim-ruby/vim-ruby'
@@ -190,7 +196,7 @@ catch /^Vim\%((\a\+)\)\=:E185/
 endtry
 
 " In many terminal emulators the mouse works just fine, thus enable it.
-if has('mouse')
+if v:version >= 702 && has('mouse')
   set mouse=a
 endif
 

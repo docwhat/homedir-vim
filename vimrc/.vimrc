@@ -17,6 +17,14 @@
 " * zR      - Open all folds.
 " * zM      - Close all folds.
 " * <space> - Toggle the current fold.
+"
+" Requirements/Suggestions:
+"
+" On OSX it is recommended you get a newer verson of vim. You can use
+" homebrew to do this:
+"
+"     brew tap homebrew/dupes
+"     brew install vim
 
 " Remove ALL autocommands to prevent them from being loaded twice.
 autocmd!

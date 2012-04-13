@@ -130,6 +130,17 @@ function! LoadBundles()
   " :A Switches between header and implementation file.
   Bundle 'a.vim'
 
+  " Like Command T for TextMate
+  if has("ruby")
+    Bundle 'git://git.wincent.com/command-t'
+    " Note: To install, you'll need to go into
+    " ~/.vim/bundle/command-t and compile it:
+    "   bundle install
+    "   rake make
+    " WARNING: Do this using the same ruby you compiled into vim!
+    " On OS-X this is probably your system ruby!
+  end
+
 endfunction
 
 try

@@ -51,6 +51,7 @@ set incsearch                    " If the terminal is slow, turn this off
 set number
 set wildmode=list:longest,full   " Completion for wildchar (see help)
 set wildmenu
+set wildignore+=*.o,*.obj,*.pyc,*.class,.git,.svn
 
 set showcmd                      " display incomplete commands
 

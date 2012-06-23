@@ -210,6 +210,9 @@ endtry
 " In many terminal emulators the mouse works just fine, thus enable it.
 if v:version >= 702 && has('mouse')
   set mouse=a
+  if &term =~ "xterm" || &term =~ "screen"
+    set ttymouse=xterm2
+  endif
 endif
 
 " Switch syntax highlighting on, when the terminal has colors

@@ -27,7 +27,9 @@
 "     brew install vim
 
 " Remove ALL autocommands to prevent them from being loaded twice.
-autocmd!
+if has("autocmd")
+  autocmd!
+endif
 
 " Options
 "-----------------------------------------------------------------------------
@@ -39,6 +41,7 @@ set tabstop=2                    " set the default tabstops
 set shiftwidth=2                 " set the default autoindent
 set softtabstop=2
 set expandtab
+set hidden
 
 set autoindent
 set nowrap
@@ -51,14 +54,16 @@ set incsearch                    " If the terminal is slow, turn this off
 set number
 set wildmode=list:longest,full   " Completion for wildchar (see help)
 set wildmenu
-set wildignore+=*.o,*.obj,*.pyc,*.class,.git,.svn
-
+set wildignore+=*.o,*.obj,*.pyc,*.pyo,*.pyd,*.class,*.lock
+set wildignore+=*.png,*.gif,*.jpg,*.ico
+set wildignore+=.git,.svn,.hg
 set showcmd                      " display incomplete commands
 
 set showmatch                    " Show the matching bracket
 set matchpairs=(:),{:},[:]       " List of characters we expect in balanced pairs
 
 set cursorline                   " highlights the current line
+set completeopt=longest,menuone,preview
 
 
 " Vundler - vim package manager
@@ -86,11 +91,6 @@ function! LoadBundles()
   Bundle 'garbas/vim-snipmate'
   Bundle 'scrooloose/snipmate-snippets'
 
-  if v:version > 700
-    Bundle 'L9'
-    Bundle 'FuzzyFinder'
-  endif
-
   " Autopair mode - If you type '(', it'll fill in ')'
   Bundle 'Raimondi/delimitMate'
 
@@ -100,9 +100,11 @@ function! LoadBundles()
   " lets you align comments, equal signs, etc.
   Bundle 'godlygeek/tabular'
 
-  " Exhuberant CTags browsers
   if v:version > 700
+    " Exhuberant CTags browsers
     Bundle 'majutsushi/tagbar'
+    " Intelligent tab-completion in insert mode
+    Bundle 'ervandew/supertab'
   endif
 
   " Syntax checking
@@ -113,8 +115,8 @@ function! LoadBundles()
   " Latest vim-ruby
   Bundle 'vim-ruby/vim-ruby'
 
-  " The only theme worth knowing.
-  Bundle 'altercation/vim-colors-solarized'
+  " Latest vim-ruby
+  Bundle 'tpope/vim-rails'
 
   " ds/cs/ys for deleting, changing, your surrounding chars (like ', ", etc.)
   Bundle 'tpope/vim-surround'
@@ -125,8 +127,20 @@ function! LoadBundles()
   " Get me some RVM support
   Bundle 'tpope/vim-rvm'
 
+  " Support '.' correctly for plugins that support this module.
+  Bundle 'tpope/vim-repeat'
+
+  " Allow C-A/C-X to work correctly with dates/times.
+  Bundle 'tpope/vim-speeddating'
+
+  " The only theme worth knowing.
+  Bundle 'altercation/vim-colors-solarized'
+
   " Fancy status bar theme
   Bundle 'Lokaltog/vim-powerline'
+
+  " Coffeescript Support
+  Bundle 'kchmck/vim-coffee-script'
 
   " :A Switches between header and implementation file.
   Bundle 'a.vim'
@@ -142,6 +156,9 @@ function! LoadBundles()
     " On OS-X this is probably your system ruby!
   end
 
+  if filereadable($HOME . '/.vimrc.bundles')
+    execute 'source ' . $HOME . '/.vimrc.bundles'
+  endif
 endfunction
 
 try
@@ -166,6 +183,32 @@ filetype plugin indent on     " required!
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
 
+" Helper functions
+"-----------------------------------------------------------------------------
+
+" A wrapper function to restore the cursor position, window position,
+" and last search after running a command.
+function! Preserve(command)
+  " Save the last search
+  let last_search=@/
+  " Save the current cursor position
+  let save_cursor = getpos(".")
+  " Save the window position
+  normal H
+  let save_window = getpos(".")
+  call setpos('.', save_cursor)
+
+  " Do the business:
+  execute a:command
+
+  " Restore the last_search
+  let @/=last_search
+  " Restore the window position
+  call setpos('.', save_window)
+  normal zt
+  " Restore the cursor position
+  call setpos('.', save_cursor)
+endfunction
 
 " Terminal and display settings
 "-----------------------------------------------------------------------------
@@ -222,10 +265,8 @@ if &t_Co > 2
   set hlsearch
 endif
 
-
 set list listchars=tab:»·,trail:·    " Show the leading whitespaces
 set display=uhex                     " Show unprintables as <xx>
-
 
 " Backups, undos, and swap files                                                                                                                             {1
 "-----------------------------------------------------------------------------
@@ -244,7 +285,14 @@ set backup
 " Prevent backups from overwriting each other. The naming is weird,
 " since I'm using the 'backupext' variable to append the path.
 " So the file '/home/docwhat/.vimrc' becomes '.vimrc%home%docwhat~'
-au BufWritePre * let &backupext = substitute(expand('%:p:h'), '/', '%', 'g') . '~'
+if has("autocmd")
+  autocmd BufWritePre * let &backupext = substitute(expand('%:p:h'), '/', '%', 'g') . '~'
+endif
+
+
+if has("macunix")
+  set backupskip+=/private/tmp/*
+endif
 
 " Save your swp files to a less annoying place than the current directory.
 " If you have .vim-swap in the current directory, it'll use that.
@@ -278,10 +326,12 @@ endif
 " (happens when dropping a file on gvim).
 " Also don't do it when the mark is in the first line, that is the default
 " position when opening a file.
-autocmd BufReadPost *
-  \ if line("'\"") > 1 && line("'\"") <= line("$") |
-  \   exe "normal! g`\"" |
-  \ endif
+if has("autocmd")
+  autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") |
+        \   exe "normal! g`\"" |
+        \ endif
+endif
 
 
 " Misc. Commands
@@ -300,7 +350,9 @@ function! StripTrailingWhite()
   silent! %s/\s\+$//
   call winrestview(l:winview)
 endfunction
-autocmd BufWritePre *  call StripTrailingWhite()
+if has("autocmd")
+  autocmd BufWritePre *  call StripTrailingWhite()
+endif
 
 
 
@@ -313,18 +365,12 @@ map [c [czz
 map <silent> <Leader>b :buffers<CR>
 map <silent> <Leader>h :noh<CR>
 
-" Shortcuts for FuzzyFinder
-map <silent> <Leader>ff :FufFile<CR>
-map <silent> <Leader>fc :FufCoverageFile<CR>
-map <silent> <Leader>fb :FufBuffer<CR>
-map <silent> <Leader>fh :FufHelp<CR>
-map <silent> <Leader>fl :FufLine<CR>
-map <silent> <Leader>fq :FufQuickfix<CR>
-map <silent> <Leader>ft :FufTag<CR>
-map <silent> <Leader>fd :FufDir<CR>
+" Add lines as converse of <S-J> (join lines)
+nnoremap <C-J> o<Esc>k$
+" nnoremap <S-C-J> O<Esc>j$
 
 " Paste from tmux
-map <silent> <Leader>tp !!tmux show-buffer <Bar> cat<CR>
+"map <silent> <Leader>tp !!tmux show-buffer <Bar> cat<CR>
 
 if has("macunix")
   if v:version >= 703
@@ -342,7 +388,10 @@ vnoremap < <gv
 vnoremap > >gv
 
 " Indent whole file
-map <silent> <Leader>g mzgg=G'z<CR>
+"map <silent> <Leader>g mzgg=G'z<CR>
+nmap <silent> <Leader>g :call Preserve("normal gg=G")<CR>
+nmap <silent> <Leader><space> :call Preserve("%s/\\s\\+$//e")<CR>
+
 
 " Make Y behave like other capitals.
 map Y y$
@@ -350,6 +399,9 @@ map Y y$
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
+" Support per-project .vimrc files.
+set exrc
+set secure
 
 " Plugin, syntax, etc. options
 "-----------------------------------------------------------------------------
@@ -359,21 +411,50 @@ map Q gq
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set nocscopeverbose
 
+" SuperTab
+"-----------------------------------------------------------------------------
+let g:SuperTabNoCompleteAfter=[',', '\s', ';', ':']
+let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+let g:SuperTabLongestEnhanced = 1
+let g:SuperTabLongestHighlight = 1
+
 " delimitMate options
 "-----------------------------------------------------------------------------
 let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space = 1
 let g:delimitMate_smart_quotes = 1
 let g:delimitMate_balance_matchpairs = 1
-au FileType python let b:delimitMate_nesting_quotes = ['"']
+if has("automcmd")
+  autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
+endif
 
-" FuzzyFinder
-"-----------------------------------------------------------------------------
-let g:fuf_file_exclude = '\v\~$|\.(o|exe|dll|bak|class|meta|lock|orig|jar|swp|pyc|pyo)$|/test/data\.|(^|[/\\])\.(hg|git|bzr)($|[/\\])'
+" CommandT
+" ----------------------------------------------------------------------------
+if has("autocmd")
+  augroup CommandTExtension
+    autocmd!
+    autocmd FocusGained  * CommandTFlush
+    autocmd BufWritePost * CommandTFlush
+  augroup END
+endif
 
 " NERD Tree
 "-----------------------------------------------------------------------------
+"function! BetterNERDTreeToggle()
+  "if exists('t:NERDTreeBufName')
+    "let nerdtree_open = bufwinnr(t:NERDTreeBufName) != -1
+  "else
+    "let nerdtree_open = 0
+  "endif
+
+  "if nerdtree_open
+    "NERDTreeClose
+    "else
+      "NERDTreeFind
+  "endif
+"endfunction
 nmap <F2> :NERDTreeToggle<CR>
+"nmap <F2> :call BetterNERDTreeToggle()<CR>
 let NERDTreeBookmarksFile = expand('~/.vim/NERDTreeBookmarks')
 let NERDTreeShowBookmarks=1
 let NERDTreeIgnore=['\.o$', '\.so$', '\.bmp$', '\.class$', '^core.*',
@@ -383,28 +464,37 @@ let NERDTreeIgnore=['\.o$', '\.so$', '\.bmp$', '\.class$', '^core.*',
 
 " Python language
 "-----------------------------------------------------------------------------
-au FileType python set cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-au FileType python set omnifunc=pythoncomplete#Complete
-au FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/python %
-au FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
-au FileType python set efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
-"au FileType python set textwidth=79 " PEP-8 Friendly
-au FileType python set tabstop=4 shiftwidth=4 softtabstop=4
+if has("autocmd")
+  autocmd FileType python set cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+  autocmd FileType python set omnifunc=pythoncomplete#Complete
+  autocmd FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/python %
+  autocmd FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
+  autocmd FileType python set efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
+  "autocmd FileType python set textwidth=79 " PEP-8 Friendly
+  autocmd FileType python set tabstop=4 shiftwidth=4 softtabstop=4
+endif
 
 " Ruby syntax
 "-----------------------------------------------------------------------------
-au FileType ruby set cinwords=do
-"
+if has("autocmd")
+    autocmd FileType ruby set cinwords=do
+    autocmd FileType ruby set omnifunc=rubycomplete#Complete
+    autocmd FileType ruby let g:rubycomplete_buffer_loading=1
+    autocmd FileType ruby let g:rubycomplete_classes_in_global=1
+endif
 
 " java/c/cpp/objc syntax
 "-----------------------------------------------------------------------------
-au FileType java,c,cpp,objc set smartindent tabstop=4 shiftwidth=4 softtabstop=4
-au FileType java,c,cpp,objc let b:loaded_delimitMate = 1
-"
+if has("autocmd")
+  autocmd FileType java,c,cpp,objc set smartindent tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType java,c,cpp,objc let b:loaded_delimitMate = 1
+endif
 
 " markdown specific settings
 "-----------------------------------------------------------------------------
-au BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown set filetype=markdown
+if has("autocmd")
+  autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown set filetype=markdown
+endif
 
 " Fix constant spelling mistakes
 "-----------------------------------------------------------------------------

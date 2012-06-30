@@ -428,14 +428,19 @@ if has("autocmd")
   autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
 endif
 
-" CommandT
+" Command-T
 " ----------------------------------------------------------------------------
+function! SetupCommandT()
+  if exists("g:command_t_loaded")
+    augroup CommandTExtension
+      autocmd!
+      autocmd FocusGained  * CommandTFlush
+      autocmd BufWritePost * CommandTFlush
+    augroup END
+  endif
+endfunction
 if has("autocmd")
-  augroup CommandTExtension
-    autocmd!
-    autocmd FocusGained  * CommandTFlush
-    autocmd BufWritePost * CommandTFlush
-  augroup END
+  autocmd VimEnter * :call SetupCommandT()
 endif
 
 " NERD Tree

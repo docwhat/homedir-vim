@@ -424,7 +424,7 @@ let g:delimitMate_expand_cr=1
 let g:delimitMate_expand_space = 1
 let g:delimitMate_smart_quotes = 1
 let g:delimitMate_balance_matchpairs = 1
-if has("automcmd")
+if has("autocmd")
   autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
 endif
 

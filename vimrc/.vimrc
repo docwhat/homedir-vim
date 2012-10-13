@@ -25,6 +25,7 @@
 "
 "     brew tap homebrew/dupes
 "     brew install vim
+"
 
 " Remove ALL autocommands to prevent them from being loaded twice.
 if has("autocmd")
@@ -34,6 +35,7 @@ endif
 " Options
 "-----------------------------------------------------------------------------
 set nocompatible                 " The most important VIM option
+scriptencoding utf-8
 set modelines=5                  " The Vim that comes with OS X changed the default value for some reason. Setting it back.
 
 set smarttab
@@ -63,8 +65,7 @@ set showmatch                    " Show the matching bracket
 set matchpairs=(:),{:},[:]       " List of characters we expect in balanced pairs
 
 set cursorline                   " highlights the current line
-set completeopt=longest,menuone,preview
-
+set history=1000                 " Save more history.
 
 " Vundler - vim package manager
 "-----------------------------------------------------------------------------
@@ -82,20 +83,32 @@ function! LoadBundles()
   " Command and uncomment code easily
   Bundle 'scrooloose/nerdcommenter'
 
+  " Caching for snipmate
   Bundle 'MarcWeber/vim-addon-mw-utils'
 
-  " Utility functions for vim
+  " Utility functions for snipmate
   Bundle 'tomtom/tlib_vim'
 
-  " Snippets - Use <C-n> to use a snippet in insert mode or <r-Tab> to show all.
+  " SnipMate
+  Bundle "honza/snipmate-snippets"
   Bundle 'garbas/vim-snipmate'
-  Bundle 'scrooloose/snipmate-snippets'
 
   " Autopair mode - If you type '(', it'll fill in ')'
   Bundle 'Raimondi/delimitMate'
 
   " Adds matching 'end*' type syntax for ruby, vimscript, and lua
   Bundle 'tpope/vim-endwise'
+
+  " Move lines with '[e' and ']e'.
+  Bundle 'tpope/vim-unimpaired'
+
+  " Bubble single line
+  nmap <C-Up> [e
+  nmap <C-Down> ]e
+
+  " Bubble multiple lines
+  vmap <C-Up> [egv
+  vmap <C-Down> ]egv
 
   " lets you align comments, equal signs, etc.
   Bundle 'godlygeek/tabular'
@@ -139,11 +152,38 @@ function! LoadBundles()
   " Fancy status bar theme
   Bundle 'Lokaltog/vim-powerline'
 
+  " Ack, the better-grepper-upper
+  if executable('ack-grep')
+    let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+  endif
+  Bundle 'mileszs/ack.vim'
+
   " Coffeescript Support
   Bundle 'kchmck/vim-coffee-script'
 
+  " Haskell support
+  Bundle 'Twinside/vim-syntax-haskell-cabal'
+  Bundle 'lukerandall/haskellmode-vim'
+
   " :A Switches between header and implementation file.
   Bundle 'a.vim'
+
+  " indent-guides
+  if v:version >= 702 && has('gui_running')
+    Bundle 'nathanaelkane/vim-indent-guides'
+    let g:indent_guides_auto_colors = 1
+    let g:indent_guides_start_level = 2
+    let g:indent_guides_guide_size = 1
+    let g:indent_guides_enable_on_vim_startup = 1
+  endif
+
+  Bundle 'tpope/vim-markdown'
+
+  Bundle 'mattn/webapi-vim'
+  Bundle 'mattn/gist-vim'
+  if has('macunix')
+    let g:gist_clip_command = 'pbcopy'
+  endif
 
   " Like Command T for TextMate
   if has("ruby")
@@ -156,8 +196,8 @@ function! LoadBundles()
     " On OS-X this is probably your system ruby!
   end
 
-  if filereadable($HOME . '/.vimrc.bundles')
-    execute 'source ' . $HOME . '/.vimrc.bundles'
+  if filereadable(expand("~/.vimrc.bundles"))
+    source ~/.vimrc.bundles
   endif
 endfunction
 
@@ -165,7 +205,7 @@ try
   set rtp+=~/.vim/bundle/vundle/
   call vundle#rc()
   call LoadBundles()
-:catch /^Vim\%((\a\+)\)\=:E117/
+  :catch /^Vim\%((\a\+)\)\=:E117/
   echomsg "Failed to load vundle and/or bundles. Perhaps vundle isn't installed."
   echomsg "You need to install vundle into ~/.vim/bundle/vundle: "
   echomsg "   git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle"
@@ -216,7 +256,7 @@ set laststatus=2                                                                
 set scrolloff=5                                                                     " don't scroll any closer to top/bottom
 let g:Powerline_symbols = 'unicode'
 
-                                                                                    " NOTE: The statusline settings below is ignored if powerline is loaded.
+" NOTE: The statusline settings below is ignored if powerline is loaded.
 set statusline=%t                                                                   " tail of the filename
 set statusline+=\                                                                   " whitespace
 set statusline+=[%{strlen(&fenc)?&fenc:'none'},                                     " file encoding
@@ -260,10 +300,8 @@ endif
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
-if &t_Co > 2
-  syntax on
-  set hlsearch
-endif
+syntax on
+set hlsearch
 
 set list listchars=tab:»·,trail:·    " Show the leading whitespaces
 set display=uhex                     " Show unprintables as <xx>
@@ -319,6 +357,8 @@ if exists("+undofile")
   set undodir=./.vim-undo//
   set undodir+=~/.vim/undo//
   set undofile
+  set undolevels=1000         " maximum number of changes that can be undone
+  set undoreload=10000        " maximum number lines to save for undo on a buffer reload
 endif
 
 " When editing a file, always jump to the last known cursor position.
@@ -341,7 +381,7 @@ endif
 " Only define it when not defined already.
 if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-  \ | wincmd p | diffthis
+        \ | wincmd p | diffthis
 endif
 
 
@@ -355,6 +395,11 @@ if has("autocmd")
 endif
 
 
+" Omnicompletion
+"-----------------------------------------------------------------------------
+
+set completeopt=longest,menuone,preview
+set omnifunc=syntaxcomplete#Complete " This is overriden by syntax plugins.
 
 " Key bindings
 "-----------------------------------------------------------------------------
@@ -372,11 +417,9 @@ nnoremap <C-J> o<Esc>k$
 " Paste from tmux
 "map <silent> <Leader>tp !!tmux show-buffer <Bar> cat<CR>
 
-if has("macunix")
-  if v:version >= 703
-    " Default yank and paste go to Mac's clipboard
-    set clipboard=unnamed
-  endif
+if has("macunix") && v:version >= 703
+  " Default yank and paste go to Mac's clipboard
+  set clipboard=unnamed
 endif
 
 " With a visual block seleced, fold on space. Refold on space in command mode.
@@ -403,8 +446,35 @@ map Q gq
 set exrc
 set secure
 
-" Plugin, syntax, etc. options
+
+" For when you forget to sudo.. Really Write the file.
+cmap w!! w !sudo tee % >/dev/null
+
+" Some helpers to edit mode
+" http://vimcasts.org/e/14
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>ew :e %%
+map <leader>es :sp %%
+map <leader>ev :vsp %%
+map <leader>et :tabe %%
+
+" Change Working Directory to that of the current file
+cmap cwd lcd %%
+cmap cd. lcd %%
+
+" GUI Settings
 "-----------------------------------------------------------------------------
+if has('gui_running')
+  set guioptions-=T " remove the toolbar
+  if has("gui_gtk2")
+    set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
+  elseif has('gui_macvim')
+    set transparency=3
+    set guifont=Menlo:h14
+  else
+    set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
+  endif
+endif
 
 " CScope
 "-----------------------------------------------------------------------------
@@ -413,7 +483,7 @@ set nocscopeverbose
 
 " SuperTab
 "-----------------------------------------------------------------------------
-let g:SuperTabNoCompleteAfter=[',', '\s', ';', ':']
+let g:SuperTabNoCompleteAfter=['^', ',', '\s', ';', ':']
 let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 let g:SuperTabLongestEnhanced = 1
 let g:SuperTabLongestHighlight = 1
@@ -445,33 +515,33 @@ endif
 
 " NERD Tree
 "-----------------------------------------------------------------------------
-"function! BetterNERDTreeToggle()
-  "if exists('t:NERDTreeBufName')
-    "let nerdtree_open = bufwinnr(t:NERDTreeBufName) != -1
-  "else
-    "let nerdtree_open = 0
-  "endif
-
-  "if nerdtree_open
-    "NERDTreeClose
-    "else
-      "NERDTreeFind
-  "endif
-"endfunction
 nmap <F2> :NERDTreeToggle<CR>
-"nmap <F2> :call BetterNERDTreeToggle()<CR>
 let NERDTreeBookmarksFile = expand('~/.vim/NERDTreeBookmarks')
 let NERDTreeShowBookmarks=1
+let NERDTreeQuitOnOpen=1
+let NERDTreeMouseMode=2
+let NERDTreeShowHidden=1
+let g:nerdtree_tabs_open_on_gui_startup=0
 let NERDTreeIgnore=['\.o$', '\.so$', '\.bmp$', '\.class$', '^core.*',
-  \ '\.vim$', '\~$', '\.pyc$', '\.pyo$', '\.jpg$', '\.gif$',
-  \ '\.png$', '\.ico$', '\.exe$', '\.cod$', '\.obj$', '\.mac$',
-  \ '\.1st', '\.dll$', '\.pyd$', '\.zip$', '\.modules$']
+      \ '\.vim$', '\~$', '\.pyc$', '\.pyo$', '\.jpg$', '\.gif$',
+      \ '\.png$', '\.ico$', '\.exe$', '\.cod$', '\.obj$', '\.mac$',
+      \ '\.1st', '\.dll$', '\.pyd$', '\.zip$', '\.modules$',
+      \ '\.git', '\.hg', '\.svn', '\.bzr' ]
+
+" Haskell language
+"-----------------------------------------------------------------------------
+if has("autocmd")
+  autocmd BufEnter *.hs compiler ghc
+endif
+
+let g:ghc = "/usr/local/bin/ghc"
+let g:haddock_browser = "open"
 
 " Python language
 "-----------------------------------------------------------------------------
 if has("autocmd")
   autocmd FileType python set cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-  autocmd FileType python set omnifunc=pythoncomplete#Complete
+  "autocmd FileType python set omnifunc=pythoncomplete#Complete
   autocmd FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/python %
   autocmd FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
   autocmd FileType python set efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
@@ -482,11 +552,11 @@ endif
 " Ruby syntax
 "-----------------------------------------------------------------------------
 if has("autocmd")
-    autocmd FileType ruby,eruby set cinwords=do
-    autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
-    autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading=1
-    autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-    autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1
+  autocmd FileType ruby,eruby set cinwords=do
+  "autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+  autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading=1
+  autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+  autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1
 endif
 
 " java/c/cpp/objc syntax
@@ -502,7 +572,7 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown set filetype=markdown
 endif
 
-" Fix constant spelling mistakes
+" Fix constant spelling and typing mistakes
 "-----------------------------------------------------------------------------
 iab teh the
 iab Teh The
@@ -513,10 +583,22 @@ iab Alos Also
 iab aslo also
 iab Aslo Also
 
+if has("user_commands")
+  command! -bang -nargs=* -complete=file E e<bang> <args>
+  command! -bang -nargs=* -complete=file W w<bang> <args>
+  command! -bang -nargs=* -complete=file Wq wq<bang> <args>
+  command! -bang -nargs=* -complete=file WQ wq<bang> <args>
+  command! -bang Wa wa<bang>
+  command! -bang WA wa<bang>
+  command! -bang Q q<bang>
+  command! -bang QA qa<bang>
+  command! -bang Qa qa<bang>
+endif
+
 " Local vimrc settings
 "-----------------------------------------------------------------------------
 " If the file ~/.vimrc.local exists, then it will be loaded as well.
 
-if filereadable($HOME . '/.vimrc.local')
-  execute 'source ' . $HOME . '/.vimrc.local'
+if filereadable(expand("~/.vimrc.local"))
+  source ~/.vimrc.local
 endif

@@ -442,10 +442,8 @@ map Y y$
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
-" Support per-project .vimrc files.
-set exrc
-set secure
-
+"" Support per-project .vimrc files. -
+"set exrc
 
 " For when you forget to sudo.. Really Write the file.
 cmap w!! w !sudo tee % >/dev/null
@@ -602,3 +600,6 @@ endif
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
+
+set secure
+" EOF

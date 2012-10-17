@@ -185,16 +185,19 @@ function! LoadBundles()
     let g:gist_clip_command = 'pbcopy'
   endif
 
-  " Like Command T for TextMate
-  if has("ruby")
-    Bundle 'git://git.wincent.com/command-t'
-    " Note: To install, you'll need to go into
-    " ~/.vim/bundle/command-t and compile it:
-    "   bundle install
-    "   rake make
-    " WARNING: Do this using the same ruby you compiled into vim!
-    " On OS-X this is probably your system ruby!
-  end
+  " Like Command T for TextMate.
+  " <leader>t to activate
+  " <C-d> to toggle between just matching filename or whole path.
+  Bundle 'kien/ctrlp.vim'
+  let g:ctrlp_map  = '<leader>t'
+  let g:ctrlp_match_window_reversed = 0
+  "let g:ctrlp_custom_ignore = '\v[\/](\.git|\.hg|\.svn|CVS|Applications|Library|Music|Pictures)$'
+  let g:ctrlp_custom_ignore = $HOME.'/\(Library\|Music\|Applications\)$'
+  let g:ctrlp_max_height = 30
+  if has('macunx')
+    let g:ctrlp_mruf_case_sensitive = 0
+  endif
+  nnoremap <leader>r :CtrlPMRU<cr>
 
   if filereadable(expand("~/.vimrc.bundles"))
     source ~/.vimrc.bundles

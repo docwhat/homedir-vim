@@ -152,6 +152,9 @@ function! LoadBundles()
   " Fancy status bar theme
   Bundle 'Lokaltog/vim-powerline'
 
+  " Puppet configuration syntax
+  Bundle 'rodjek/vim-puppet'
+
   " Ack, the better-grepper-upper
   if executable('ack-grep')
     let g:ackprg="ack-grep -H --nocolor --nogroup --column"

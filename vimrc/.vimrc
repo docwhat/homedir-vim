@@ -143,6 +143,9 @@ function! LoadBundles()
   " Support '.' correctly for plugins that support this module.
   Bundle 'tpope/vim-repeat'
 
+  " SSH authorized_keys
+  Bundle 'xevz/vim-sshauthkeys'
+
   " Allow C-A/C-X to work correctly with dates/times.
   Bundle 'tpope/vim-speeddating'
 

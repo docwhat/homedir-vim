@@ -197,7 +197,6 @@ function! LoadBundles()
   Bundle 'kien/ctrlp.vim'
   let g:ctrlp_map  = '<leader>t'
   let g:ctrlp_match_window_reversed = 0
-  "let g:ctrlp_custom_ignore = '\v[\/](\.git|\.hg|\.svn|CVS|Applications|Library|Music|Pictures)$'
   let g:ctrlp_custom_ignore = $HOME.'/\(Library\|Music\|Applications\)$'
   let g:ctrlp_max_height = 30
   if has('macunx')
@@ -508,6 +507,21 @@ let g:delimitMate_smart_quotes = 1
 let g:delimitMate_balance_matchpairs = 1
 if has("autocmd")
   autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
+endif
+
+" CtrlP auto cache clearing.
+" ----------------------------------------------------------------------------
+function! SetupCtrlP()
+  if exists("g:loaded_ctrlp") && g:loaded_ctrlp
+    augroup CtrlPExtension
+      autocmd!
+      autocmd FocusGained  * CtrlPClearCache
+      autocmd BufWritePost * CtrlPClearCache
+    augroup END
+  endif
+endfunction
+if has("autocmd")
+  autocmd VimEnter * :call SetupCtrlP()
 endif
 
 " Command-T

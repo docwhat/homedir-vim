@@ -204,6 +204,33 @@ function! LoadBundles()
   endif
   nnoremap <leader>r :CtrlPMRU<cr>
 
+  " Ruby MatchIt (use % to move from start/end of blocks)
+  Bundle 'vim-scripts/ruby-matchit'
+
+  " Text Objects
+  " ------------
+
+  " CamelCaseMotion
+  " Adds:
+  "   ,w (Camel word move)
+  "   ,b (Camel backwards word move)
+  "   ,e (Camel end-of-word move)
+  Bundle 'bkad/CamelCaseMotion'
+
+  " Indent Objects
+  " Adds:
+  "   ai (Python/HAML indents)
+  "   ii (Just the inner parts)
+  "   aI (Ruby/Bash style indents with endifs, etc.)
+  "   iI (alias for ii)
+  Bundle 'michaeljsmith/vim-indent-object'
+
+  " Ruby Block Object
+  " Adds:
+  "   r (Ruby block)
+  Bundle 'kana/vim-textobj-user'
+  Bundle 'nelstrom/vim-textobj-rubyblock'
+
   if filereadable(expand("~/.vimrc.bundles"))
     source ~/.vimrc.bundles
   endif

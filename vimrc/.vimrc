@@ -74,6 +74,20 @@ function! LoadBundles()
   " required!
   Bundle 'gmarik/vundle'
 
+  " Allows editing remote files.
+  " :e dav://machine[:port]/path                  uses cadaver
+  " :e fetch://[user@]machine/path                uses fetch
+  " :e ftp://[user@]machine[[:#]port]/path        uses ftp   autodetects <.netrc>
+  " :e http://[user@]machine/path                 uses http  uses wget
+  " :e rcp://[user@]machine/path                  uses rcp
+  " :e rsync://[user@]machine[:port]/path         uses rsync
+  " :e scp://[user@]machine[[:#]port]/path        uses scp
+  " :e sftp://[user@]machine/path                 uses sftp
+  if v:version > 702
+    Bundle 'netrw.vim'
+    let g:netrw_home=expand('~/.vim')
+  endif
+
   " Press F2 to see a list of files and directories from your
   " current working directory
   Bundle 'scrooloose/nerdtree'

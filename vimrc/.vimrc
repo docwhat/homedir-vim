@@ -69,8 +69,6 @@ set history=1000                 " Save more history.
 
 " Vundler - vim package manager
 "-----------------------------------------------------------------------------
-filetype off                   " required!
-
 function! LoadBundles()
   " let Vundle manage Vundle
   " required!
@@ -83,15 +81,48 @@ function! LoadBundles()
   " Command and uncomment code easily
   Bundle 'scrooloose/nerdcommenter'
 
-  " Caching for snipmate
-  Bundle 'MarcWeber/vim-addon-mw-utils'
+  if v:version > 702
+    Bundle 'Shougo/neocomplcache'
+    " Plugin key-mappings.
+    imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+    smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+    inoremap <expr><C-g>     neocomplcache#undo_completion()
+    inoremap <expr><C-l>     neocomplcache#complete_common_string()
+    " <CR>: close popup and save indent. This is a
+    " function to prevent problems with endwise.
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    function! s:my_cr_function()
+      return neocomplcache#smart_close_popup() . "\<CR>"
+      " For no inserting <CR> key.
+      "return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+    endfunction
+    " <TAB>: completion.
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr><C-y>  neocomplcache#close_popup()
+    inoremap <expr><C-e>  neocomplcache#cancel_popup()
 
-  " Utility functions for snipmate
-  Bundle 'tomtom/tlib_vim'
+    Bundle 'Shougo/neosnippet'
+    " Plugin key-mappings.
+    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 
-  " SnipMate
-  Bundle "honza/snipmate-snippets"
-  Bundle 'garbas/vim-snipmate'
+    " SuperTab like snippets behavior.
+    imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+    smap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+    " For snippet_complete marker.
+    if has('conceal')
+      set conceallevel=2 concealcursor=i
+    endif
+
+    Bundle 'honza/snipmate-snippets'
+    " Tell NeoSnippet about these snippets
+    let g:neosnippet#snippets_directory='~/.vim/bundle/snipmate-snippets/snippets'
+  endif
+
 
   " Autopair mode - If you type '(', it'll fill in ')'
   Bundle 'Raimondi/delimitMate'
@@ -116,8 +147,6 @@ function! LoadBundles()
   if v:version > 700
     " Exhuberant CTags browsers
     Bundle 'majutsushi/tagbar'
-    " Intelligent tab-completion in insert mode
-    Bundle 'ervandew/supertab'
   endif
 
   " Syntax checking
@@ -236,6 +265,7 @@ function! LoadBundles()
   endif
 endfunction
 
+filetype off                   " required!
 try
   set rtp+=~/.vim/bundle/vundle/
   call vundle#rc()
@@ -246,7 +276,6 @@ try
   echomsg "   git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle"
   echomsg "   vim -c ':BundleInstall' -c ':qa!'"
 endtry
-
 filetype plugin indent on     " required!
 "
 " Brief help
@@ -429,12 +458,63 @@ if has("autocmd")
   autocmd BufWritePre *  call StripTrailingWhite()
 endif
 
+" Needed for some snippets
+fun! Filename(...)
+  let filename = expand('%:t:r')
+  if filename == '' | return a:0 == 2 ? a:2 : '' | endif
+  return !a:0 || a:1 == '' ? filename : substitute(a:1, '$1', filename, 'g')
+endf
 
 " Omnicompletion
 "-----------------------------------------------------------------------------
 
 set completeopt=longest,menuone,preview
 set omnifunc=syntaxcomplete#Complete " This is overriden by syntax plugins.
+
+" NeoComplCache
+"-----------------------------------------------------------------------------
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" Use underbar completion.
+let g:neocomplcache_enable_underbar_completion = 1
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 2
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+" Store temporary files in standard location.
+let g:neocomplcache_temporary_dir='~/.vim/neocon'
+
+" Define dictionary.
+"let g:neocomplcache_dictionary_filetype_lists = {
+"    \ 'default' : '',
+"    \ 'vimshell' : $HOME.'/.vimshell_hist',
+"    \ 'scheme' : $HOME.'/.gosh_completions'
+"    \ }
+
+" Define keyword.
+if !exists('g:neocomplcache_keyword_patterns')
+  let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+" AutoComplPop like behavior.
+let g:neocomplcache_enable_auto_select = 0
+
+" Enable heavy omni completion.
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
+
 
 " Key bindings
 "-----------------------------------------------------------------------------
@@ -519,13 +599,6 @@ endif
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set nocscopeverbose
 
-" SuperTab
-"-----------------------------------------------------------------------------
-let g:SuperTabNoCompleteAfter=['^', ',', '\s', ';', ':']
-let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-let g:SuperTabLongestEnhanced = 1
-let g:SuperTabLongestHighlight = 1
-
 " delimitMate options
 "-----------------------------------------------------------------------------
 let g:delimitMate_expand_cr=1
@@ -594,7 +667,6 @@ let g:haddock_browser = "open"
 "-----------------------------------------------------------------------------
 if has("autocmd")
   autocmd FileType python set cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-  "autocmd FileType python set omnifunc=pythoncomplete#Complete
   autocmd FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/python %
   autocmd FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
   autocmd FileType python set efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
@@ -606,7 +678,6 @@ endif
 "-----------------------------------------------------------------------------
 if has("autocmd")
   autocmd FileType ruby,eruby set cinwords=do
-  "autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
   autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading=1
   autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
   autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1

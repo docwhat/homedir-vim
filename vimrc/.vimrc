@@ -599,12 +599,14 @@ cmap cd. lcd %%
 if has('gui_running')
   set guioptions-=T " remove the toolbar
   if has("gui_gtk2")
-    set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
+    " We need good defaults for Linux
+    "set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
   elseif has('gui_macvim')
     set transparency=3
     set guifont=Menlo:h14
   else
-    set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
+    " We need good defaults for Windows
+    "set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18
   endif
 endif
 

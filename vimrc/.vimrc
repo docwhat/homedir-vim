@@ -689,6 +689,10 @@ let g:haddock_browser = "open"
 " Python language
 "-----------------------------------------------------------------------------
 if has("autocmd")
+  " TODO: Lookup some pydoc/better-python plugins
+  " http://vim.wikia.com/wiki/Omnicomplete_-_Remove_Python_Pydoc_Preview_Window
+  " maybe for ruby too?
+  autocmd FileType python set omnifunc=pythoncomplete#Complete
   autocmd FileType python set cinwords=if,elif,else,for,while,try,except,finally,def,class,with
   autocmd FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/python %
   autocmd FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"

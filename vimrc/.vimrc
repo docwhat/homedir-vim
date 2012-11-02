@@ -46,8 +46,15 @@ set expandtab
 set hidden
 
 set autoindent
-set nowrap
 set backspace=indent,eol,start   " Set for maximum backspace smartness
+
+set nowrap                       " Soft (without changing text) wrapping.
+set linebreak                    " Only wrap on characters in `breakat`
+if has('multi_byte')
+  let &showbreak = '↳ '
+else
+  let &showbreak = '> '
+endif
 
 set ignorecase                   " ignore case in searches ... (\c\C override)
 set smartcase                    " ... unless there are caps in the search

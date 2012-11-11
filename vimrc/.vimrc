@@ -692,19 +692,19 @@ if has("autocmd")
   " TODO: Lookup some pydoc/better-python plugins
   " http://vim.wikia.com/wiki/Omnicomplete_-_Remove_Python_Pydoc_Preview_Window
   " maybe for ruby too?
-  autocmd FileType python set omnifunc=pythoncomplete#Complete
-  autocmd FileType python set cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType python setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class,with
   autocmd FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/python %
-  autocmd FileType python set makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
-  autocmd FileType python set efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
+  autocmd FileType python setlocal makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
+  autocmd FileType python setlocal efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
   "autocmd FileType python set textwidth=79 " PEP-8 Friendly
-  autocmd FileType python set tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 endif
 
 " Ruby syntax
 "-----------------------------------------------------------------------------
 if has("autocmd")
-  autocmd FileType ruby,eruby set cinwords=do
+  autocmd FileType ruby,eruby setlocal cinwords=do
   autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading=1
   autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
   autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1
@@ -713,14 +713,14 @@ endif
 " java/c/cpp/objc syntax
 "-----------------------------------------------------------------------------
 if has("autocmd")
-  autocmd FileType java,c,cpp,objc set smartindent tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType java,c,cpp,objc setlocal smartindent tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType java,c,cpp,objc let b:loaded_delimitMate = 1
 endif
 
 " markdown specific settings
 "-----------------------------------------------------------------------------
 if has("autocmd")
-  autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown set filetype=markdown
+  autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown setlocal filetype=markdown
 endif
 
 " Fix constant spelling and typing mistakes

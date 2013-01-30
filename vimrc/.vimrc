@@ -247,7 +247,10 @@ function! LoadBundles()
   Bundle 'kien/ctrlp.vim'
   let g:ctrlp_map  = '<leader>t'
   let g:ctrlp_match_window_reversed = 0
-  let g:ctrlp_custom_ignore = $HOME.'/\(Library\|Music\|Applications\)$'
+  let g:ctrlp_custom_ignore = {
+        \ 'dir': '\v[\/](\.git|\.hg|\.svn|CVS|tmp|Library|Applications|Music|[^\/]*-store)$',
+        \ 'file': '\v\.(exe|so|dll)$',
+        \ }
   let g:ctrlp_max_height = 30
   if has('macunx')
     let g:ctrlp_mruf_case_sensitive = 0

@@ -146,7 +146,7 @@ function! LoadBundles()
 
 
   " Autopair mode - If you type '(', it'll fill in ')'
-  Bundle 'Raimondi/delimitMate'
+  Bundle 'jiangmiao/auto-pairs'
 
   " Adds matching 'end*' type syntax for ruby, vimscript, and lua
   Bundle 'tpope/vim-endwise'
@@ -621,16 +621,6 @@ endif
 "-----------------------------------------------------------------------------
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set nocscopeverbose
-
-" delimitMate options
-"-----------------------------------------------------------------------------
-let g:delimitMate_expand_cr=1
-let g:delimitMate_expand_space = 1
-let g:delimitMate_smart_quotes = 1
-let g:delimitMate_balance_matchpairs = 1
-if has("autocmd")
-  autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
-endif
 
 " CtrlP auto cache clearing.
 " ----------------------------------------------------------------------------

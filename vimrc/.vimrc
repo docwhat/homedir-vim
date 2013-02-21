@@ -3,7 +3,7 @@
 " By Christian Holtje & Shawn Zabel
 "
 " Install with:
-"    mkdir -p ~/.vim/bundle && git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim -c ':BundleInstall' -c ':qa!''
+"    mkdir -p ~/.vim/bundle && git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim -c ':BundleInstall' -c ':qa!'
 " Update with:
 "    vim -c ':BundleInstall!' -c ':BundleClean' -c ':qa!'
 "

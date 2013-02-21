@@ -188,7 +188,9 @@ function! LoadBundles()
   Bundle 'tpope/vim-fugitive'
 
   " Get me some RVM support
-  Bundle 'tpope/vim-rvm'
+  if exists("$rvm_path")
+    Bundle 'tpope/vim-rvm'
+  endif
 
   " Support '.' correctly for plugins that support this module.
   Bundle 'tpope/vim-repeat'

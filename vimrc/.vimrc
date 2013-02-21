@@ -726,6 +726,9 @@ iab alos also
 iab Alos Also
 iab aslo also
 iab Aslo Also
+iab recipies recipes
+iab Recipies Recipes
+iab RECIPIES RECIPES
 
 if has("user_commands")
   command! -bang -nargs=* -complete=file E e<bang> <args>

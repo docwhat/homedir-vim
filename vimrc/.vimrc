@@ -590,10 +590,10 @@ nmap <silent> <Leader>g :call Preserve("normal gg=G")<CR>
 nmap <silent> <Leader><space> :call Preserve("%s/\\s\\+$//e")<CR>
 
 " Get Jared to use hjkl instead of cursor keys...
-nmap <Left> :echo "I don't like that direction..."<cr>
-nmap <Right> :echo "Republican, eh?"<cr>
-nmap <Up> :echo "This is why we can't have nice things."<cr>
-nmap <Down> :echo "That's what she said."<cr>
+"nmap <Left> :echo "I don't like that direction..."<cr>
+"nmap <Right> :echo "Republican, eh?"<cr>
+"nmap <Up> :echo "This is why we can't have nice things."<cr>
+"nmap <Down> :echo "That's what she said."<cr>
 
 " Make Y behave like other capitals.
 map Y y$

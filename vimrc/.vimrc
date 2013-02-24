@@ -2,10 +2,11 @@
 "
 " By Christian Holtje & Shawn Zabel
 "
-" Install with:
+" Vim should auto-install Vundle and all the required parts...
+" If it fails for some reason, then you can do it manually with:
 "    mkdir -p ~/.vim/bundle && git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim -c ':BundleInstall' -c ':qa!'
-" Update with:
-"    vim -c ':BundleInstall!' -c ':BundleClean' -c ':qa!'
+" Update your vundle packages with:
+"    vim -c ':BundleInstall!' -c ':qa!'
 "
 " You may also wish to install some extra tools to make it work better:
 " * Exuberant ctags - Used for Tagbar to show you where you are in the file. (mac: brew install ctags)
@@ -292,17 +293,30 @@ function! LoadBundles()
 endfunction
 
 filetype off                   " required!
-try
+
+" Only install vundle and bundles if git exists...
+if executable("git")
+  if !isdirectory(expand("~/.vim/bundle/vundle"))
+    echomsg "******************************"
+    echomsg "Installing Vundler..."
+    echomsg "******************************"
+    !mkdir -p ~/.vim/bundle && git clone git://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+    let s:bootstrap=1
+  endif
+
   set rtp+=~/.vim/bundle/vundle/
   call vundle#rc()
   call LoadBundles()
-  :catch /^Vim\%((\a\+)\)\=:E117/
-  echomsg "Failed to load vundle and/or bundles. Perhaps vundle isn't installed."
-  echomsg "You need to install vundle into ~/.vim/bundle/vundle: "
-  echomsg "   git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle"
-  echomsg "   vim -c ':BundleInstall' -c ':qa!'"
-endtry
+
+  if exists("s:bootstrap") && s:bootstrap
+    unlet s:bootstrap
+    BundleInstall
+    quit
+  endif
+endif
+
 filetype plugin indent on     " required!
+
 "
 " Brief help
 " :BundleList          - list configured bundles

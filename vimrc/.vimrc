@@ -176,6 +176,10 @@ function! LoadBundles()
     Bundle 'scrooloose/syntastic'
   endif
 
+  " Display an indent line
+  Bundle 'Yggdroot/indentLine'
+  let g:indentLine_char = "⋮"
+
   " Latest vim-ruby
   Bundle 'vim-ruby/vim-ruby'
 
@@ -230,15 +234,6 @@ function! LoadBundles()
 
   " :A Switches between header and implementation file.
   Bundle 'a.vim'
-
-  " indent-guides
-  if v:version >= 702 && has('gui_running')
-    Bundle 'nathanaelkane/vim-indent-guides'
-    let g:indent_guides_auto_colors = 1
-    let g:indent_guides_start_level = 2
-    let g:indent_guides_guide_size = 1
-    let g:indent_guides_enable_on_vim_startup = 1
-  endif
 
   Bundle 'tpope/vim-markdown'
 

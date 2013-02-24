@@ -208,6 +208,10 @@ function! LoadBundles()
   " Fancy status bar theme
   Bundle 'Lokaltog/vim-powerline'
 
+  " HTML/XML close tag support
+  " Use C-_ in insert or normal mode.
+  Bundle "closetag.vim"
+
   " Puppet configuration syntax
   Bundle 'rodjek/vim-puppet'
 

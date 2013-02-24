@@ -219,6 +219,9 @@ function! LoadBundles()
   " Use C-_ in insert or normal mode.
   Bundle "closetag.vim"
 
+  " Show a facsimile of CSS colors as a highlight.
+  Bundle "ap/vim-css-color"
+
   " Puppet configuration syntax
   Bundle 'rodjek/vim-puppet'
 

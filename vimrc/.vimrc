@@ -174,6 +174,8 @@ function! LoadBundles()
   " Syntax checking
   if exists('*getmatches')
     Bundle 'scrooloose/syntastic'
+    let g:syntastic_error_symbol='✗'
+    let g:syntastic_warning_symbol='⚠'
   endif
 
   " Display an indent line

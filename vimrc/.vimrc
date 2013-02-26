@@ -261,6 +261,12 @@ function! LoadBundles()
         \ 'dir': '\v[\/](\.git|\.hg|\.svn|CVS|tmp|Library|Applications|Music|[^\/]*-store)$',
         \ 'file': '\v\.(exe|so|dll)$',
         \ }
+  let g:ctrlp_user_command = {
+        \ 'types' : {
+        \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+        \ }
+        \ }
   let g:ctrlp_max_height = 30
   if has('macunx')
     let g:ctrlp_mruf_case_sensitive = 0

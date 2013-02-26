@@ -212,6 +212,9 @@ function! LoadBundles()
   " Fancy status bar theme
   Bundle 'Lokaltog/vim-powerline'
 
+  " HTML5 + SVG support
+  Bundle 'othree/html5.vim'
+
   " HTML/XML close tag support
   " Use C-_ in insert or normal mode.
   Bundle "closetag.vim"

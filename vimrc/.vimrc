@@ -212,7 +212,14 @@ function! LoadBundles()
   Bundle 'altercation/vim-colors-solarized'
 
   " Fancy status bar theme
-  Bundle 'Lokaltog/vim-powerline'
+  if has("python")
+    Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+    set noshowmode
+  else
+    Bundle 'Lokaltog/vim-powerline'
+    let g:Powerline_symbols = 'unicode'
+    set noshowmode
+  endif
 
   " HTML5 + SVG support
   Bundle 'othree/html5.vim'
@@ -371,7 +378,6 @@ endfunction
 "-----------------------------------------------------------------------------
 set laststatus=2                                                                    " show status line all the time
 set scrolloff=5                                                                     " don't scroll any closer to top/bottom
-let g:Powerline_symbols = 'unicode'
 
 " NOTE: The statusline settings below is ignored if powerline is loaded.
 set statusline=%t                                                                   " tail of the filename
@@ -642,7 +648,7 @@ if has('gui_running')
     "set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
   elseif has('gui_macvim')
     set transparency=3
-    set guifont=Menlo:h14
+    set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline:h14,Menlo:h14
   else
     " We need good defaults for Windows
     "set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18

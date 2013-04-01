@@ -527,7 +527,7 @@ endf
 " Omnicompletion
 "-----------------------------------------------------------------------------
 
-set completeopt=longest,menuone,preview
+set completeopt=menu,longest
 set omnifunc=syntaxcomplete#Complete " This is overriden by syntax plugins.
 
 " NeoComplCache

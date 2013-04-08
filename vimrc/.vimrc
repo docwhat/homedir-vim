@@ -140,9 +140,9 @@ function! LoadBundles()
       set conceallevel=2 concealcursor=i
     endif
 
-    Bundle 'honza/snipmate-snippets'
+    Bundle 'honza/vim-snippets'
     " Tell NeoSnippet about these snippets
-    let g:neosnippet#snippets_directory='~/.vim/bundle/snipmate-snippets/snippets'
+    let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
   endif
 
 

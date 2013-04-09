@@ -403,10 +403,6 @@ let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
 set background=dark
 
-" The Smash Escape
-inoremap jk <Esc>
-inoremap kj <Esc>
-
 try
   colorscheme solarized
 catch /^Vim\%((\a\+)\)\=:E185/

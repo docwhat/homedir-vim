@@ -746,6 +746,7 @@ endif
 "-----------------------------------------------------------------------------
 if has("autocmd")
   autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown setlocal filetype=markdown
+  autocmd FileType markdown setlocal tabstop=4 shiftwidth=4 softtabstop=4
 endif
 
 " Fix constant spelling and typing mistakes

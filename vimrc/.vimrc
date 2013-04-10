@@ -588,11 +588,6 @@ nnoremap <C-J> o<Esc>k$
 " Paste from tmux
 "map <silent> <Leader>tp !!tmux show-buffer <Bar> cat<CR>
 
-if has("macunix") && v:version >= 703
-  " Default yank and paste go to Mac's clipboard
-  set clipboard=unnamed
-endif
-
 " With a visual block seleced, fold on space. Refold on space in command mode.
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':'1')<CR>
 vnoremap <Space> zf

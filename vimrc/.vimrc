@@ -104,6 +104,11 @@ function! LoadBundles()
   Bundle 'scrooloose/nerdcommenter'
 
   if v:version > 702
+    if v:version > 703 || (v:version == 703 && has("patch418"))
+      " Let John use up/down arrows in insert mode. *shudder*
+      let g:neocomplcache_enable_cursor_hold_i=1
+    endif
+
     Bundle 'Shougo/neocomplcache'
     " Plugin key-mappings.
     imap <C-k>     <Plug>(neocomplcache_snippets_expand)
@@ -130,10 +135,6 @@ function! LoadBundles()
     " Plugin key-mappings.
     imap <C-k>     <Plug>(neosnippet_expand_or_jump)
     smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-
-    " SuperTab like snippets behavior.
-    imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-    smap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
     " For snippet_complete marker.
     if has('conceal')

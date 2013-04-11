@@ -244,6 +244,10 @@ function! LoadBundles()
   " Coffeescript Support
   Bundle 'kchmck/vim-coffee-script'
 
+  " JSON
+  Bundle 'elzr/vim-json'
+  Bundle 'vim-scripts/JavaScript-Indent'
+
   " Haskell support
   Bundle 'Twinside/vim-syntax-haskell-cabal'
   Bundle 'lukerandall/haskellmode-vim'

@@ -252,9 +252,6 @@ function! LoadBundles()
   Bundle 'Twinside/vim-syntax-haskell-cabal'
   Bundle 'lukerandall/haskellmode-vim'
 
-  " :A Switches between header and implementation file.
-  Bundle 'a.vim'
-
   Bundle 'tpope/vim-markdown'
 
   Bundle 'mattn/webapi-vim'

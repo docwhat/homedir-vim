@@ -378,8 +378,9 @@ endfunction
 
 " Terminal and display settings
 "-----------------------------------------------------------------------------
-set laststatus=2                                                                    " show status line all the time
-set scrolloff=5                                                                     " don't scroll any closer to top/bottom
+set laststatus=2      " show status line all the time
+set scrolloff=5       " don't scroll any closer to top/bottom
+set sidescrolloff=5   " don't scroll any closer to left/right
 
 " NOTE: The statusline settings below is ignored if powerline is loaded.
 set statusline=%t                                                                   " tail of the filename
@@ -431,10 +432,11 @@ endif
 syntax on
 set hlsearch
 
-set list listchars=tab:»·,trail:·    " Show the leading whitespaces
-set display=uhex                     " Show unprintables as <xx>
+set list listchars=tab:»·,trail:·,nbsp:+ " Show the leading whitespaces
+set display+=uhex                         " Show unprintables as <xx>
+set display+=lastline                     " show as much as possible of the last line.
 
-" Backups, undos, and swap files                                                                                                                             {1
+" Backups, undos, and swap files
 "-----------------------------------------------------------------------------
 " Save your backups to a less annoying place than the current directory.
 " If you have .vim-backup in the current directory, it'll use that.

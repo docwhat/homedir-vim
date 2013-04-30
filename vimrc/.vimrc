@@ -403,6 +403,13 @@ set statusline+=\ %P                                                            
 " Syntastical statusline format - Ignored when powerline is enabled.
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
+" Gnome terminal doesn't advertise its 256-colors
+" http://askubuntu.com/a/126
+if $COLORTERM == 'gnome-terminal'
+  set t_Co=256
+endif
+
+" We are dark people...
 set background=dark
 
 try

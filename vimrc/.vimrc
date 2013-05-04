@@ -254,6 +254,9 @@ function! LoadBundles()
 
   Bundle 'tpope/vim-markdown'
 
+  " Groovy
+  Bundle 'vim-scripts/groovy.vim--Ruley.git'
+
   Bundle 'mattn/webapi-vim'
   Bundle 'mattn/gist-vim'
   if has('macunix')

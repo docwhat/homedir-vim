@@ -235,11 +235,18 @@ function! LoadBundles()
   " Puppet configuration syntax
   Bundle 'rodjek/vim-puppet'
 
-  " Ack, the better-grepper-upper
-  if executable('ack-grep')
+  if executable('ag')
+    " Ag, the silver searcher
+    Bundle 'rking/ag.vim'
+  elseif executable('ack-grep')
+    " Ack, the better-grepper-upper
     let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+    Bundle 'mileszs/ack.vim'
+  elseif executable('ack')
+    " Ack, the better-grepper-upper
+    let g:ackprg="ack -H --nocolor --nogroup --column"
+    Bundle 'mileszs/ack.vim'
   endif
-  Bundle 'mileszs/ack.vim'
 
   " Coffeescript Support
   Bundle 'kchmck/vim-coffee-script'

@@ -253,7 +253,7 @@ function! LoadBundles()
 
   " JSON
   Bundle 'elzr/vim-json'
-  Bundle 'vim-scripts/JavaScript-Indent'
+  Bundle 'pangloss/vim-javascript'
 
   " Haskell support
   Bundle 'Twinside/vim-syntax-haskell-cabal'

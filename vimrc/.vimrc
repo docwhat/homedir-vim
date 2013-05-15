@@ -203,6 +203,10 @@ function! LoadBundles()
   " Support '.' correctly for plugins that support this module.
   Bundle 'tpope/vim-repeat'
 
+  " Allow chording 'jk' as a replacement for ESC
+  Bundle 'arpeggio'
+  call arpeggio#map('i', '', 0, 'jk', '<Esc>')
+
   " SSH authorized_keys
   Bundle 'xevz/vim-sshauthkeys'
 

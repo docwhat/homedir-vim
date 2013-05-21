@@ -207,6 +207,9 @@ function! LoadBundles()
   Bundle 'arpeggio'
   call arpeggio#map('i', '', 0, 'jk', '<Esc>')
 
+  " Allow executing vim with a file:lineno
+  Bundle 'bogado/file-line'
+
   " SSH authorized_keys
   Bundle 'xevz/vim-sshauthkeys'
 

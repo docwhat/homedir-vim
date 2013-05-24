@@ -156,6 +156,9 @@ function! LoadBundles()
   " Move lines with '[e' and ']e'.
   Bundle 'tpope/vim-unimpaired'
 
+  " Detect indentation
+  Bundle 'tpope/vim-sleuth'
+
   " Bubble single line
   nmap <C-Up> [e
   nmap <C-Down> ]e

@@ -189,19 +189,23 @@ function! LoadBundles()
   " Latest vim-ruby
   Bundle 'vim-ruby/vim-ruby'
 
-  " Latest vim-ruby
+  " Rails, bundler, etc.
   Bundle 'tpope/vim-rails'
+  Bundle 'tpope/vim-bundler'
+  Bundle 'tpope/vim-rake'
+
+  " Get me some RVM/Rbenv support
+  if exists("$rvm_path")
+    Bundle 'tpope/vim-rvm'
+  else
+    Bundle 'tpope/vim-rbenv'
+  endif
 
   " ds/cs/ys for deleting, changing, your surrounding chars (like ', ", etc.)
   Bundle 'tpope/vim-surround'
 
   " Deal with git in a sane way
   Bundle 'tpope/vim-fugitive'
-
-  " Get me some RVM support
-  if exists("$rvm_path")
-    Bundle 'tpope/vim-rvm'
-  endif
 
   " Support '.' correctly for plugins that support this module.
   Bundle 'tpope/vim-repeat'

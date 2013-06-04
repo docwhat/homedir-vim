@@ -766,7 +766,13 @@ endif
 "-----------------------------------------------------------------------------
 if has("autocmd")
   autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown setlocal filetype=markdown
-  autocmd FileType markdown setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType markdown setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell
+endif
+
+" Git commit files
+"-----------------------------------------------------------------------------
+if has("autocmd")
+  autocmd FileType gitcommit setlocal spell
 endif
 
 " Fix constant spelling and typing mistakes

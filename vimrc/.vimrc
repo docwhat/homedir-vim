@@ -731,15 +731,6 @@ let NERDTreeIgnore=['\.o$', '\.so$', '\.bmp$', '\.class$', '^core.*',
       \ '\.1st', '\.dll$', '\.pyd$', '\.zip$', '\.modules$',
       \ '\.git', '\.hg', '\.svn', '\.bzr' ]
 
-" Haskell language
-"-----------------------------------------------------------------------------
-if has("autocmd")
-  autocmd BufEnter *.hs compiler ghc
-endif
-
-let g:ghc = "/usr/local/bin/ghc"
-let g:haddock_browser = "open"
-
 " Python language
 "-----------------------------------------------------------------------------
 if has("autocmd")

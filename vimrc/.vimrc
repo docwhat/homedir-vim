@@ -773,6 +773,7 @@ endif
 "-----------------------------------------------------------------------------
 if has("autocmd")
   autocmd FileType gitcommit setlocal spell
+  autocmd VimEnter .git/PULLREQ_EDITMSG setlocal filetype=markdown
 endif
 
 " Fix constant spelling and typing mistakes

@@ -275,7 +275,7 @@ function! LoadBundles()
 
   Bundle 'tpope/vim-markdown'
 
-  " Groovy
+  " Groovy -- Make sure you set the GROOVY_HOME environment variable
   Bundle 'vim-scripts/groovy.vim--Ruley.git'
 
   Bundle 'mattn/webapi-vim'
@@ -718,7 +718,7 @@ endif
 
 " NERD Tree
 "-----------------------------------------------------------------------------
-nmap <F2> :NERDTreeToggle<CR>
+nmap <leader>n :NERDTreeToggle<CR>
 let NERDTreeBookmarksFile = expand('~/.vim/NERDTreeBookmarks')
 let NERDTreeShowBookmarks=1
 let NERDTreeQuitOnOpen=1

@@ -753,6 +753,8 @@ if has("autocmd")
   autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading=1
   autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
   autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1
+  autocmd BufNewFile,BufRead *.html.erb setlocal filetype=html.eruby
+  autocmd BufNewFile,BufRead *.js.erb   setlocal filetype=javascript.eruby
 endif
 
 " java/c/cpp/objc syntax
@@ -765,7 +767,7 @@ endif
 " markdown specific settings
 "-----------------------------------------------------------------------------
 if has("autocmd")
-  autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown setlocal filetype=markdown
+  autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown setlocal filetype=markdown textwidth=79
   autocmd FileType markdown setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell
 endif
 

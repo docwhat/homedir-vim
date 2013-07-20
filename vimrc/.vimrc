@@ -192,6 +192,7 @@ function! LoadBundles()
   " Rails, bundler, etc.
   Bundle 'tpope/vim-rails'
   Bundle 'tpope/vim-bundler'
+  Bundle 'tpope/vim-cucumber'
   Bundle 'tpope/vim-rake'
 
   " Get me some RVM/Rbenv support

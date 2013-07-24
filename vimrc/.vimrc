@@ -111,10 +111,10 @@ function! LoadBundles()
 
     Bundle 'Shougo/neocomplcache'
     " Plugin key-mappings.
-    imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-    smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-    inoremap <expr><C-g>     neocomplcache#undo_completion()
-    inoremap <expr><C-l>     neocomplcache#complete_common_string()
+    imap <C-k> <Plug>(neocomplcache_snippets_expand)
+    smap <C-k> <Plug>(neocomplcache_snippets_expand)
+    inoremap <expr> <C-g> neocomplcache#undo_completion()
+    inoremap <expr> <C-l> neocomplcache#complete_common_string()
     " <CR>: close popup and save indent. This is a
     " function to prevent problems with endwise.
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -124,12 +124,12 @@ function! LoadBundles()
       "return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
     endfunction
     " <TAB>: completion.
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr> <TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
     " <C-h>, <BS>: close popup and delete backword char.
-    inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-    inoremap <expr><C-y>  neocomplcache#close_popup()
-    inoremap <expr><C-e>  neocomplcache#cancel_popup()
+    inoremap <expr> <C-h> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr> <BS> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr> <C-y>  neocomplcache#close_popup()
+    inoremap <expr> <C-e>  neocomplcache#cancel_popup()
 
     Bundle 'Shougo/neosnippet'
     " Plugin key-mappings.
@@ -180,6 +180,7 @@ function! LoadBundles()
     Bundle 'scrooloose/syntastic'
     let g:syntastic_error_symbol='✗'
     let g:syntastic_warning_symbol='⚠'
+    Bundle 'dbakker/vim-lint'
   endif
 
   " Display an indent line
@@ -467,7 +468,7 @@ set display+=lastline                     " show as much as possible of the last
 " If you have .vim-backup in the current directory, it'll use that.
 " Otherwise it saves it to ~/.vim/backup or . if all else fails.
 if isdirectory($HOME . '/.vim/backup') == 0
-  :silent !mkdir -p ~/.vim/backup >/dev/null 2>&1
+  silent !mkdir -p ~/.vim/backup >/dev/null 2>&1
 endif
 set backupdir-=.
 set backupdir+=.
@@ -491,7 +492,7 @@ endif
 " If you have .vim-swap in the current directory, it'll use that.
 " Otherwise it saves it to ~/.vim/swap, ~/tmp or .
 if isdirectory($HOME . '/.vim/swap') == 0
-  :silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
+  silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
 endif
 set directory=./.vim-swap//
 set directory+=~/.vim/swap//
@@ -507,7 +508,7 @@ if exists("+undofile")
   " :help undo-persistence
   " This is only present in 7.3+
   if isdirectory($HOME . '/.vim/undo') == 0
-    :silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
+    silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
   endif
   set undodir=./.vim-undo//
   set undodir+=~/.vim/undo//
@@ -625,11 +626,11 @@ nnoremap <C-J> o<Esc>k$
 
 " With a visual block seleced, fold on space. Refold on space in command mode.
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':'1')<CR>
-vnoremap <Space> zf
+xnoremap <Space> zf
 
 " Prevent highlight being lost on (de)indent.
-vnoremap < <gv
-vnoremap > >gv
+xnoremap < <gv
+xnoremap > >gv
 
 " Indent whole file
 "map <silent> <Leader>g mzgg=G'z<CR>

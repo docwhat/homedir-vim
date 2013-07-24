@@ -159,6 +159,9 @@ function! LoadBundles()
   " Detect indentation
   Bundle 'tpope/vim-sleuth'
 
+  " Focus (zooms a buffer) -- <leader>fmt
+  Bundle "merlinrebrovic/focus.vim"
+
   " Bubble single line
   nmap <C-Up> [e
   nmap <C-Down> ]e

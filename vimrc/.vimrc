@@ -228,6 +228,12 @@ function! LoadBundles()
   " The only theme worth knowing.
   Bundle 'altercation/vim-colors-solarized'
 
+  " On Mac laptops, use light sensor to set the background to light or dark
+  if has("macunix")
+    Bundle 'Dinduks/vim-holylight'
+    let g:holylight_threshold=4000000
+  endif
+
   " Fancy status bar theme
   if has("python")
     Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
@@ -303,7 +309,7 @@ function! LoadBundles()
         \ }
         \ }
   let g:ctrlp_max_height = 30
-  if has('macunx')
+  if has('macunix')
     let g:ctrlp_mruf_case_sensitive = 0
   endif
   nnoremap <leader>r :CtrlPMRU<cr>

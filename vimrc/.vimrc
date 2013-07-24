@@ -413,24 +413,30 @@ set laststatus=2      " show status line all the time
 set scrolloff=5       " don't scroll any closer to top/bottom
 set sidescrolloff=5   " don't scroll any closer to left/right
 
-" NOTE: The statusline settings below is ignored if powerline is loaded.
-set statusline=%t                                                                   " tail of the filename
-set statusline+=\                                                                   " whitespace
-set statusline+=[%{strlen(&fenc)?&fenc:'none'},                                     " file encoding
-set statusline+=%{&ff}]                                                             " file format
-set statusline+=%h                                                                  " help file flag
-set statusline+=%m                                                                  " modified flag
-set statusline+=%r                                                                  " read only flag
-set statusline+=%y                                                                  " filetype
-set statusline+=%w                                                                  " filetype
-set statusline+=%{exists('g:loaded_fugitive')?fugitive#statusline():''}
-set statusline+=%=                                                                  " left/right separator
-set statusline+=\ %#warningmsg#                                                     " start warnings highlight group
-set statusline+=%{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''} " SyntasticStatusLine
-set statusline+=%*                                                                  " end highlight group
-set statusline+=%c,                                                                 " cursor column
-set statusline+=%l/%L                                                               " cursor line/total lines
-set statusline+=\ %P                                                                " percent through file
+if !exists('g:powerline_loaded')
+  " NOTE: The statusline settings below is ignored if powerline is loaded.
+  set statusline=%t                                                                   " tail of the filename
+  set statusline+=\                                                                   " whitespace
+  set statusline+=[%{strlen(&fenc)?&fenc:'none'},                                     " file encoding
+  set statusline+=%{&ff}]                                                             " file format
+  set statusline+=%h                                                                  " help file flag
+  set statusline+=%m                                                                  " modified flag
+  set statusline+=%r                                                                  " read only flag
+  set statusline+=%y                                                                  " filetype
+  set statusline+=%w                                                                  " filetype
+  if exists('g:loaded_fugitive')
+    set statusline+=%{fugitive#statusline()}
+  endif
+  set statusline+=%=                                                                  " left/right separator
+  set statusline+=\ %#warningmsg#                                                     " start warnings highlight group
+  if exists('g:loaded_syntastic_plugin')
+    set statusline+=%{SyntasticStatuslineFlag()}                                      " SyntasticStatusLine
+  endif
+  set statusline+=%*                                                                  " end highlight group
+  set statusline+=%c,                                                                 " cursor column
+  set statusline+=%l/%L                                                               " cursor line/total lines
+  set statusline+=\ %P                                                                " percent through file
+endif
 
 " Syntastical statusline format - Ignored when powerline is enabled.
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
@@ -440,9 +446,6 @@ let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
 endif
-
-" We are dark people...
-set background=dark
 
 try
   colorscheme solarized

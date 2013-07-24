@@ -486,7 +486,7 @@ set backup
 " since I'm using the 'backupext' variable to append the path.
 " So the file '/home/docwhat/.vimrc' becomes '.vimrc%home%docwhat~'
 if has("autocmd")
-  autocmd BufWritePre * let &backupext = substitute(expand('%:p:h'), '/', '%', 'g') . '~'
+  autocmd BufWritePre * nested let &backupext = substitute(expand('%:p:h'), '/', '%', 'g') . '~'
 endif
 
 
@@ -529,7 +529,7 @@ endif
 " Also don't do it when the mark is in the first line, that is the default
 " position when opening a file.
 if has("autocmd")
-  autocmd BufReadPost *
+  autocmd BufReadPost * nested
         \ if line("'\"") > 1 && line("'\"") <= line("$") |
         \   exe "normal! g`\"" |
         \ endif
@@ -553,7 +553,7 @@ function! StripTrailingWhite()
   call winrestview(l:winview)
 endfunction
 if has("autocmd")
-  autocmd BufWritePre *  call StripTrailingWhite()
+  autocmd BufWritePre * nested call StripTrailingWhite()
 endif
 
 " Needed for some snippets
@@ -700,13 +700,13 @@ function! SetupCtrlP()
   if exists("g:loaded_ctrlp") && g:loaded_ctrlp
     augroup CtrlPExtension
       autocmd!
-      autocmd FocusGained  * CtrlPClearCache
-      autocmd BufWritePost * CtrlPClearCache
+      autocmd FocusGained  * nested CtrlPClearCache
+      autocmd BufWritePost * nested CtrlPClearCache
     augroup END
   endif
 endfunction
 if has("autocmd")
-  autocmd VimEnter * :call SetupCtrlP()
+  autocmd VimEnter * nested call SetupCtrlP()
 endif
 
 " Command-T
@@ -715,13 +715,13 @@ function! SetupCommandT()
   if exists("g:command_t_loaded")
     augroup CommandTExtension
       autocmd!
-      autocmd FocusGained  * CommandTFlush
-      autocmd BufWritePost * CommandTFlush
+      autocmd FocusGained  * nested CommandTFlush
+      autocmd BufWritePost * nested CommandTFlush
     augroup END
   endif
 endfunction
 if has("autocmd")
-  autocmd VimEnter * :call SetupCommandT()
+  autocmd VimEnter * nested call SetupCommandT()
 endif
 
 " NERD Tree
@@ -745,45 +745,45 @@ if has("autocmd")
   " TODO: Lookup some pydoc/better-python plugins
   " http://vim.wikia.com/wiki/Omnicomplete_-_Remove_Python_Pydoc_Preview_Window
   " maybe for ruby too?
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType python setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-  autocmd FileType python map <buffer> <S-e> :w<CR>:!/usr/bin/python %
-  autocmd FileType python setlocal makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
-  autocmd FileType python setlocal efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
-  "autocmd FileType python set textwidth=79 " PEP-8 Friendly
-  autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType python nested setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType python nested setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+  autocmd FileType python nested map <buffer> <S-e> :w<CR>:!/usr/bin/python %
+  autocmd FileType python nested setlocal makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
+  autocmd FileType python nested setlocal efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
+  "autocmd FileType python nested set textwidth=79 " PEP-8 Friendly
+  autocmd FileType python nested setlocal tabstop=4 shiftwidth=4 softtabstop=4
 endif
 
 " Ruby syntax
 "-----------------------------------------------------------------------------
 if has("autocmd")
-  autocmd FileType ruby,eruby setlocal cinwords=do
-  autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading=1
-  autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-  autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global=1
-  autocmd BufNewFile,BufRead *.html.erb setlocal filetype=html.eruby
-  autocmd BufNewFile,BufRead *.js.erb   setlocal filetype=javascript.eruby
+  autocmd FileType ruby,eruby nested setlocal cinwords=do
+  autocmd FileType ruby,eruby nested let g:rubycomplete_buffer_loading=1
+  autocmd FileType ruby,eruby nested let g:rubycomplete_rails = 1
+  autocmd FileType ruby,eruby nested let g:rubycomplete_classes_in_global=1
+  autocmd BufNewFile,BufRead *.html.erb nested setlocal filetype=html.eruby
+  autocmd BufNewFile,BufRead *.js.erb   nested setlocal filetype=javascript.eruby
 endif
 
 " java/c/cpp/objc syntax
 "-----------------------------------------------------------------------------
 if has("autocmd")
-  autocmd FileType java,c,cpp,objc setlocal smartindent tabstop=4 shiftwidth=4 softtabstop=4
-  autocmd FileType java,c,cpp,objc let b:loaded_delimitMate = 1
+  autocmd FileType java,c,cpp,objc nested setlocal smartindent tabstop=4 shiftwidth=4 softtabstop=4
+  autocmd FileType java,c,cpp,objc nested let b:loaded_delimitMate = 1
 endif
 
 " markdown specific settings
 "-----------------------------------------------------------------------------
 if has("autocmd")
-  autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown setlocal filetype=markdown textwidth=79
-  autocmd FileType markdown setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell
+  autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=markdown textwidth=79
+  autocmd FileType markdown                               nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell
 endif
 
 " Git commit files
 "-----------------------------------------------------------------------------
 if has("autocmd")
-  autocmd FileType gitcommit setlocal spell
-  autocmd VimEnter .git/PULLREQ_EDITMSG setlocal filetype=markdown
+  autocmd FileType gitcommit            nested setlocal spell
+  autocmd VimEnter .git/PULLREQ_EDITMSG nested setlocal filetype=markdown
 endif
 
 " Fix constant spelling and typing mistakes

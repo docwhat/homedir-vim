@@ -231,7 +231,6 @@ function! LoadBundles()
   " On Mac laptops, use light sensor to set the background to light or dark
   if has("macunix")
     Bundle 'Dinduks/vim-holylight'
-    let g:holylight_threshold=4000000
   endif
 
   " Fancy status bar theme

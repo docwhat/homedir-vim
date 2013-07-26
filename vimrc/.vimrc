@@ -236,13 +236,10 @@ function! LoadBundles()
     Bundle 'Dinduks/vim-holylight'
   endif
 
-  " Fancy status bar theme
-  if has("python")
-    Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-    set noshowmode
-  else
-    Bundle 'Lokaltog/vim-powerline'
-    let g:Powerline_symbols = 'unicode'
+  if v:version >= 702
+    Bundle 'bling/vim-airline'
+    let g:airline_powerline_fonts = 1
+    let g:airline_theme='solarized'
     set noshowmode
   endif
 
@@ -416,7 +413,7 @@ set laststatus=2      " show status line all the time
 set scrolloff=5       " don't scroll any closer to top/bottom
 set sidescrolloff=5   " don't scroll any closer to left/right
 
-if !exists('g:powerline_loaded')
+if !(exists('g:powerline_loaded') || exists('g:loaded_airline'))
   " NOTE: The statusline settings below is ignored if powerline is loaded.
   set statusline=%t                                                                   " tail of the filename
   set statusline+=\                                                                   " whitespace

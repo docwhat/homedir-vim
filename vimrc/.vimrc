@@ -231,11 +231,6 @@ function! LoadBundles()
   " The only theme worth knowing.
   Bundle 'altercation/vim-colors-solarized'
 
-  " On Mac laptops, use light sensor to set the background to light or dark
-  if has("macunix")
-    Bundle 'Dinduks/vim-holylight'
-  endif
-
   if v:version >= 702
     Bundle 'bling/vim-airline'
     let g:airline_powerline_fonts = 1

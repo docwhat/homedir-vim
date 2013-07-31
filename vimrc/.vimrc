@@ -267,6 +267,9 @@ function! LoadBundles()
   " Coffeescript Support
   Bundle 'kchmck/vim-coffee-script'
 
+  " Scala, breakfast of Joe's everywhere
+  Bundle 'derekwyatt/vim-scala'
+
   " JSON
   Bundle 'elzr/vim-json'
   Bundle 'pangloss/vim-javascript'

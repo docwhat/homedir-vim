@@ -214,6 +214,9 @@ function! LoadBundles()
 
   " Deal with git in a sane way
   Bundle 'tpope/vim-fugitive'
+  if has('signs')
+    Bundle 'airblade/vim-gitgutter'
+  endif
 
   " Support '.' correctly for plugins that support this module.
   Bundle 'tpope/vim-repeat'

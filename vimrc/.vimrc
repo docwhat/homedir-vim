@@ -183,6 +183,9 @@ function! LoadBundles()
     Bundle 'scrooloose/syntastic'
     let g:syntastic_error_symbol='✗'
     let g:syntastic_warning_symbol='⚠'
+    let g:syntastic_check_on_open=1
+    let g:syntastic_auto_loc_list=1 " Close the location-list when errors are gone
+    let g:syntastic_loc_list_height=5
     Bundle 'dbakker/vim-lint'
   endif
 

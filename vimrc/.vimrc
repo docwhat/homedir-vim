@@ -270,7 +270,8 @@ function! LoadBundles()
   " Scala, breakfast of Joe's everywhere
   Bundle 'derekwyatt/vim-scala'
 
-  " JSON
+  " JSON & JS
+  let g:vim_json_syntax_conceal = 0
   Bundle 'elzr/vim-json'
   Bundle 'pangloss/vim-javascript'
 
@@ -770,6 +771,12 @@ endif
 if has("autocmd")
   autocmd FileType java,c,cpp,objc nested setlocal smartindent tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType java,c,cpp,objc nested let b:loaded_delimitMate = 1
+endif
+
+" JavaScript syntax
+"-----------------------------------------------------------------------------
+if has("autocmd")
+  autocmd FileType javascript nested setlocal smartindent expandtab
 endif
 
 " markdown specific settings

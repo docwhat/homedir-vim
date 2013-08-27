@@ -783,6 +783,9 @@ endif
 "-----------------------------------------------------------------------------
 if has("autocmd")
   autocmd FileType javascript nested setlocal smartindent expandtab
+  if has('conceal')
+    autocmd FileType json nested setlocal concealcursor=
+  endif
 endif
 
 " markdown specific settings

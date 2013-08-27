@@ -192,6 +192,7 @@ function! LoadBundles()
   " Display an indent line
   Bundle 'Yggdroot/indentLine'
   let g:indentLine_char = "⋮"
+  let g:indentLine_noConcealCursor = 1
 
   " Latest vim-ruby
   Bundle 'vim-ruby/vim-ruby'
@@ -277,7 +278,6 @@ function! LoadBundles()
   Bundle 'derekwyatt/vim-scala'
 
   " JSON & JS
-  let g:vim_json_syntax_conceal = 0
   Bundle 'elzr/vim-json'
   Bundle 'pangloss/vim-javascript'
 

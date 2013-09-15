@@ -96,18 +96,59 @@ function! LoadBundles()
     let g:netrw_home=expand('~/.vim')
   endif
 
-  " Press F2 to see a list of files and directories from your
-  " current working directory
-  Bundle 'scrooloose/nerdtree'
-
-  " Command and uncomment code easily
-  Bundle 'scrooloose/nerdcommenter'
-
+  " NeoComplCache
+  "-----------------------------------------------------------------------------
   if v:version > 702
-    if v:version > 703 || (v:version == 703 && has("patch418"))
-      " Let John use up/down arrows in insert mode. *shudder*
-      let g:neocomplcache_enable_cursor_hold_i=1
+    "if v:version > 703 || (v:version == 703 && has("patch418"))
+      "" Let John use up/down arrows in insert mode. *shudder*
+      "let g:neocomplcache_enable_cursor_hold_i=1
+    "endif
+
+    let g:neocomplcache_enable_at_startup = 1
+    " Use smartcase.
+    "let g:neocomplcache_enable_smart_case = 1
+    " Use camel case completion.
+    "let g:neocomplcache_enable_camel_case_completion = 1
+    " Use underbar completion.
+    "let g:neocomplcache_enable_underbar_completion = 1
+
+    let g:neocomplcache_force_overwrite_completefunc = 1
+
+    " Store temporary files in standard location.
+    let g:neocomplcache_temporary_dir='~/.vim/neocomplcache'
+
+    " Define keyword.
+    if !exists('g:neocomplcache_keyword_patterns')
+      let g:neocomplcache_keyword_patterns = {}
     endif
+    let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+    " Enable heavy omni completion.
+    if !exists('g:neocomplcache_omni_patterns')
+      let g:neocomplcache_omni_patterns = {}
+    endif
+    "let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+    let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+    let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+    let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+    " For perlomni.vim setting.
+    " https://github.com/c9s/perlomni.vim
+    "let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+    if !exists('g:neocomplcache_force_omni_patterns')
+      let g:neocomplcache_force_omni_patterns = {}
+    endif
+    let g:neocomplcache_force_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+
+    if !exists('g:neocomplcache_same_filetype_lists')
+      let g:neocomplcache_same_filetype_lists = {}
+    endif
+
+    " Completes from all buffers.
+    let g:neocomplcache_same_filetype_lists.gitconfig = '_'
+    let g:neocomplcache_same_filetype_lists.markdown = '_'
+    let g:neocomplcache_same_filetype_lists._ = '_'
 
     Bundle 'Shougo/neocomplcache'
     " Plugin key-mappings.
@@ -146,6 +187,12 @@ function! LoadBundles()
     let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
   endif
 
+  " Press F2 to see a list of files and directories from your
+  " current working directory
+  Bundle 'scrooloose/nerdtree'
+
+  " Command and uncomment code easily
+  Bundle 'scrooloose/nerdcommenter'
 
   " Autopair mode - If you type '(', it'll fill in ')'
   Bundle 'jiangmiao/auto-pairs'
@@ -209,6 +256,18 @@ function! LoadBundles()
   else
     Bundle 'tpope/vim-rbenv'
   endif
+
+  "" Ruby MatchIt (use % to move from start/end of blocks)
+  "Bundle 'vim-scripts/ruby-matchit'
+
+  " Ruby Block Object
+  " Adds:
+  "   r (Ruby block)
+  Bundle 'kana/vim-textobj-user'
+  Bundle 'nelstrom/vim-textobj-rubyblock'
+
+  " Ruby refactoring tools. All beging with :R
+  Bundle 'ecomba/vim-ruby-refactoring'
 
   " ds/cs/ys for deleting, changing, your surrounding chars (like ', ", etc.)
   Bundle 'tpope/vim-surround'
@@ -331,12 +390,6 @@ function! LoadBundles()
   "   aI (Ruby/Bash style indents with endifs, etc.)
   "   iI (alias for ii)
   Bundle 'michaeljsmith/vim-indent-object'
-
-  " Ruby Block Object
-  " Adds:
-  "   r (Ruby block)
-  Bundle 'kana/vim-textobj-user'
-  Bundle 'nelstrom/vim-textobj-rubyblock'
 
   if filereadable(expand("~/.vimrc.bundles"))
     source ~/.vimrc.bundles
@@ -574,49 +627,15 @@ endf
 set completeopt=menu,longest
 set omnifunc=syntaxcomplete#Complete " This is overriden by syntax plugins.
 
-" NeoComplCache
-"-----------------------------------------------------------------------------
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 2
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-" Store temporary files in standard location.
-let g:neocomplcache_temporary_dir='~/.vim/neocon'
 
-" Define dictionary.
-"let g:neocomplcache_dictionary_filetype_lists = {
-"    \ 'default' : '',
-"    \ 'vimshell' : $HOME.'/.vimshell_hist',
-"    \ 'scheme' : $HOME.'/.gosh_completions'
-"    \ }
-
-" Define keyword.
-if !exists('g:neocomplcache_keyword_patterns')
-  let g:neocomplcache_keyword_patterns = {}
+if has('autocmd')
+  autocmd FileType python        nested setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType ruby,eruby    nested setlocal omnifunc=rubycomplete#Complete
+  autocmd FileType css           nested setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown nested setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript    nested setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType xml           nested setlocal omnifunc=xmlcomplete#CompleteTags
 endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-" AutoComplPop like behavior.
-let g:neocomplcache_enable_auto_select = 0
-
-" Enable heavy omni completion.
-if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
-endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-
 
 
 " Key bindings
@@ -755,7 +774,6 @@ if has("autocmd")
   " TODO: Lookup some pydoc/better-python plugins
   " http://vim.wikia.com/wiki/Omnicomplete_-_Remove_Python_Pydoc_Preview_Window
   " maybe for ruby too?
-  autocmd FileType python nested setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType python nested setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class,with
   autocmd FileType python nested map <buffer> <S-e> :w<CR>:!/usr/bin/python %
   autocmd FileType python nested setlocal makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"

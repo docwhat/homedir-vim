@@ -259,8 +259,7 @@ function! LoadBundles()
     Bundle 'tpope/vim-rbenv'
   endif
 
-  "" Ruby MatchIt (use % to move from start/end of blocks)
-  "Bundle 'vim-scripts/ruby-matchit'
+  Bundle 'hwartig/vim-seeing-is-believing'
 
   " Ruby Block Object
   " Adds:
@@ -724,6 +723,15 @@ map <leader>ew :e %%
 map <leader>es :sp %%
 map <leader>ev :vsp %%
 map <leader>et :tabe %%
+
+" Seeing Is Believing key bindings for ruby.
+nmap <buffer> <Leader>R <Plug>(seeing-is-believing-run)
+xmap <buffer> <Leader>R <Plug>(seeing-is-believing-run)
+imap <buffer> <Leader>R <Plug>(seeing-is-believing-run)
+
+nmap <buffer> <Leader>M <Plug>(seeing-is-believing-mark)
+xmap <buffer> <Leader>M <Plug>(seeing-is-believing-mark)
+imap <buffer> <Leader>M <Plug>(seeing-is-believing-mark)
 
 " Change Working Directory to that of the current file
 cmap cwd lcd %%

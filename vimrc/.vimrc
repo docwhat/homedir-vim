@@ -2,6 +2,8 @@
 "
 " By Christian Holtje & Shawn Zabel
 "
+" QuickStart
+"
 " Vim should auto-install Vundle and all the required parts...
 " If it fails for some reason, then you can do it manually with:
 "    mkdir -p ~/.vim/bundle && git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim -c ':BundleInstall' -c ':qa!'
@@ -100,8 +102,8 @@ function! LoadBundles()
   "-----------------------------------------------------------------------------
   if v:version > 702
     "if v:version > 703 || (v:version == 703 && has("patch418"))
-      "" Let John use up/down arrows in insert mode. *shudder*
-      "let g:neocomplcache_enable_cursor_hold_i=1
+    "" Let John use up/down arrows in insert mode. *shudder*
+    "let g:neocomplcache_enable_cursor_hold_i=1
     "endif
 
     let g:neocomplcache_enable_at_startup = 1
@@ -436,6 +438,36 @@ filetype plugin indent on     " required!
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
 
+" Post Bundle Initialization
+"-----------------------------------------------------------------------------
+function! PostBundleSetup()
+  " CtrlP auto cache clearing.
+  if exists("g:loaded_ctrlp")
+    augroup CtrlPExtension
+      autocmd!
+      autocmd FocusGained  * nested CtrlPClearCache
+      autocmd BufWritePost * nested CtrlPClearCache
+    augroup END
+  endif
+
+  " Command-T auto cache clearing
+  if exists("g:command_t_loaded")
+    augroup CommandTExtension
+      autocmd!
+      autocmd FocusGained  * nested CommandTFlush
+      autocmd BufWritePost * nested CommandTFlush
+    augroup END
+  endif
+
+  if exists("g:loaded_arpeggio")
+    Arpeggio inoremap jk  <Esc>
+  endif
+endfunction
+
+if has("autocmd")
+  autocmd VimEnter * nested call PostBundleSetup()
+endif
+
 " Helper functions
 "-----------------------------------------------------------------------------
 
@@ -640,11 +672,6 @@ endif
 
 " Key bindings
 "-----------------------------------------------------------------------------
-" 'jk' chordeded (at the same time) act as escape.
-if exists('g:loaded_arpeggio')
-  call arpeggio#map('i', '', 0, 'jk', '<Esc>')
-endif
-
 " In diff mode, recenter after changing to next/previous diff
 map ]c ]czz
 map [c [czz
@@ -722,36 +749,6 @@ endif
 "-----------------------------------------------------------------------------
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set nocscopeverbose
-
-" CtrlP auto cache clearing.
-" ----------------------------------------------------------------------------
-function! SetupCtrlP()
-  if exists("g:loaded_ctrlp") && g:loaded_ctrlp
-    augroup CtrlPExtension
-      autocmd!
-      autocmd FocusGained  * nested CtrlPClearCache
-      autocmd BufWritePost * nested CtrlPClearCache
-    augroup END
-  endif
-endfunction
-if has("autocmd")
-  autocmd VimEnter * nested call SetupCtrlP()
-endif
-
-" Command-T
-" ----------------------------------------------------------------------------
-function! SetupCommandT()
-  if exists("g:command_t_loaded")
-    augroup CommandTExtension
-      autocmd!
-      autocmd FocusGained  * nested CommandTFlush
-      autocmd BufWritePost * nested CommandTFlush
-    augroup END
-  endif
-endfunction
-if has("autocmd")
-  autocmd VimEnter * nested call SetupCommandT()
-endif
 
 " NERD Tree
 "-----------------------------------------------------------------------------

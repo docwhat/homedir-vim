@@ -315,9 +315,6 @@ function! LoadBundles()
   endif
   nnoremap <leader>r :CtrlPMRU<cr>
 
-  " Ruby MatchIt (use % to move from start/end of blocks)
-  Bundle 'vim-scripts/ruby-matchit'
-
   " Text Objects
   " ------------
 

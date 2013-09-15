@@ -221,7 +221,9 @@ function! LoadBundles()
 
   " Allow chording 'jk' as a replacement for ESC
   Bundle 'arpeggio'
-  call arpeggio#map('i', '', 0, 'jk', '<Esc>')
+  if exists('g:loaded_arpeggio')
+    call arpeggio#map('i', '', 0, 'jk', '<Esc>')
+  endif
 
   " Allow executing vim with a file:lineno
   Bundle 'bogado/file-line'

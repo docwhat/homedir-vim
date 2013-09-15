@@ -822,6 +822,9 @@ if has("user_commands")
   command! -bang Qa qa<bang>
 endif
 
+" Ensure we have matchit support
+runtime macros/matchit.vim
+
 " Local vimrc settings
 "-----------------------------------------------------------------------------
 " If the file ~/.vimrc.local exists, then it will be loaded as well.

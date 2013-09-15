@@ -221,9 +221,6 @@ function! LoadBundles()
 
   " Allow chording 'jk' as a replacement for ESC
   Bundle 'arpeggio'
-  if exists('g:loaded_arpeggio')
-    call arpeggio#map('i', '', 0, 'jk', '<Esc>')
-  endif
 
   " Allow executing vim with a file:lineno
   Bundle 'bogado/file-line'
@@ -351,9 +348,11 @@ filetype off                   " required!
 " Only install vundle and bundles if git exists...
 if executable("git")
   if !isdirectory(expand("~/.vim/bundle/vundle"))
-    echomsg "******************************"
-    echomsg "Installing Vundler..."
-    echomsg "******************************"
+    echomsg "*******************************"
+    echomsg "Bootstrapping vim configuration"
+    echomsg "*******************************"
+    echomsg ""
+    echomsg "This will take a minute or two..."
     echomsg ""
     silent !mkdir -p ~/.vim/bundle && git clone --quiet https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
     let s:bootstrap=1
@@ -365,8 +364,10 @@ if executable("git")
 
   if exists("s:bootstrap") && s:bootstrap
     unlet s:bootstrap
+    " TODO Run BundleInstall whenever the .vimrc changes (specifically the
+    " Bundle settings).
     BundleInstall
-    quit
+    quit " Close the bundle install window.
   endif
 endif
 
@@ -620,6 +621,11 @@ let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 
 " Key bindings
 "-----------------------------------------------------------------------------
+" 'jk' chordeded (at the same time) act as escape.
+if exists('g:loaded_arpeggio')
+  call arpeggio#map('i', '', 0, 'jk', '<Esc>')
+endif
+
 " In diff mode, recenter after changing to next/previous diff
 map ]c ]czz
 map [c [czz

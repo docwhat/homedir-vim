@@ -354,7 +354,8 @@ if executable("git")
     echomsg "******************************"
     echomsg "Installing Vundler..."
     echomsg "******************************"
-    silent !mkdir -p ~/.vim/bundle && git clone git://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+    echomsg ""
+    silent !mkdir -p ~/.vim/bundle && git clone --quiet https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
     let s:bootstrap=1
   endif
 

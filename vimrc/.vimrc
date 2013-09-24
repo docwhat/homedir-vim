@@ -259,7 +259,7 @@ function! LoadBundles()
     Bundle 'tpope/vim-rbenv'
   endif
 
-  Bundle 'hwartig/vim-seeing-is-believing'
+  Bundle 't9md/vim-ruby-xmpfilter'
 
   " Ruby Block Object
   " Adds:
@@ -725,13 +725,15 @@ map <leader>ev :vsp %%
 map <leader>et :tabe %%
 
 " Seeing Is Believing key bindings for ruby.
-nmap <buffer> <Leader>R <Plug>(seeing-is-believing-run)
-xmap <buffer> <Leader>R <Plug>(seeing-is-believing-run)
-imap <buffer> <Leader>R <Plug>(seeing-is-believing-run)
+let g:xmpfilter_cmd = "seeing_is_believing"
+autocmd FileType ruby nmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
+autocmd FileType ruby xmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
+autocmd FileType ruby imap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
 
-nmap <buffer> <Leader>M <Plug>(seeing-is-believing-mark)
-xmap <buffer> <Leader>M <Plug>(seeing-is-believing-mark)
-imap <buffer> <Leader>M <Plug>(seeing-is-believing-mark)
+" auto insert mark at appropriate spot.
+autocmd FileType ruby nmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
+autocmd FileType ruby xmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
+autocmd FileType ruby imap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
 
 " Change Working Directory to that of the current file
 cmap cwd lcd %%

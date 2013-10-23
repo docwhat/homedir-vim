@@ -342,6 +342,9 @@ function! LoadBundles()
   Bundle 'lukerandall/haskellmode-vim'
 
   Bundle 'tpope/vim-markdown'
+  if executable('pandoc') && has('python')
+    Bundle 'vim-pandoc/vim-pandoc'
+  endif
 
   " Groovy -- Make sure you set the GROOVY_HOME environment variable
   Bundle 'vim-scripts/groovy.vim--Ruley.git'
@@ -819,8 +822,12 @@ endif
 " markdown specific settings
 "-----------------------------------------------------------------------------
 if has("autocmd")
-  autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=markdown textwidth=79
-  autocmd FileType markdown                               nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell
+  if executable('pandoc') && has('python')
+    autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=pandoc
+  else
+    autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=markdown textwidth=79
+    autocmd FileType markdown                               nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell
+  endif
 endif
 
 " Git commit files

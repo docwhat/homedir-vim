@@ -340,8 +340,9 @@ function! LoadBundles()
   Bundle 'lukerandall/haskellmode-vim'
 
   Bundle 'tpope/vim-markdown'
-  if executable('pandoc') && has('python')
+  if has('python')
     Bundle 'vim-pandoc/vim-pandoc'
+    Bundle 'vim-scripts/VOoM'
   endif
 
   " Groovy -- Make sure you set the GROOVY_HOME environment variable

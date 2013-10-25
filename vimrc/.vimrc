@@ -202,7 +202,8 @@ function! LoadBundles()
   " Adds matching 'end*' type syntax for ruby, vimscript, and lua
   Bundle 'tpope/vim-endwise'
 
-  " Move lines with '[e' and ']e'.
+  " Move lines with '[e' and ']e' along with a lot of other
+  " fun things.  :help unimpaired
   Bundle 'tpope/vim-unimpaired'
 
   " Detect indentation
@@ -210,14 +211,6 @@ function! LoadBundles()
 
   " Focus (zooms a buffer) -- <leader>fmt
   Bundle "merlinrebrovic/focus.vim"
-
-  " Bubble single line
-  nmap <C-Up> [e
-  nmap <C-Down> ]e
-
-  " Bubble multiple lines
-  vmap <C-Up> [egv
-  vmap <C-Down> ]egv
 
   " lets you align comments, equal signs, etc.
   Bundle 'godlygeek/tabular'
@@ -679,11 +672,19 @@ map ]c ]czz
 map [c [czz
 
 map <silent> <Leader>b :buffers<CR>
+
+" Hide highlighting
 map <silent> <Leader>h :noh<CR>
 
-" Add lines as converse of <S-J> (join lines)
-nnoremap <C-J> o<Esc>k$
-" nnoremap <S-C-J> O<Esc>j$
+if exists("g:loaded_unimpaired")
+  " Bubble single line
+  nmap <C-S-k> <Plug>unimpairedMoveUp
+  nmap <C-S-j> <Plug>unimpairedMoveDown
+
+  " Bubble visually selected lines
+  xmap <C-S-k> <Plug>unimpairedMoveUp gv
+  xmap <C-S-j> <Plug>unimpairedMoveDown gv
+endif
 
 " Paste from tmux
 "map <silent> <Leader>tp !!tmux show-buffer <Bar> cat<CR>
@@ -697,7 +698,6 @@ xnoremap < <gv
 xnoremap > >gv
 
 " Indent whole file
-"map <silent> <Leader>g mzgg=G'z<CR>
 nmap <silent> <Leader>g :call Preserve("normal gg=G")<CR>
 nmap <silent> <Leader><space> :call Preserve("%s/\\s\\+$//e")<CR>
 
@@ -712,9 +712,6 @@ map Y y$
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
-
-"" Support per-project .vimrc files. -
-"set exrc
 
 " For when you forget to sudo.. Really Write the file.
 cmap w!! w !sudo tee % >/dev/null

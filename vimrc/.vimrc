@@ -196,6 +196,11 @@ function! LoadBundles()
   " Command and uncomment code easily
   Bundle 'scrooloose/nerdcommenter'
 
+  " Navigate seemlessly between tmux panes and vim windows.
+  " Note: See https://github.com/christoomey/vim-tmux-navigator for
+  " how to setup your ~/.tmux.conf file.
+  Bundle 'christoomey/vim-tmux-navigator'
+
   " Autopair mode - If you type '(', it'll fill in ')'
   Bundle 'jiangmiao/auto-pairs'
 
@@ -700,6 +705,15 @@ xnoremap > >gv
 " Indent whole file
 nmap <silent> <Leader>g :call Preserve("normal gg=G")<CR>
 nmap <silent> <Leader><space> :call Preserve("%s/\\s\\+$//e")<CR>
+
+" Make navigating windows easier.
+if !exists("g:loaded_tmux_navigator")
+  nnoremap <silent> <C-h> :wincmd h<CR>
+  nnoremap <silent> <C-j> :wincmd j<CR>
+  nnoremap <silent> <C-k> :wincmd k<CR>
+  nnoremap <silent> <C-l> :wincmd l<CR>
+  nnoremap <silent> <C-\> :wincmd p<CR>
+endif
 
 " Get Jared to use hjkl instead of cursor keys...
 nmap <Left> :echo "I don't like that direction..."<cr>

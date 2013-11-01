@@ -228,11 +228,20 @@ function! LoadBundles()
   " Syntax checking
   if exists('*getmatches')
     Bundle 'scrooloose/syntastic'
-    let g:syntastic_error_symbol='✗'
-    let g:syntastic_warning_symbol='⚠'
-    let g:syntastic_check_on_open=1
-    let g:syntastic_auto_loc_list=1 " Close the location-list when errors are gone
-    let g:syntastic_loc_list_height=5
+    let g:syntastic_error_symbol          = '✗'
+    let g:syntastic_warning_symbol        = '⚠'
+    let g:syntastic_check_on_open         = 1
+    let g:syntastic_auto_loc_list         = 1 " Close the location-list when errors are gone
+    let g:syntastic_loc_list_height       = 5
+    let g:syntastic_sh_checkers           = ['shellchecker', 'checkbashisms', 'sh']
+    let g:syntastic_sh_checkbashisms_args = '-x'
+    let g:syntastic_ruby_checkers         = ['mri', 'jruby', 'rubocop']
+    let g:syntastic_scss_checkers         = ['sass']
+    let g:syntastic_sass_checkers         = ['sass']
+    let g:syntastic_xml_checkers          = ['xmllint']
+    let g:syntastic_xslt_checkers         = ['xmllint']
+    " npm install js-yaml
+    let g:syntastic_yaml_checkers         = ['jsyaml']
     Bundle 'dbakker/vim-lint'
   endif
 

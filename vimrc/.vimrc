@@ -233,7 +233,7 @@ function! LoadBundles()
     let g:syntastic_check_on_open         = 1
     let g:syntastic_auto_loc_list         = 1 " Close the location-list when errors are gone
     let g:syntastic_loc_list_height       = 5
-    let g:syntastic_sh_checkers           = ['shellchecker', 'checkbashisms', 'sh']
+    let g:syntastic_sh_checkers           = ['shellcheck', 'checkbashisms', 'sh']
     let g:syntastic_sh_checkbashisms_args = '-x'
     let g:syntastic_ruby_checkers         = ['mri', 'jruby', 'rubocop']
     let g:syntastic_scss_checkers         = ['sass']

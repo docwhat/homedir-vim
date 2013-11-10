@@ -35,8 +35,19 @@ if has("autocmd")
   autocmd!
 endif
 
+" Turn on loading of plugins and indenting for filetypes
+if has('autocmd')
+  filetype plugin indent on
+endif
+
+" We love syntax highlighting.
+if has('syntax') && !exists('g:syntax_on')
+  syntax enable
+endif
+
 " Options
 "-----------------------------------------------------------------------------
+" See `:h options` for more help.
 set nocompatible                 " The most important VIM option
 scriptencoding utf-8
 set modelines=5                  " The Vim that comes with OS X changed the default value for some reason. Setting it back.
@@ -49,6 +60,8 @@ set expandtab
 set hidden
 
 set autoindent
+set shiftround                   " Round indents to a multiple of 'shiftwidth'
+set complete-=i                  " Don't scan includes, since it can be very slow.
 set backspace=indent,eol,start   " Set for maximum backspace smartness
 
 set nowrap                       " Soft (without changing text) wrapping.
@@ -83,6 +96,11 @@ function! LoadBundles()
   " let Vundle manage Vundle
   " required!
   Bundle 'gmarik/vundle'
+
+  " Sensible defaults -- This .vimrc
+  " has most, but new stuff is added every
+  " so often.
+  Bundle 'tpope/vim-sensible'
 
   " Allows editing remote files.
   " :e dav://machine[:port]/path                  uses cadaver
@@ -438,8 +456,6 @@ if executable("git")
   endif
 endif
 
-filetype plugin indent on     " required!
-
 "
 " Brief help
 " :BundleList          - list configured bundles
@@ -561,12 +577,15 @@ if v:version >= 702 && has('mouse')
   endif
 endif
 
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-syntax on
+" Switch on highlighting the last used search pattern.
 set hlsearch
 
-set list listchars=tab:»·,trail:·,nbsp:+ " Show the leading whitespaces
+"set list listchars=tab:»·,trail:·,nbsp:+ " Show the leading whitespaces
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+if !has('win32') && (&termencoding ==# 'utf-8' || &encoding ==# 'utf-8')
+  let &listchars = "tab:\u21e5 ,trail:\u2423,extends:\u21c9,precedes:\u21c7,nbsp:\u00b7"
+endif
+
 set display+=uhex                         " Show unprintables as <xx>
 set display+=lastline                     " show as much as possible of the last line.
 
@@ -609,6 +628,7 @@ set directory+=.
 
 " viminfo stores the the state of your previous editing session
 set viminfo+=n~/.vim/viminfo
+set viminfo^=!
 
 if exists("+undofile")
   " undofile - This allows you to use undos after exiting and restarting
@@ -684,14 +704,14 @@ endif
 
 " Key bindings
 "-----------------------------------------------------------------------------
+" Helpful links:
+"  http://stackoverflow.com/questions/2483849/detect-if-a-key-is-bound-to-something-in-vim
+
 " In diff mode, recenter after changing to next/previous diff
 map ]c ]czz
 map [c [czz
 
 map <silent> <Leader>b :buffers<CR>
-
-" Hide highlighting
-map <silent> <Leader>h :noh<CR>
 
 if exists("g:loaded_unimpaired")
   " Bubble single line
@@ -727,11 +747,20 @@ if !exists("g:loaded_tmux_navigator")
   nnoremap <silent> <C-\> :wincmd p<CR>
 endif
 
-" Get Jared to use hjkl instead of cursor keys...
-nmap <Left> :echo "I don't like that direction..."<cr>
+" Since C-l is now window navigation, use Leader-h
+" to redraw (and hide highlighted search).
+nnoremap <silent> <Leader>h :nohlsearch<CR><C-L>
+
+" Get Jared and Selker to use hjkl instead of cursor keys...
+nmap <Left>  :echo "I don't like that direction..."<cr>
 nmap <Right> :echo "Republican, eh?"<cr>
-nmap <Up> :echo "This is why we can't have nice things."<cr>
-nmap <Down> :echo "That's what she said."<cr>
+nmap <Up>    :echo "This is why we can't have nice things."<cr>
+nmap <Down>  :echo "That's what she said."<cr>
+
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
+inoremap <CR> <C-G>u<CR>
 
 " Make Y behave like other capitals.
 map Y y$
@@ -887,7 +916,9 @@ if has("user_commands")
 endif
 
 " Ensure we have matchit support
-runtime macros/matchit.vim
+if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
+  runtime! macros/matchit.vim
+endif
 
 " Local vimrc settings
 "-----------------------------------------------------------------------------

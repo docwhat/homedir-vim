@@ -336,7 +336,8 @@ function! LoadBundles()
   Bundle "tpope/vim-ragtag"
 
   " Show a facsimile of CSS colors as a highlight.
-  Bundle "ap/vim-css-color"
+  Bundle 'chrisbra/color_highlight'
+  let g:colorizer_auto_filetype='css,scss,sass,html'
 
   " Puppet configuration syntax
   Bundle 'rodjek/vim-puppet'

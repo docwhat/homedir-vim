@@ -878,6 +878,7 @@ endif
 if has("autocmd")
   if executable('pandoc') && has('python')
     autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=pandoc
+    autocmd FileType markdown nested nnoremap <silent> <Leader>g :call Preserve("MarkdownTidyWrap")<CR>
   else
     autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=markdown textwidth=79
     autocmd FileType markdown                               nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell

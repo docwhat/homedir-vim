@@ -314,6 +314,7 @@ function! LoadBundles()
 
   " GraphViz
   Bundle 'wannesm/wmgraphviz.vim'
+  let g:WMGraphviz_output='png'
 
   " SSH authorized_keys
   Bundle 'xevz/vim-sshauthkeys'

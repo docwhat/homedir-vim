@@ -312,6 +312,9 @@ function! LoadBundles()
   " Allow executing vim with a file:lineno
   Bundle 'bogado/file-line'
 
+  " GraphViz
+  Bundle 'wannesm/wmgraphviz.vim'
+
   " SSH authorized_keys
   Bundle 'xevz/vim-sshauthkeys'
 

@@ -98,8 +98,8 @@ function! LoadBundles()
   Bundle 'gmarik/vundle'
 
   " Sensible defaults -- This .vimrc
-  " has most, but new stuff is added every
-  " so often.
+  " has most of these, but new stuff is added to
+  " vim-sensible every so often.
   Bundle 'tpope/vim-sensible'
 
   " Allows editing remote files.
@@ -769,21 +769,21 @@ inoremap <C-U> <C-G>u<C-U>
 inoremap <CR> <C-G>u<CR>
 
 " Make Y behave like other capitals.
-map Y y$
+nnoremap Y y$
 
 " Don't use Ex mode, use Q for formatting
-map Q gq
+nnoremap Q gq
 
 " For when you forget to sudo.. Really Write the file.
-cmap w!! w !sudo tee % >/dev/null
+cnoremap w!! w !sudo tee % >/dev/null
 
 " Some helpers to edit mode
 " http://vimcasts.org/e/14
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
-map <leader>ew :e %%
-map <leader>es :sp %%
-map <leader>ev :vsp %%
-map <leader>et :tabe %%
+nnoremap <leader>ew :e %%
+nnoremap <leader>es :sp %%
+nnoremap <leader>ev :vsp %%
+nnoremap <leader>et :tabe %%
 
 " Seeing Is Believing key bindings for ruby.
 let g:xmpfilter_cmd = "seeing_is_believing"
@@ -797,8 +797,8 @@ autocmd FileType ruby xmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
 autocmd FileType ruby imap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
 
 " Change Working Directory to that of the current file
-cmap cwd lcd %%
-cmap cd. lcd %%
+cnoremap cwd lcd %%
+cnoremap cd. lcd %%
 
 " GUI Settings
 "-----------------------------------------------------------------------------

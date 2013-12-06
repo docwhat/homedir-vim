@@ -41,7 +41,7 @@ if has('autocmd')
 endif
 
 " We love syntax highlighting.
-if has('syntax') && !exists('g:syntax_on')
+if has('syntax')
   syntax enable
 endif
 

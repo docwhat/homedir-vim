@@ -377,6 +377,8 @@ function! LoadBundles()
   if has('python')
     Bundle 'vim-pandoc/vim-pandoc'
     Bundle 'vim-scripts/VOoM'
+    " Folding slows things down and annoys me.
+    let g:pandoc_no_folding = 1
   endif
 
   " Groovy -- Make sure you set the GROOVY_HOME environment variable

@@ -782,10 +782,11 @@ cnoremap w!! w !sudo tee % >/dev/null
 " Some helpers to edit mode
 " http://vimcasts.org/e/14
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
-nnoremap <leader>ew :e %%
-nnoremap <leader>es :sp %%
-nnoremap <leader>ev :vsp %%
-nnoremap <leader>et :tabe %%
+" Since these use %% they can't be noremap'd.
+nmap <leader>ew :e %%
+nmap <leader>es :sp %%
+nmap <leader>ev :vsp %%
+nmap <leader>et :tabe %%
 
 " Seeing Is Believing key bindings for ruby.
 let g:xmpfilter_cmd = "seeing_is_believing"

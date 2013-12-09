@@ -161,14 +161,17 @@ function! LoadBundles()
     endif
     let g:neocomplcache_force_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
+    " Completes from all buffers.
     if !exists('g:neocomplcache_same_filetype_lists')
       let g:neocomplcache_same_filetype_lists = {}
     endif
-
-    " Completes from all buffers.
     let g:neocomplcache_same_filetype_lists.gitconfig = '_'
-    let g:neocomplcache_same_filetype_lists.markdown = '_'
     let g:neocomplcache_same_filetype_lists._ = '_'
+
+    " Disable NeoComplCache for certain filetypes
+    if has('autocmd')
+      autocmd FileType pandoc,markdown nested NeoComplCacheLock
+    endif
 
     Bundle 'Shougo/neocomplcache'
     " Plugin key-mappings.

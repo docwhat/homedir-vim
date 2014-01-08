@@ -881,8 +881,10 @@ if has("autocmd")
   autocmd FileType ruby,eruby nested let g:rubycomplete_buffer_loading=1
   autocmd FileType ruby,eruby nested let g:rubycomplete_rails = 1
   autocmd FileType ruby,eruby nested let g:rubycomplete_classes_in_global=1
+  autocmd BufNewFile,BufRead *.cap nested setlocal filetype=ruby
   autocmd BufNewFile,BufRead *.html.erb nested setlocal filetype=html.eruby
   autocmd BufNewFile,BufRead *.js.erb   nested setlocal filetype=javascript.eruby
+  autocmd BufNewFile,BufRead *.rb.erb   nested setlocal filetype=ruby.eruby
 endif
 
 " java/c/cpp/objc syntax

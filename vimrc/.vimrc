@@ -35,11 +35,6 @@ if has("autocmd")
   autocmd!
 endif
 
-" Turn on loading of plugins and indenting for filetypes
-if has('autocmd')
-  filetype plugin indent on
-endif
-
 " We love syntax highlighting.
 if has('syntax')
   syntax enable
@@ -96,11 +91,6 @@ function! LoadBundles()
   " let Vundle manage Vundle
   " required!
   Bundle 'gmarik/vundle'
-
-  " Sensible defaults -- This .vimrc
-  " has most of these, but new stuff is added to
-  " vim-sensible every so often.
-  Bundle 'tpope/vim-sensible'
 
   " Allows editing remote files.
   " :e dav://machine[:port]/path                  uses cadaver
@@ -437,24 +427,25 @@ function! LoadBundles()
   endif
 endfunction
 
-filetype off                   " required!
-
 " Only install vundle and bundles if git exists...
-if executable("git")
-  if !isdirectory(expand("~/.vim/bundle/vundle"))
-    echomsg "*******************************"
-    echomsg "Bootstrapping vim configuration"
-    echomsg "*******************************"
-    echomsg ""
-    echomsg "This will take a minute or two..."
-    echomsg ""
+if executable('git') && has('autocmd')
+
+  if !isdirectory(expand('~/.vim/bundle/vundle'))
+    echomsg '*******************************'
+    echomsg 'Bootstrapping vim configuration'
+    echomsg '*******************************'
+    echomsg ''
+    echomsg 'This will take a minute or two...'
+    echomsg ''
     silent !mkdir -p ~/.vim/bundle && git clone --quiet https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
     let s:bootstrap=1
   endif
 
   set rtp+=~/.vim/bundle/vundle/
+  filetype off                   " required!
   call vundle#rc()
   call LoadBundles()
+  filetype plugin indent on
 
   if exists("s:bootstrap") && s:bootstrap
     unlet s:bootstrap
@@ -463,7 +454,10 @@ if executable("git")
     BundleInstall
     quit " Close the bundle install window.
   endif
+elseif has('autocmd')
+  filetype plugin indent on
 endif
+
 
 "
 " Brief help

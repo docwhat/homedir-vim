@@ -204,8 +204,17 @@ function! LoadBundles()
   " current working directory
   Bundle 'scrooloose/nerdtree'
 
-  " Command and uncomment code easily
-  Bundle 'scrooloose/nerdcommenter'
+  if v:version > 700
+    " Command and uncomment code easily
+    " <leader>cc -- comment ragged style
+    " <leader>cl -- comment aligned style
+    " <leader>cu -- uncomment
+    " <leader>ci -- toggle comments
+    Bundle 'scrooloose/nerdcommenter'
+    let g:NERDRemoveExtraSpaces=1
+    let g:NERDSpaceDelims=1
+    let g:NERDCommentWholeLinesInVMode=2
+  endif
 
   " Navigate seemlessly between tmux panes and vim windows.
   " Note: See https://github.com/christoomey/vim-tmux-navigator for

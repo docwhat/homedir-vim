@@ -347,6 +347,11 @@ function! LoadBundles()
   " Puppet configuration syntax
   Bundle 'rodjek/vim-puppet'
 
+  " Chef support
+  Bundle "MarcWeber/vim-addon-mw-utils"
+  Bundle "tomtom/tlib_vim"
+  Bundle "vadv/vim-chef"
+
   if executable('ag')
     " Ag, the silver searcher
     Bundle 'rking/ag.vim'
@@ -884,11 +889,22 @@ if has("autocmd")
   autocmd FileType ruby,eruby nested let g:rubycomplete_buffer_loading=1
   autocmd FileType ruby,eruby nested let g:rubycomplete_rails = 1
   autocmd FileType ruby,eruby nested let g:rubycomplete_classes_in_global=1
-  autocmd BufNewFile,BufRead *.cap nested setlocal filetype=ruby
+
+  " Chef
+  autocmd BufNewFile,BufRead */{attributes,definitions,libraries,providers,recipes,resources}/*.rb nested setlocal filetype=ruby.chef
+  autocmd BufNewFile,BufRead */templates/*.erb                                                     nested setlocal filetype=eruby.chef
+  autocmd BufNewFile,BufRead metadata.rb                                                           nested setlocal filetype=ruby.chef
+  autocmd BufNewFile,BufRead */chef-repo/environments/*.rb                                         nested setlocal filetype=ruby.chef
+  autocmd BufNewFile,BufRead */chef-repo/roles/*.rb                                                nested setlocal filetype=ruby.chef
+
+  " Other ruby
+  autocmd BufNewFile,BufRead *.cap      nested setlocal filetype=ruby
   autocmd BufNewFile,BufRead *.html.erb nested setlocal filetype=html.eruby
   autocmd BufNewFile,BufRead *.js.erb   nested setlocal filetype=javascript.eruby
   autocmd BufNewFile,BufRead *.rb.erb   nested setlocal filetype=ruby.eruby
 endif
+
+
 
 " java/c/cpp/objc syntax
 "-----------------------------------------------------------------------------

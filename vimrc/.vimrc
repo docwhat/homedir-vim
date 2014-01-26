@@ -8,7 +8,7 @@
 " If it fails for some reason, then you can do it manually with:
 "    mkdir -p ~/.vim/bundle && git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim -c ':BundleInstall' -c ':qa!'
 " Update your vundle packages with:
-"    vim -c ':BundleInstall!' -c ':qa!'
+"    vim -c ':BundleUpdate' -c ':qa!'
 "
 " You may also wish to install some extra tools to make it work better:
 " * Exuberant ctags - Used for Tagbar to show you where you are in the file. (mac: brew install ctags)

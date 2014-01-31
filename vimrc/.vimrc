@@ -203,6 +203,18 @@ function! LoadBundles()
   " Press F2 to see a list of files and directories from your
   " current working directory
   Bundle 'scrooloose/nerdtree'
+  nnoremap <silent> <leader>nt :NERDTreeToggle<CR>
+  let NERDTreeBookmarksFile = expand('~/.vim/NERDTreeBookmarks')
+  let NERDTreeShowBookmarks=1
+  let NERDTreeQuitOnOpen=1
+  let NERDTreeMouseMode=2
+  let NERDTreeShowHidden=1
+  let g:nerdtree_tabs_open_on_gui_startup=0
+  let NERDTreeIgnore=['\.o$', '\.so$', '\.bmp$', '\.class$', '^core.*',
+        \ '\.vim$', '\~$', '\.pyc$', '\.pyo$', '\.jpg$', '\.gif$',
+        \ '\.png$', '\.ico$', '\.exe$', '\.cod$', '\.obj$', '\.mac$',
+        \ '\.1st', '\.dll$', '\.pyd$', '\.zip$', '\.modules$',
+        \ '\.git', '\.hg', '\.svn', '\.bzr' ]
 
   if v:version > 700
     " Command and uncomment code easily
@@ -230,6 +242,13 @@ function! LoadBundles()
   " Move lines with '[e' and ']e' along with a lot of other
   " fun things.  :help unimpaired
   Bundle 'tpope/vim-unimpaired'
+  " Bubble single line
+  nmap <C-S-k> <Plug>unimpairedMoveUp
+  nmap <C-S-j> <Plug>unimpairedMoveDown
+
+  " Bubble visually selected lines
+  xmap <C-S-k> <Plug>unimpairedMoveUp gv
+  xmap <C-S-j> <Plug>unimpairedMoveDown gv
 
   " Detect indentation
   Bundle 'tpope/vim-sleuth'
@@ -243,6 +262,7 @@ function! LoadBundles()
   if v:version > 700
     " Exhuberant CTags browsers
     Bundle 'majutsushi/tagbar'
+    nnoremap <silent> <Leader>tb :TagbarToggle<CR>
   endif
 
   " Syntax checking
@@ -419,7 +439,7 @@ function! LoadBundles()
   if has('macunix')
     let g:ctrlp_mruf_case_sensitive = 0
   endif
-  nnoremap <leader>r :CtrlPMRU<cr>
+  " nnoremap <leader>r :CtrlPMRU<cr>
 
   " Text Objects
   " ------------
@@ -507,6 +527,8 @@ augroup END
 
 " Post Bundle Initialization
 "-----------------------------------------------------------------------------
+" More complicated stuff that can only work after the bundles are loaded.
+" e.g. detecting if something *isn't* loaded.
 function! PostBundleSetup()
   " CtrlP auto cache clearing.
   if exists("g:loaded_ctrlp")
@@ -528,6 +550,45 @@ function! PostBundleSetup()
 
   if exists("g:loaded_arpeggio")
     Arpeggio inoremap jk  <Esc>
+  endif
+
+  if !(exists('g:powerline_loaded') || exists('g:loaded_airline'))
+    " NOTE: The statusline settings below is ignored if powerline is loaded.
+    set statusline=%t                                                                   " tail of the filename
+    set statusline+=\                                                                   " whitespace
+    set statusline+=[%{strlen(&fenc)?&fenc:'none'},                                     " file encoding
+    set statusline+=%{&ff}]                                                             " file format
+    set statusline+=%h                                                                  " help file flag
+    set statusline+=%m                                                                  " modified flag
+    set statusline+=%r                                                                  " read only flag
+    set statusline+=%y                                                                  " filetype
+    set statusline+=%w                                                                  " filetype
+    if exists('g:loaded_fugitive')
+      set statusline+=%{fugitive#statusline()}
+    endif
+    set statusline+=%=                                                                  " left/right separator
+    set statusline+=\ %#warningmsg#                                                     " start warnings highlight group
+    if exists('g:loaded_syntastic_plugin')
+      set statusline+=%{SyntasticStatuslineFlag()}                                      " SyntasticStatusLine
+    endif
+    set statusline+=%*                                                                  " end highlight group
+    set statusline+=%c,                                                                 " cursor column
+    set statusline+=%l/%L                                                               " cursor line/total lines
+    set statusline+=\ %P                                                                " percent through file
+  endif
+
+  " Make navigating windows easier.
+  if !exists("g:loaded_tmux_navigator")
+    nnoremap <silent> <C-h> :wincmd h<CR>
+    nnoremap <silent> <C-j> :wincmd j<CR>
+    nnoremap <silent> <C-k> :wincmd k<CR>
+    nnoremap <silent> <C-l> :wincmd l<CR>
+    nnoremap <silent> <C-\> :wincmd p<CR>
+  endif
+
+  " Ensure we have matchit support
+  if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
+    runtime! macros/matchit.vim
   endif
 endfunction
 
@@ -567,31 +628,6 @@ endfunction
 set laststatus=2      " show status line all the time
 set scrolloff=5       " don't scroll any closer to top/bottom
 set sidescrolloff=5   " don't scroll any closer to left/right
-
-if !(exists('g:powerline_loaded') || exists('g:loaded_airline'))
-  " NOTE: The statusline settings below is ignored if powerline is loaded.
-  set statusline=%t                                                                   " tail of the filename
-  set statusline+=\                                                                   " whitespace
-  set statusline+=[%{strlen(&fenc)?&fenc:'none'},                                     " file encoding
-  set statusline+=%{&ff}]                                                             " file format
-  set statusline+=%h                                                                  " help file flag
-  set statusline+=%m                                                                  " modified flag
-  set statusline+=%r                                                                  " read only flag
-  set statusline+=%y                                                                  " filetype
-  set statusline+=%w                                                                  " filetype
-  if exists('g:loaded_fugitive')
-    set statusline+=%{fugitive#statusline()}
-  endif
-  set statusline+=%=                                                                  " left/right separator
-  set statusline+=\ %#warningmsg#                                                     " start warnings highlight group
-  if exists('g:loaded_syntastic_plugin')
-    set statusline+=%{SyntasticStatuslineFlag()}                                      " SyntasticStatusLine
-  endif
-  set statusline+=%*                                                                  " end highlight group
-  set statusline+=%c,                                                                 " cursor column
-  set statusline+=%l/%L                                                               " cursor line/total lines
-  set statusline+=\ %P                                                                " percent through file
-endif
 
 " Syntastical statusline format - Ignored when powerline is enabled.
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
@@ -753,16 +789,6 @@ map [c [czz
 
 map <silent> <Leader>b :buffers<CR>
 
-if exists("g:loaded_unimpaired")
-  " Bubble single line
-  nmap <C-S-k> <Plug>unimpairedMoveUp
-  nmap <C-S-j> <Plug>unimpairedMoveDown
-
-  " Bubble visually selected lines
-  xmap <C-S-k> <Plug>unimpairedMoveUp gv
-  xmap <C-S-j> <Plug>unimpairedMoveDown gv
-endif
-
 " Paste from tmux
 "map <silent> <Leader>tp !!tmux show-buffer <Bar> cat<CR>
 
@@ -777,15 +803,6 @@ xnoremap > >gv
 " Indent whole file
 nmap <silent> <Leader>g :call Preserve("normal gg=G")<CR>
 nmap <silent> <Leader><space> :call Preserve("%s/\\s\\+$//e")<CR>
-
-" Make navigating windows easier.
-if !exists("g:loaded_tmux_navigator")
-  nnoremap <silent> <C-h> :wincmd h<CR>
-  nnoremap <silent> <C-j> :wincmd j<CR>
-  nnoremap <silent> <C-k> :wincmd k<CR>
-  nnoremap <silent> <C-l> :wincmd l<CR>
-  nnoremap <silent> <C-\> :wincmd p<CR>
-endif
 
 " Since C-l is now window navigation, use Leader-h
 " to redraw (and hide highlighted search).
@@ -856,21 +873,6 @@ endif
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 set nocscopeverbose
 
-" NERD Tree
-"-----------------------------------------------------------------------------
-nmap <leader>n :NERDTreeToggle<CR>
-let NERDTreeBookmarksFile = expand('~/.vim/NERDTreeBookmarks')
-let NERDTreeShowBookmarks=1
-let NERDTreeQuitOnOpen=1
-let NERDTreeMouseMode=2
-let NERDTreeShowHidden=1
-let g:nerdtree_tabs_open_on_gui_startup=0
-let NERDTreeIgnore=['\.o$', '\.so$', '\.bmp$', '\.class$', '^core.*',
-      \ '\.vim$', '\~$', '\.pyc$', '\.pyo$', '\.jpg$', '\.gif$',
-      \ '\.png$', '\.ico$', '\.exe$', '\.cod$', '\.obj$', '\.mac$',
-      \ '\.1st', '\.dll$', '\.pyd$', '\.zip$', '\.modules$',
-      \ '\.git', '\.hg', '\.svn', '\.bzr' ]
-
 " Python language
 "-----------------------------------------------------------------------------
 if has("autocmd")
@@ -895,16 +897,19 @@ if has("autocmd")
 
   " Chef
   autocmd BufNewFile,BufRead */{attributes,definitions,libraries,providers,recipes,resources}/*.rb nested setlocal filetype=ruby.chef
-  autocmd BufNewFile,BufRead */templates/*.erb                                                     nested setlocal filetype=eruby.chef
+  "" Too annoying -- it picks up rails files. eruby works well enough.
+  " autocmd BufNewFile,BufRead */templates/*.erb                                                     nested setlocal filetype=eruby.chef
   autocmd BufNewFile,BufRead metadata.rb                                                           nested setlocal filetype=ruby.chef
   autocmd BufNewFile,BufRead */chef-repo/environments/*.rb                                         nested setlocal filetype=ruby.chef
   autocmd BufNewFile,BufRead */chef-repo/roles/*.rb                                                nested setlocal filetype=ruby.chef
 
   " Other ruby
   autocmd BufNewFile,BufRead *.cap      nested setlocal filetype=ruby
-  autocmd BufNewFile,BufRead *.html.erb nested setlocal filetype=html.eruby
-  autocmd BufNewFile,BufRead *.js.erb   nested setlocal filetype=javascript.eruby
-  autocmd BufNewFile,BufRead *.rb.erb   nested setlocal filetype=ruby.eruby
+  autocmd BufNewFile,BufRead *.html.erb nested setlocal filetype=eruby.html
+  autocmd BufNewFile,BufRead *.js.erb   nested setlocal filetype=eruby.javascript
+  autocmd BufNewFile,BufRead *.rb.erb   nested setlocal filetype=eruby.ruby
+  autocmd BufNewFile,BufRead *.yml.erb   nested setlocal filetype=eruby.yaml
+  autocmd BufNewFile,BufRead *.txt.erb   nested setlocal filetype=eruby.text
 endif
 
 
@@ -968,11 +973,6 @@ if has("user_commands")
   command! -bang Q q<bang>
   command! -bang QA qa<bang>
   command! -bang Qa qa<bang>
-endif
-
-" Ensure we have matchit support
-if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
-  runtime! macros/matchit.vim
 endif
 
 " Local vimrc settings

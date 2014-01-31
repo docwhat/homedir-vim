@@ -310,6 +310,9 @@ function! LoadBundles()
   " Allow chording 'jk' as a replacement for ESC
   Bundle 'kana/vim-arpeggio'
 
+  " Multiple Cursors -- "Out of the box, all you need to know is a single key Ctrl-n."
+  Bundle 'terryma/vim-multiple-cursors'
+
   " Allow executing vim with a file:lineno
   Bundle 'bogado/file-line'
 

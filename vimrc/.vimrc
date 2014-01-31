@@ -908,6 +908,7 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.html.erb nested setlocal filetype=eruby.html
   autocmd BufNewFile,BufRead *.js.erb   nested setlocal filetype=eruby.javascript
   autocmd BufNewFile,BufRead *.rb.erb   nested setlocal filetype=eruby.ruby
+  autocmd BufNewFile,BufRead *.sh.erb   nested setlocal filetype=eruby.sh
   autocmd BufNewFile,BufRead *.yml.erb   nested setlocal filetype=eruby.yaml
   autocmd BufNewFile,BufRead *.txt.erb   nested setlocal filetype=eruby.text
 endif

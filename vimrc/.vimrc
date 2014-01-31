@@ -308,7 +308,7 @@ function! LoadBundles()
   Bundle 'tpope/vim-repeat'
 
   " Allow chording 'jk' as a replacement for ESC
-  Bundle 'arpeggio'
+  Bundle 'kana/vim-arpeggio'
 
   " Allow executing vim with a file:lineno
   Bundle 'bogado/file-line'

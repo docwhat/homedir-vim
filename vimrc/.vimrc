@@ -106,37 +106,67 @@ function! LoadBundles()
     let g:netrw_home=expand('~/.vim')
   endif
 
-  " NeoComplCache
-  "-----------------------------------------------------------------------------
-  if v:version > 702
-    "if v:version > 703 || (v:version == 703 && has("patch418"))
-    "" Let John use up/down arrows in insert mode. *shudder*
-    "let g:neocomplcache_enable_cursor_hold_i=1
-    "endif
+  if has("lua") && (v:version > 703 || (v:version == 703 && has("patch885")))
+    " Use NeoComplete
+    " ---------------
+    let g:neocomplete#enable_at_startup              = 1
+    let g:neocomplete#force_overwrite_completefunc   = 1
+    let g:neocomplete#data_directory                 = '~/.vim/neocomplcache'
+
+    let g:neocomplete#auto_completion_start_length   = 2
+    let g:neocomplete#manual_completion_start_length = 0
+    let g:neocomplete#min_keyword_length             = 3
+    let g:neocomplete#enable_auto_close_preview      = 1
+
+    let g:neocomplete#keyword_patterns      = {}
+    let g:neocomplete#keyword_patterns._    = '\h\w*'
+    let g:neocomplete#keyword_patterns.perl = '\h\w*->\h\w*\|\h\w*::\w*'
+
+    let g:neocomplete#sources#omni#input_patterns      = {}
+    let g:neocomplete#sources#omni#input_patterns.php  = '[^. \t]->\h\w*\|\h\w*::'
+    let g:neocomplete#sources#omni#input_patterns.c    = '[^.[:digit:] *\t]\%(\.\|->\)'
+    let g:neocomplete#sources#omni#input_patterns.cpp  = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+    let g:neocomplete#force_omni_input_patterns      = {}
+    let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::\w*'
+
+    let g:neocomplete#same_filetypes           = {}
+    let g:neocomplete#same_filetypes.gitconfig = '_'
+    let g:neocomplete#same_filetypes._         = '_'
+
+    function! s:my_cr_function()
+      return neocomplete#close_popup() . "\<CR>"
+    endfunction
+
+    Bundle 'Shougo/neocomplete'
+    Bundle 'Shougo/neosnippet'
+    Bundle 'Shougo/neosnippet-snippets'
+
+    inoremap <expr><C-g>     neocomplete#undo_completion()
+    inoremap <expr><C-l>     neocomplete#complete_common_string()
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><C-y>  neocomplete#close_popup()
+    inoremap <expr><C-e>  neocomplete#cancel_popup()
+
+  elseif v:version > 702
+    " Use NeoComplCache
+    " -----------------
 
     let g:neocomplcache_enable_at_startup = 1
-    " Use smartcase.
-    "let g:neocomplcache_enable_smart_case = 1
-    " Use camel case completion.
-    "let g:neocomplcache_enable_camel_case_completion = 1
-    " Use underbar completion.
-    "let g:neocomplcache_enable_underbar_completion = 1
-
     let g:neocomplcache_force_overwrite_completefunc = 1
 
     " Store temporary files in standard location.
     let g:neocomplcache_temporary_dir='~/.vim/neocomplcache'
 
     " Define keyword.
-    if !exists('g:neocomplcache_keyword_patterns')
-      let g:neocomplcache_keyword_patterns = {}
-    endif
+    let g:neocomplcache_keyword_patterns = {}
     let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
     " Enable heavy omni completion.
-    if !exists('g:neocomplcache_omni_patterns')
-      let g:neocomplcache_omni_patterns = {}
-    endif
+    let g:neocomplcache_omni_patterns = {}
     "let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
     let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
     let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
@@ -164,40 +194,46 @@ function! LoadBundles()
     endif
 
     Bundle 'Shougo/neocomplcache'
-    " Plugin key-mappings.
-    imap <C-k> <Plug>(neocomplcache_snippets_expand)
-    smap <C-k> <Plug>(neocomplcache_snippets_expand)
+
     inoremap <expr> <C-g> neocomplcache#undo_completion()
     inoremap <expr> <C-l> neocomplcache#complete_common_string()
-    " <CR>: close popup and save indent. This is a
-    " function to prevent problems with endwise.
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
     function! s:my_cr_function()
       return neocomplcache#smart_close_popup() . "\<CR>"
-      " For no inserting <CR> key.
-      "return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
     endfunction
-    " <TAB>: completion.
     inoremap <expr> <TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-    " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr> <C-h> neocomplcache#smart_close_popup()."\<C-h>"
     inoremap <expr> <BS> neocomplcache#smart_close_popup()."\<C-h>"
     inoremap <expr> <C-y>  neocomplcache#close_popup()
     inoremap <expr> <C-e>  neocomplcache#cancel_popup()
+  endif
+
+  if v:version > 702
+    " Use NeoSnippet
+    " ----------
+    " We have NeoComplCache or NeoComplete
+
+    Bundle 'honza/vim-snippets'
+    " Tell NeoSnippet about these snippets
+    let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 
     Bundle 'Shougo/neosnippet'
-    " Plugin key-mappings.
+    Bundle 'Shougo/neosnippet-snippets'
+
     imap <C-k>     <Plug>(neosnippet_expand_or_jump)
     smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    xmap <C-k>     <Plug>(neosnippet_expand_target)
+    imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+          \ "\<Plug>(neosnippet_expand_or_jump)"
+          \: pumvisible() ? "\<C-n>" : "\<TAB>"
+    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+          \ "\<Plug>(neosnippet_expand_or_jump)"
+          \: "\<TAB>"
 
     " For snippet_complete marker.
     if has('conceal')
       set conceallevel=2 concealcursor=i
     endif
-
-    Bundle 'honza/vim-snippets'
-    " Tell NeoSnippet about these snippets
-    let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
   endif
 
   " Press F2 to see a list of files and directories from your

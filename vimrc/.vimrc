@@ -927,7 +927,7 @@ endif
 if has("autocmd")
   autocmd FileType javascript nested setlocal smartindent expandtab
   if has('conceal')
-    autocmd FileType json nested setlocal concealcursor= conceallevel=1
+    autocmd FileType json nested setlocal concealcursor="" conceallevel=1
   endif
 endif
 
@@ -939,8 +939,8 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nnoremap <buffer> <silent> <Leader>g :call Preserve("MarkdownTidyWrap")<CR>
   else
     autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=markdown textwidth=79
-    autocmd FileType markdown                               nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell
   endif
+  autocmd FileType markdown                               nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor=""
 endif
 
 " Git commit files

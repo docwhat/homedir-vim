@@ -274,6 +274,7 @@ function! LoadBundles()
 
   " Adds matching 'end*' type syntax for ruby, vimscript, and lua
   Bundle 'tpope/vim-endwise'
+  Bundle 'tpope/vim-abolish'
 
   " Move lines with '[e' and ']e' along with a lot of other
   " fun things.  :help unimpaired

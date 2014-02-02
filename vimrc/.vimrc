@@ -239,7 +239,18 @@ function! LoadBundles()
   " Press F2 to see a list of files and directories from your
   " current working directory
   Bundle 'scrooloose/nerdtree'
-  nnoremap <silent> <leader>nt :NERDTreeToggle<CR>
+  nnoremap <silent> <leader>nt :call NERDTreeFindOrClose()<CR>
+  function! NERDTreeFindOrClose()
+    if exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1
+      NERDTreeClose
+    else
+      if bufname('%') == ''
+        NERDTree
+      else
+        NERDTreeFind
+      endif
+    endif
+  endfunction
   let NERDTreeBookmarksFile = expand('~/.vim/NERDTreeBookmarks')
   let NERDTreeShowBookmarks=1
   let NERDTreeQuitOnOpen=1

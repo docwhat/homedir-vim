@@ -757,7 +757,7 @@ set directory+=.
 
 " viminfo stores the the state of your previous editing session
 set viminfo+=n~/.vim/viminfo
-set viminfo^=!
+set viminfo^=!,h,f0,:100,/100,@100
 
 if exists("+undofile")
   " undofile - This allows you to use undos after exiting and restarting

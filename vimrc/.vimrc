@@ -626,11 +626,13 @@ function! PostBundleSetup()
   endif
 
   " Make navigating windows easier.
-  if !exists("g:loaded_tmux_navigator")
+  if exists("g:loaded_tmux_navigator")
+    nnoremap <silent> <C-l> :redraw!<CR> :TmuxNavigateRight<CR>
+  else
     nnoremap <silent> <C-h> :wincmd h<CR>
     nnoremap <silent> <C-j> :wincmd j<CR>
     nnoremap <silent> <C-k> :wincmd k<CR>
-    nnoremap <silent> <C-l> :wincmd l<CR>
+    nnoremap <silent> <C-l> :redraw!<CR> :wincmd l<CR>
     nnoremap <silent> <C-\> :wincmd p<CR>
   endif
 

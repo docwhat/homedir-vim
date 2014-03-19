@@ -325,6 +325,7 @@ function! LoadBundles()
     let g:syntastic_sh_checkers           = ['shellcheck', 'checkbashisms', 'sh']
     let g:syntastic_sh_checkbashisms_args = '-x'
     let g:syntastic_ruby_checkers         = ['mri', 'jruby', 'rubocop']
+    let g:syntastic_ruby_rubocop_args     = '--display-cop-names'
     let g:syntastic_scss_checkers         = ['sass']
     let g:syntastic_sass_checkers         = ['sass']
     let g:syntastic_xml_checkers          = ['xmllint']

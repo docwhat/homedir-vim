@@ -206,9 +206,7 @@ function! LoadBundles()
     inoremap <expr> <BS> neocomplcache#smart_close_popup()."\<C-h>"
     inoremap <expr> <C-y>  neocomplcache#close_popup()
     inoremap <expr> <C-e>  neocomplcache#cancel_popup()
-  endif
 
-  if v:version > 702
     " Use NeoSnippet
     " ----------
     " We have NeoComplCache or NeoComplete

@@ -6,9 +6,9 @@
 "
 " Vim should auto-install Vundle and all the required parts...
 " If it fails for some reason, then you can do it manually with:
-"    mkdir -p ~/.vim/bundle && git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim -c ':BundleInstall' -c ':qa!'
+"    mkdir -p ~/.vim/bundle && git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim -c ':PluginInstall' -c ':qa!'
 " Update your vundle packages with:
-"    vim -c ':BundleUpdate' -c ':qa!'
+"    vim -c ':PluginUpdate' -c ':qa!'
 "
 " You may also wish to install some extra tools to make it work better:
 " * Exuberant ctags - Used for Tagbar to show you where you are in the file. (mac: brew install ctags)
@@ -31,7 +31,7 @@
 "
 
 " Remove ALL autocommands to prevent them from being loaded twice.
-if has("autocmd")
+if has('autocmd')
   autocmd!
 endif
 
@@ -87,10 +87,10 @@ set history=1000                 " Save more history.
 
 " Vundler - vim package manager
 "-----------------------------------------------------------------------------
-function! LoadBundles()
+function! LoadPlugins()
   " let Vundle manage Vundle
   " required!
-  Bundle 'gmarik/vundle'
+  Plugin 'gmarik/vundle'
 
   " Allows editing remote files.
   " :e dav://machine[:port]/path                  uses cadaver
@@ -102,11 +102,11 @@ function! LoadBundles()
   " :e scp://[user@]machine[[:#]port]/path        uses scp
   " :e sftp://[user@]machine/path                 uses sftp
   if v:version > 702
-    Bundle 'netrw.vim'
+    Plugin 'netrw.vim'
     let g:netrw_home=expand('~/.vim')
   endif
 
-  if has("lua") && (v:version > 703 || (v:version == 703 && has("patch885")))
+  if has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
     " Use NeoComplete
     " ---------------
     let g:neocomplete#enable_at_startup              = 1
@@ -138,9 +138,9 @@ function! LoadBundles()
       return neocomplete#close_popup() . "\<CR>"
     endfunction
 
-    Bundle 'Shougo/neocomplete'
-    Bundle 'Shougo/neosnippet'
-    Bundle 'Shougo/neosnippet-snippets'
+    Plugin 'Shougo/neocomplete'
+    Plugin 'Shougo/neosnippet'
+    Plugin 'Shougo/neosnippet-snippets'
 
     inoremap <expr><C-g>     neocomplete#undo_completion()
     inoremap <expr><C-l>     neocomplete#complete_common_string()
@@ -193,7 +193,7 @@ function! LoadBundles()
       autocmd FileType pandoc,markdown nested NeoComplCacheLock
     endif
 
-    Bundle 'Shougo/neocomplcache'
+    Plugin 'Shougo/neocomplcache'
 
     inoremap <expr> <C-g> neocomplcache#undo_completion()
     inoremap <expr> <C-l> neocomplcache#complete_common_string()
@@ -211,12 +211,12 @@ function! LoadBundles()
     " ----------
     " We have NeoComplCache or NeoComplete
 
-    Bundle 'honza/vim-snippets'
+    Plugin 'honza/vim-snippets'
     " Tell NeoSnippet about these snippets
     let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 
-    Bundle 'Shougo/neosnippet'
-    Bundle 'Shougo/neosnippet-snippets'
+    Plugin 'Shougo/neosnippet'
+    Plugin 'Shougo/neosnippet-snippets'
 
     imap <C-k>     <Plug>(neosnippet_expand_or_jump)
     smap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -236,7 +236,7 @@ function! LoadBundles()
 
   " Press F2 to see a list of files and directories from your
   " current working directory
-  Bundle 'scrooloose/nerdtree'
+  Plugin 'scrooloose/nerdtree'
   nnoremap <silent> <leader>nt :call NERDTreeFindOrClose()<CR>
   function! NERDTreeFindOrClose()
     if exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1
@@ -267,7 +267,7 @@ function! LoadBundles()
     " <leader>cl -- comment aligned style
     " <leader>cu -- uncomment
     " <leader>ci -- toggle comments
-    Bundle 'scrooloose/nerdcommenter'
+    Plugin 'scrooloose/nerdcommenter'
     let g:NERDRemoveExtraSpaces=1
     let g:NERDSpaceDelims=1
     let g:NERDCommentWholeLinesInVMode=2
@@ -276,18 +276,18 @@ function! LoadBundles()
   " Navigate seemlessly between tmux panes and vim windows.
   " Note: See https://github.com/christoomey/vim-tmux-navigator for
   " how to setup your ~/.tmux.conf file.
-  Bundle 'christoomey/vim-tmux-navigator'
+  Plugin 'christoomey/vim-tmux-navigator'
 
   " Autopair mode - If you type '(', it'll fill in ')'
-  Bundle 'jiangmiao/auto-pairs'
+  Plugin 'jiangmiao/auto-pairs'
 
   " Adds matching 'end*' type syntax for ruby, vimscript, and lua
-  Bundle 'tpope/vim-endwise'
-  Bundle 'tpope/vim-abolish'
+  Plugin 'tpope/vim-endwise'
+  Plugin 'tpope/vim-abolish'
 
   " Move lines with '[e' and ']e' along with a lot of other
   " fun things.  :help unimpaired
-  Bundle 'tpope/vim-unimpaired'
+  Plugin 'tpope/vim-unimpaired'
   " Bubble single line
   nmap <C-S-k> <Plug>unimpairedMoveUp
   nmap <C-S-j> <Plug>unimpairedMoveDown
@@ -297,23 +297,23 @@ function! LoadBundles()
   xmap <C-S-j> <Plug>unimpairedMoveDown gv
 
   " Detect indentation
-  Bundle 'tpope/vim-sleuth'
+  Plugin 'tpope/vim-sleuth'
 
   " Focus (zooms a buffer) -- <leader>fmt
-  Bundle "merlinrebrovic/focus.vim"
+  Plugin 'merlinrebrovic/focus.vim'
 
   " lets you align comments, equal signs, etc.
-  Bundle 'godlygeek/tabular'
+  Plugin 'godlygeek/tabular'
 
   if v:version > 700
     " Exhuberant CTags browsers
-    Bundle 'majutsushi/tagbar'
+    Plugin 'majutsushi/tagbar'
     nnoremap <silent> <Leader>tb :TagbarToggle<CR>
   endif
 
   " Syntax checking
   if exists('*getmatches')
-    Bundle 'scrooloose/syntastic'
+    Plugin 'scrooloose/syntastic'
     let g:syntastic_error_symbol          = '✗✗'
     let g:syntastic_warning_symbol        = '⚠⚠'
     let g:syntastic_style_error_symbol    = '✗'
@@ -330,138 +330,138 @@ function! LoadBundles()
     let g:syntastic_xslt_checkers         = ['xmllint']
     " npm install js-yaml
     let g:syntastic_yaml_checkers         = ['jsyaml']
-    Bundle 'dbakker/vim-lint'
+    Plugin 'dbakker/vim-lint'
   endif
 
   " Display an indent line
-  Bundle 'Yggdroot/indentLine'
+  Plugin 'Yggdroot/indentLine'
   let g:indentLine_char = "⋮"
   let g:indentLine_noConcealCursor = 1
 
   " Latest vim-ruby
-  Bundle 'vim-ruby/vim-ruby'
+  Plugin 'vim-ruby/vim-ruby'
 
   " Rails, bundler, etc.
-  Bundle 'tpope/vim-rails'
-  Bundle 'tpope/vim-bundler'
-  Bundle 'tpope/vim-cucumber'
-  Bundle 'tpope/vim-rake'
+  Plugin 'tpope/vim-rails'
+  Plugin 'tpope/vim-bundler'
+  Plugin 'tpope/vim-cucumber'
+  Plugin 'tpope/vim-rake'
 
   " Get me some RVM/Rbenv support
   if exists("$rvm_path")
-    Bundle 'tpope/vim-rvm'
+    Plugin 'tpope/vim-rvm'
   else
-    Bundle 'tpope/vim-rbenv'
+    Plugin 'tpope/vim-rbenv'
   endif
 
-  Bundle 't9md/vim-ruby-xmpfilter'
+  Plugin 't9md/vim-ruby-xmpfilter'
 
   " Ruby Block Object
   " Adds:
   "   r (Ruby block)
-  Bundle 'kana/vim-textobj-user'
-  Bundle 'nelstrom/vim-textobj-rubyblock'
+  Plugin 'kana/vim-textobj-user'
+  Plugin 'nelstrom/vim-textobj-rubyblock'
 
   " Ruby refactoring tools. All beging with :R
-  Bundle 'ecomba/vim-ruby-refactoring'
+  Plugin 'ecomba/vim-ruby-refactoring'
 
   " ds/cs/ys for deleting, changing, your surrounding chars (like ', ", etc.)
-  Bundle 'tpope/vim-surround'
+  Plugin 'tpope/vim-surround'
 
   " Deal with git in a sane way
-  Bundle 'tpope/vim-fugitive'
+  Plugin 'tpope/vim-fugitive'
 
   " Support '.' correctly for plugins that support this module.
-  Bundle 'tpope/vim-repeat'
+  Plugin 'tpope/vim-repeat'
 
   " Allow chording 'jk' as a replacement for ESC
-  Bundle 'kana/vim-arpeggio'
+  Plugin 'kana/vim-arpeggio'
 
   " Multiple Cursors -- "Out of the box, all you need to know is a single key Ctrl-n."
-  Bundle 'terryma/vim-multiple-cursors'
+  Plugin 'terryma/vim-multiple-cursors'
 
   " Allow executing vim with a file:lineno
-  Bundle 'bogado/file-line'
+  Plugin 'bogado/file-line'
 
   " GraphViz
-  Bundle 'wannesm/wmgraphviz.vim'
+  Plugin 'wannesm/wmgraphviz.vim'
   let g:WMGraphviz_output='png'
 
   " SSH authorized_keys
-  Bundle 'xevz/vim-sshauthkeys'
+  Plugin 'xevz/vim-sshauthkeys'
 
   " Allow C-A/C-X to work correctly with dates/times.
-  Bundle 'tpope/vim-speeddating'
+  Plugin 'tpope/vim-speeddating'
 
   " The only theme worth knowing.
-  Bundle 'altercation/vim-colors-solarized'
+  Plugin 'altercation/vim-colors-solarized'
 
   if v:version >= 702
-    Bundle 'bling/vim-airline'
+    Plugin 'bling/vim-airline'
     let g:airline_powerline_fonts = 1
     let g:airline_theme='badwolf'
     set noshowmode
   endif
 
   " HTML5 + SVG support
-  Bundle 'othree/html5.vim'
+  Plugin 'othree/html5.vim'
 
   " HTML/XML goodness.
   " See :h ragtag
-  Bundle "tpope/vim-ragtag"
+  Plugin 'tpope/vim-ragtag'
 
   " Show a facsimile of CSS colors as a highlight.
-  Bundle 'chrisbra/color_highlight'
+  Plugin 'chrisbra/color_highlight'
   let g:colorizer_auto_filetype='css,scss,sass,html'
 
   " Puppet configuration syntax
-  Bundle 'rodjek/vim-puppet'
+  Plugin 'rodjek/vim-puppet'
 
   " Chef support
-  Bundle "MarcWeber/vim-addon-mw-utils"
-  Bundle "tomtom/tlib_vim"
-  Bundle "vadv/vim-chef"
+  Plugin 'MarcWeber/vim-addon-mw-utils'
+  Plugin 'tomtom/tlib_vim'
+  Plugin 'vadv/vim-chef'
 
   if executable('ag')
     " Ag, the silver searcher
-    Bundle 'rking/ag.vim'
+    Plugin 'rking/ag.vim'
   elseif executable('ack-grep')
     " Ack, the better-grepper-upper
-    let g:ackprg="ack-grep -H --nocolor --nogroup --column"
-    Bundle 'mileszs/ack.vim'
+    let g:ackprg='ack-grep -H --nocolor --nogroup --column'
+    Plugin 'mileszs/ack.vim'
   elseif executable('ack')
     " Ack, the better-grepper-upper
-    let g:ackprg="ack -H --nocolor --nogroup --column"
-    Bundle 'mileszs/ack.vim'
+    let g:ackprg='ack -H --nocolor --nogroup --column'
+    Plugin 'mileszs/ack.vim'
   endif
 
   " Coffeescript Support
-  Bundle 'kchmck/vim-coffee-script'
+  Plugin 'kchmck/vim-coffee-script'
 
   " Scala, breakfast of Joe's everywhere
-  Bundle 'derekwyatt/vim-scala'
+  Plugin 'derekwyatt/vim-scala'
 
   " JSON & JS
-  Bundle 'elzr/vim-json'
-  Bundle 'pangloss/vim-javascript'
+  Plugin 'elzr/vim-json'
+  Plugin 'pangloss/vim-javascript'
 
   " Haskell support
-  Bundle 'Twinside/vim-syntax-haskell-cabal'
-  Bundle 'lukerandall/haskellmode-vim'
+  Plugin 'Twinside/vim-syntax-haskell-cabal'
+  Plugin 'lukerandall/haskellmode-vim'
 
-  Bundle 'tpope/vim-markdown'
+  Plugin 'tpope/vim-markdown'
   if has('python')
-    Bundle 'vim-pandoc/vim-pandoc'
-    Bundle 'vim-scripts/VOoM'
+    Plugin 'vim-pandoc/vim-pandoc'
+    Plugin 'vim-scripts/VOoM'
     " Folding slows things down and annoys me.
     let g:pandoc_no_folding = 1
   endif
 
   " Groovy -- Make sure you set the GROOVY_HOME environment variable
-  Bundle 'vim-scripts/groovy.vim--Ruley.git'
+  Plugin 'vim-scripts/groovy.vim--Ruley.git'
 
-  Bundle 'mattn/webapi-vim'
-  Bundle 'mattn/gist-vim'
+  Plugin 'mattn/webapi-vim'
+  Plugin 'mattn/gist-vim'
   if has('macunix')
     let g:gist_clip_command = 'pbcopy'
   endif
@@ -469,7 +469,7 @@ function! LoadBundles()
   " Like Command T for TextMate.
   " <leader>t to activate
   " <C-d> to toggle between just matching filename or whole path.
-  Bundle 'kien/ctrlp.vim'
+  Plugin 'kien/ctrlp.vim'
   let g:ctrlp_map  = '<leader>t'
   let g:ctrlp_match_window_reversed = 0
   let g:ctrlp_custom_ignore = {
@@ -504,7 +504,7 @@ function! LoadBundles()
   "   ii (Just the inner parts)
   "   aI (Ruby/Bash style indents with endifs, etc.)
   "   iI (alias for ii)
-  Bundle 'michaeljsmith/vim-indent-object'
+  Plugin 'michaeljsmith/vim-indent-object'
 
   if filereadable(expand("~/.vimrc.bundles"))
     source ~/.vimrc.bundles
@@ -528,14 +528,14 @@ if executable('git') && has('autocmd')
   set rtp+=~/.vim/bundle/vundle/
   filetype off                   " required!
   call vundle#rc()
-  call LoadBundles()
+  call LoadPlugins()
   filetype plugin indent on
 
-  if exists("s:bootstrap") && s:bootstrap
+  if exists('s:bootstrap') && s:bootstrap
     unlet s:bootstrap
-    " TODO Run BundleInstall whenever the .vimrc changes (specifically the
-    " Bundle settings).
-    BundleInstall
+    " TODO Run PluginInstall whenever the .vimrc changes (specifically the
+    " Pluginsettings).
+    PluginInstall
     quit " Close the bundle install window.
   endif
 elseif has('autocmd')
@@ -545,13 +545,14 @@ endif
 
 "
 " Brief help
-" :BundleList          - list configured bundles
-" :BundleInstall(!)    - install(update) bundles
-" :BundleSearch(!) foo - search(or refresh cache first) for foo
-" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+" :PluginList          - list configured bundles
+" :PluginInstall       - install bundles
+" :PluginUpdate        - update bundles
+" :PluginSearch(!) foo - search(or refresh cache first) for foo
+" :PluginClean(!)      - confirm(or auto-approve) removal of unused bundles
 "
 " see :h vundle for more details or wiki for FAQ
-" NOTE: comments after Bundle command are not allowed..
+" NOTE: comments after Plugincommand are not allowed..
 
 " Create Parent Directories
 "-----------------------------------------------------------------------------
@@ -572,13 +573,13 @@ augroup BWCCreateDir
   autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
 augroup END
 
-" Post Bundle Initialization
+" Post Plugin Initialization
 "-----------------------------------------------------------------------------
 " More complicated stuff that can only work after the bundles are loaded.
 " e.g. detecting if something *isn't* loaded.
-function! PostBundleSetup()
+function! PostPluginSetup()
   " CtrlP auto cache clearing.
-  if exists("g:loaded_ctrlp")
+  if exists('g:loaded_ctrlp')
     augroup CtrlPExtension
       autocmd!
       autocmd FocusGained  * nested CtrlPClearCache
@@ -587,7 +588,7 @@ function! PostBundleSetup()
   endif
 
   " Command-T auto cache clearing
-  if exists("g:command_t_loaded")
+  if exists('g:command_t_loaded')
     augroup CommandTExtension
       autocmd!
       autocmd FocusGained  * nested CommandTFlush
@@ -595,7 +596,7 @@ function! PostBundleSetup()
     augroup END
   endif
 
-  if exists("g:loaded_arpeggio")
+  if exists('g:loaded_arpeggio')
     Arpeggio inoremap jk  <Esc>
   endif
 
@@ -625,7 +626,7 @@ function! PostBundleSetup()
   endif
 
   " Make navigating windows easier.
-  if exists("g:loaded_tmux_navigator")
+  if exists('g:loaded_tmux_navigator')
     nnoremap <silent> <C-l> :redraw!<CR> :TmuxNavigateRight<CR>
   else
     nnoremap <silent> <C-h> :wincmd h<CR>
@@ -646,8 +647,8 @@ function! PostBundleSetup()
   " highlight PmenuThumb     ctermfg=12 ctermbg=8 guibg=White
 endfunction
 
-if has("autocmd")
-  autocmd VimEnter * nested call PostBundleSetup()
+if has('autocmd')
+  autocmd VimEnter * nested call PostPluginSetup()
 endif
 
 " Helper functions
@@ -659,10 +660,10 @@ function! Preserve(command)
   " Save the last search
   let last_search=@/
   " Save the current cursor position
-  let save_cursor = getpos(".")
+  let save_cursor = getpos('.')
   " Save the window position
   normal H
-  let save_window = getpos(".")
+  let save_window = getpos('.')
   call setpos('.', save_cursor)
 
   " Do the business:
@@ -701,7 +702,7 @@ endtry
 " In many terminal emulators the mouse works just fine, thus enable it.
 if v:version >= 702 && has('mouse')
   set mouse=a
-  if &term =~ "xterm" || &term =~ "screen"
+  if &term =~ 'xterm' || &term =~ 'screen'
     set ttymouse=xterm2
   endif
 endif
@@ -736,12 +737,12 @@ set backup
 " Prevent backups from overwriting each other. The naming is weird,
 " since I'm using the 'backupext' variable to append the path.
 " So the file '/home/docwhat/.vimrc' becomes '.vimrc%home%docwhat~'
-if has("autocmd")
+if has('autocmd')
   autocmd BufWritePre * nested let &backupext = substitute(expand('%:p:h'), '/', '%', 'g') . '~'
 endif
 
 
-if has("macunix")
+if has('macunix')
   set backupskip+=/private/tmp/*
 endif
 
@@ -760,7 +761,7 @@ set directory+=.
 set viminfo+=n~/.vim/viminfo
 set viminfo^=!,h,f0,:100,/100,@100
 
-if exists("+undofile")
+if exists('+undofile')
   " undofile - This allows you to use undos after exiting and restarting
   " This, like swap and backups, uses .vim-undo first, then ~/.vim/undo
   " :help undo-persistence
@@ -780,7 +781,7 @@ endif
 " (happens when dropping a file on gvim).
 " Also don't do it when the mark is in the first line, that is the default
 " position when opening a file.
-if has("autocmd")
+if has('autocmd')
   autocmd BufReadPost * nested
         \ if line("'\"") > 1 && line("'\"") <= line("$") |
         \   exe "normal! g`\"" |
@@ -793,7 +794,7 @@ endif
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
-if !exists(":DiffOrig")
+if !exists(':DiffOrig')
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
         \ | wincmd p | diffthis
 endif
@@ -804,7 +805,7 @@ function! StripTrailingWhite()
   silent! %s/\s\+$//
   call winrestview(l:winview)
 endfunction
-if has("autocmd")
+if has('autocmd')
   autocmd BufWritePre * nested call StripTrailingWhite()
 endif
 
@@ -892,7 +893,7 @@ nmap <leader>ev :vsp %%
 nmap <leader>et :tabe %%
 
 " Seeing Is Believing key bindings for ruby.
-let g:xmpfilter_cmd = "seeing_is_believing"
+let g:xmpfilter_cmd = 'seeing_is_believing'
 autocmd FileType ruby nmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
 autocmd FileType ruby xmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
 autocmd FileType ruby imap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
@@ -910,7 +911,7 @@ cnoremap cd. lcd %%
 "-----------------------------------------------------------------------------
 if has('gui_running')
   set guioptions-=T " remove the toolbar
-  if has("gui_gtk2")
+  if has('gui_gtk2')
     " We need good defaults for Linux
     "set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
   elseif has('gui_macvim')
@@ -929,7 +930,7 @@ set nocscopeverbose
 
 " Python language
 "-----------------------------------------------------------------------------
-if has("autocmd")
+if has('autocmd')
   " TODO: Lookup some pydoc/better-python plugins
   " http://vim.wikia.com/wiki/Omnicomplete_-_Remove_Python_Pydoc_Preview_Window
   " maybe for ruby too?
@@ -943,7 +944,7 @@ endif
 
 " Ruby syntax
 "-----------------------------------------------------------------------------
-if has("autocmd")
+if has('autocmd')
   autocmd FileType ruby,eruby nested setlocal cinwords=do
   autocmd FileType ruby,eruby nested let g:rubycomplete_buffer_loading=1
   autocmd FileType ruby,eruby nested let g:rubycomplete_rails = 1
@@ -971,26 +972,26 @@ endif
 
 " java/c/cpp/objc syntax
 "-----------------------------------------------------------------------------
-if has("autocmd")
+if has('autocmd')
   autocmd FileType java,c,cpp,objc nested setlocal smartindent tabstop=4 shiftwidth=4 softtabstop=4
   autocmd FileType java,c,cpp,objc nested let b:loaded_delimitMate = 1
 endif
 
 " JavaScript syntax
 "-----------------------------------------------------------------------------
-if has("autocmd")
+if has('autocmd')
   autocmd FileType javascript nested setlocal smartindent expandtab
   if has('conceal')
-    autocmd FileType json nested setlocal concealcursor="" conceallevel=1
+    autocmd FileType json nested setlocal concealcursor='' conceallevel=1
   endif
 endif
 
 " markdown specific settings
 "-----------------------------------------------------------------------------
-if has("autocmd")
+if has('autocmd')
   if executable('pandoc') && has('python')
     autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=pandoc
-    autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nnoremap <buffer> <silent> <Leader>g :call Preserve("MarkdownTidyWrap")<CR>
+    autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nnoremap <buffer> <silent> <Leader>g :call Preserve('MarkdownTidyWrap')<CR>
   else
     autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=markdown textwidth=79
   endif
@@ -999,7 +1000,7 @@ endif
 
 " Git commit files
 "-----------------------------------------------------------------------------
-if has("autocmd")
+if has('autocmd')
   autocmd FileType gitcommit            nested setlocal spell
   autocmd VimEnter .git/PULLREQ_EDITMSG nested setlocal filetype=markdown
 endif
@@ -1018,7 +1019,7 @@ iab recipies recipes
 iab Recipies Recipes
 iab RECIPIES RECIPES
 
-if has("user_commands")
+if has('user_commands')
   command! -bang -nargs=* -complete=file E e<bang> <args>
   command! -bang -nargs=* -complete=file W w<bang> <args>
   command! -bang -nargs=* -complete=file Wq wq<bang> <args>

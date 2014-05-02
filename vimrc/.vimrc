@@ -456,6 +456,9 @@ function! LoadPlugins()
   " Groovy -- Make sure you set the GROOVY_HOME environment variable
   Plugin 'vim-scripts/groovy.vim--Ruley.git'
 
+  " PowerShell -- Changing your Windows command line environment
+  Plugin 'PProvost/vim-ps1'
+
   Plugin 'mattn/webapi-vim'
   Plugin 'mattn/gist-vim'
   if has('macunix')

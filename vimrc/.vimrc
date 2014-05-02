@@ -88,10 +88,6 @@ set history=1000                 " Save more history.
 " Vundler - vim package manager
 "-----------------------------------------------------------------------------
 function! LoadPlugins()
-  " let Vundle manage Vundle
-  " required!
-  Plugin 'gmarik/vundle'
-
   " Allows editing remote files.
   " :e dav://machine[:port]/path                  uses cadaver
   " :e fetch://[user@]machine/path                uses fetch
@@ -525,10 +521,12 @@ if executable('git') && has('autocmd')
     let s:bootstrap=1
   endif
 
+  filetype off
   set rtp+=~/.vim/bundle/vundle/
-  filetype off                   " required!
-  call vundle#rc()
+  call vundle#begin()
+  Plugin 'gmarik/vundle'
   call LoadPlugins()
+  call vundle#end()
   filetype plugin indent on
 
   if exists('s:bootstrap') && s:bootstrap

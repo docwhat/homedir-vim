@@ -701,6 +701,7 @@ endfunction
 set laststatus=2      " show status line all the time
 set scrolloff=5       " don't scroll any closer to top/bottom
 set sidescrolloff=5   " don't scroll any closer to left/right
+set synmaxcol=200     " don't syntax highlight past the 120th column
 
 " Syntastical statusline format - Ignored when powerline is enabled.
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'

@@ -1000,7 +1000,7 @@ endif
 if has('autocmd')
   autocmd FileType javascript nested setlocal smartindent expandtab
   if has('conceal')
-    autocmd FileType json nested setlocal concealcursor='' conceallevel=1
+    autocmd FileType json nested setlocal concealcursor= conceallevel=1
   endif
 endif
 

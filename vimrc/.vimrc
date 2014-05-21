@@ -706,12 +706,6 @@ set synmaxcol=200     " don't syntax highlight past the 120th column
 " Syntastical statusline format - Ignored when powerline is enabled.
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 
-" Gnome terminal doesn't advertise its 256-colors
-" http://askubuntu.com/a/126
-if $COLORTERM == 'gnome-terminal'
-  set t_Co=256
-endif
-
 try
   colorscheme solarized
 catch /^Vim\%((\a\+)\)\=:E185/

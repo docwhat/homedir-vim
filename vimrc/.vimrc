@@ -291,9 +291,6 @@ function! LoadPlugins()
   " how to setup your ~/.tmux.conf file.
   Plugin 'christoomey/vim-tmux-navigator'
 
-  " Autopair mode - If you type '(', it'll fill in ')'
-  Plugin 'jiangmiao/auto-pairs'
-
   " Adds matching 'end*' type syntax for ruby, vimscript, and lua
   Plugin 'tpope/vim-endwise'
   Plugin 'tpope/vim-abolish'

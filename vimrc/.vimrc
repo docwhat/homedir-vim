@@ -291,6 +291,9 @@ function! LoadPlugins()
   " how to setup your ~/.tmux.conf file.
   Plugin 'christoomey/vim-tmux-navigator'
 
+  " NGinx configuration files.
+  Plugin 'evanmiller/nginx-vim-syntax'
+
   " Adds matching 'end*' type syntax for ruby, vimscript, and lua
   Plugin 'tpope/vim-endwise'
   Plugin 'tpope/vim-abolish'

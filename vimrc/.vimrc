@@ -462,6 +462,8 @@ function! LoadPlugins()
   Plugin 'Twinside/vim-syntax-haskell-cabal'
   Plugin 'lukerandall/haskellmode-vim'
 
+  " Markdown
+  Plugin 'vim-scripts/VOoM'
   Plugin 'tpope/vim-markdown'
   if has('python') && executable('pandoc')
     if v:version >= 704
@@ -475,7 +477,6 @@ function! LoadPlugins()
       " Folding slows things down and annoys me.
       let g:pandoc_no_folding = 1
       Plugin 'vim-pandoc/vim-pandoc'
-      Plugin 'vim-scripts/VOoM'
     endif
   endif
 
@@ -916,18 +917,28 @@ nmap <leader>et :tabe %%
 
 " Seeing Is Believing key bindings for ruby.
 let g:xmpfilter_cmd = 'seeing_is_believing'
-autocmd FileType ruby nmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
-autocmd FileType ruby xmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
-autocmd FileType ruby imap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
+if has('autocmd')
+  autocmd FileType ruby nmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
+  autocmd FileType ruby xmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
+  autocmd FileType ruby imap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
 
-" auto insert mark at appropriate spot.
-autocmd FileType ruby nmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
-autocmd FileType ruby xmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
-autocmd FileType ruby imap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
+  " auto insert mark at appropriate spot.
+  autocmd FileType ruby nmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
+  autocmd FileType ruby xmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
+  autocmd FileType ruby imap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
+endif
 
 " Change Working Directory to that of the current file
 cnoremap cwd lcd %%
 cnoremap cd. lcd %%
+
+" Voom settings
+if has('autocmd') && exists(g:voom_did_load_plugin)
+  autocmd FileType pandoc   noremap <buffer><silent> <localleader>o :Voom pandoc<cr>
+  autocmd FileType markdown noremap <buffer><silent> <localleader>o :Voom markdown<cr>
+  autocmd FileType html     noremap <buffer><silent> <localleader>o :Voom html<cr>
+  autocmd FileType python   noremap <buffer><silent> <localleader>o :Voom python<cr>
+endif
 
 " GUI Settings
 "-----------------------------------------------------------------------------
@@ -1018,7 +1029,9 @@ if has('autocmd')
     autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=markdown textwidth=79
   endif
   autocmd FileType markdown nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor=""
-  autocmd FileType pandoc   nested setlocal equalprg=pandoc\ -t\ markdown_github-fenced_code_blocks\ --standalone
+  if executable('pandoc')
+    autocmd FileType pandoc   nested setlocal equalprg=pandoc\ -t\ markdown_github-fenced_code_blocks\ --standalone
+  endif
 endif
 
 " Git commit files

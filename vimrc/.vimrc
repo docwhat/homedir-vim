@@ -463,11 +463,20 @@ function! LoadPlugins()
   Plugin 'lukerandall/haskellmode-vim'
 
   Plugin 'tpope/vim-markdown'
-  if has('python')
-    Plugin 'vim-pandoc/vim-pandoc'
-    Plugin 'vim-scripts/VOoM'
-    " Folding slows things down and annoys me.
-    let g:pandoc_no_folding = 1
+  if has('python') && executable('pandoc')
+    if v:version >= 704
+      let g:pantondoc_disabled_modules = [ 'folding' ]
+      let g:pantondoc_use_pandoc_equalprg = 0
+      let g:pandoc_use_embeds_in_codeblocks_for_langs = ['ruby', 'html', 'xml', 'js=javascript', 'json', 'coffee', 'groovy']
+      Plugin 'vim-pandoc/vim-pantondoc'
+      Plugin 'vim-pandoc/vim-pandoc-syntax'
+      Plugin 'vim-pandoc/vim-pandoc-after'
+    else
+      " Folding slows things down and annoys me.
+      let g:pandoc_no_folding = 1
+      Plugin 'vim-pandoc/vim-pandoc'
+      Plugin 'vim-scripts/VOoM'
+    endif
   endif
 
   " Groovy -- Make sure you set the GROOVY_HOME environment variable
@@ -1002,13 +1011,14 @@ endif
 " markdown specific settings
 "-----------------------------------------------------------------------------
 if has('autocmd')
-  if executable('pandoc') && has('python')
+  if exists('g:loaded_pandoc')
     autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=pandoc
     autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nnoremap <buffer> <silent> <Leader>g :call Preserve('MarkdownTidyWrap')<CR>
   else
     autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=markdown textwidth=79
   endif
-  autocmd FileType markdown                               nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor=""
+  autocmd FileType markdown nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor=""
+  autocmd FileType pandoc   nested setlocal equalprg=pandoc\ -t\ markdown_github-fenced_code_blocks\ --standalone
 endif
 
 " Git commit files

@@ -203,7 +203,10 @@ function! LoadPlugins()
 
     " Disable NeoComplCache for certain filetypes
     if has('autocmd')
-      autocmd FileType pandoc,markdown nested NeoComplCacheLock
+      augroup NeoComplCache
+        autocmd!
+        autocmd FileType pandoc,markdown nested NeoComplCacheLock
+      augroup END
     endif
 
     Plugin 'Shougo/neocomplcache'
@@ -673,6 +676,7 @@ function! PostPluginSetup()
   highlight PmenuSel       ctermfg=4 ctermbg=7 guifg=LightBlue
   " highlight PmenuSbar      ctermfg=7 ctermbg=12 guibg=Grey
   " highlight PmenuThumb     ctermfg=12 ctermbg=8 guibg=White
+
 endfunction
 
 if has('autocmd')
@@ -847,12 +851,15 @@ set omnifunc=syntaxcomplete#Complete " This is overriden by syntax plugins.
 
 
 if has('autocmd')
-  autocmd FileType python        nested setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType ruby,eruby    nested setlocal omnifunc=rubycomplete#Complete
-  autocmd FileType css           nested setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown nested setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript    nested setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType xml           nested setlocal omnifunc=xmlcomplete#CompleteTags
+  augroup OmniCompleteModes
+    autocmd!
+    autocmd FileType python        nested setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType ruby,eruby    nested setlocal omnifunc=rubycomplete#Complete
+    autocmd FileType css           nested setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown nested setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript    nested setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType xml           nested setlocal omnifunc=xmlcomplete#CompleteTags
+  augroup END
 endif
 
 
@@ -918,27 +925,32 @@ nmap <leader>et :tabe %%
 " Seeing Is Believing key bindings for ruby.
 let g:xmpfilter_cmd = 'seeing_is_believing'
 if has('autocmd')
-  autocmd FileType ruby nmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
-  autocmd FileType ruby xmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
-  autocmd FileType ruby imap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
+  augroup SeeingIsBelieving
+    autocmd FileType ruby nmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
+    autocmd FileType ruby xmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
+    autocmd FileType ruby imap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
 
-  " auto insert mark at appropriate spot.
-  autocmd FileType ruby nmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
-  autocmd FileType ruby xmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
-  autocmd FileType ruby imap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
+    " auto insert mark at appropriate spot.
+    autocmd FileType ruby nmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
+    autocmd FileType ruby xmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
+    autocmd FileType ruby imap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
+  augroup END
+endif
+
+" Voom settings
+if has('autocmd')
+  augroup VoomKeys
+    autocmd!
+    autocmd FileType pandoc   nested nnoremap <buffer> <silent> <leader>o :VoomToggle pandoc<cr>
+    autocmd FileType markdown nested nnoremap <buffer> <silent> <leader>o :VoomToggle markdown<cr>
+    autocmd FileType html     nested nnoremap <buffer> <silent> <leader>o :VoomToggle html<cr>
+    autocmd FileType python   nested nnoremap <buffer> <silent> <leader>o :VoomToggle python<cr>
+  augroup END
 endif
 
 " Change Working Directory to that of the current file
 cnoremap cwd lcd %%
 cnoremap cd. lcd %%
-
-" Voom settings
-if has('autocmd') && exists(g:voom_did_load_plugin)
-  autocmd FileType pandoc   noremap <buffer><silent> <localleader>o :Voom pandoc<cr>
-  autocmd FileType markdown noremap <buffer><silent> <localleader>o :Voom markdown<cr>
-  autocmd FileType html     noremap <buffer><silent> <localleader>o :Voom html<cr>
-  autocmd FileType python   noremap <buffer><silent> <localleader>o :Voom python<cr>
-endif
 
 " GUI Settings
 "-----------------------------------------------------------------------------
@@ -964,41 +976,47 @@ set nocscopeverbose
 " Python language
 "-----------------------------------------------------------------------------
 if has('autocmd')
-  " TODO: Lookup some pydoc/better-python plugins
-  " http://vim.wikia.com/wiki/Omnicomplete_-_Remove_Python_Pydoc_Preview_Window
-  " maybe for ruby too?
-  autocmd FileType python nested setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-  autocmd FileType python nested map <buffer> <S-e> :w<CR>:!/usr/bin/python %
-  autocmd FileType python nested setlocal makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
-  autocmd FileType python nested setlocal efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
-  "autocmd FileType python nested set textwidth=79 " PEP-8 Friendly
-  autocmd FileType python nested setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  augroup Pythonic
+    autocmd!
+    " TODO: Lookup some pydoc/better-python plugins
+    " http://vim.wikia.com/wiki/Omnicomplete_-_Remove_Python_Pydoc_Preview_Window
+    " maybe for ruby too?
+    autocmd FileType python nested setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+    autocmd FileType python nested map <buffer> <S-e> :w<CR>:!/usr/bin/python %
+    autocmd FileType python nested setlocal makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
+    autocmd FileType python nested setlocal efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
+    " autocmd FileType python nested set textwidth=79 " PEP-8 Friendly
+    autocmd FileType python nested setlocal tabstop=4 shiftwidth=4 softtabstop=4
+  augroup END
 endif
 
 " Ruby syntax
 "-----------------------------------------------------------------------------
 if has('autocmd')
-  autocmd FileType ruby,eruby nested setlocal cinwords=do
-  autocmd FileType ruby,eruby nested let g:rubycomplete_buffer_loading=1
-  autocmd FileType ruby,eruby nested let g:rubycomplete_rails = 1
-  autocmd FileType ruby,eruby nested let g:rubycomplete_classes_in_global=1
+  augroup Ruby
+    autocmd!
+    autocmd FileType ruby,eruby nested setlocal cinwords=do
+    autocmd FileType ruby,eruby nested let g:rubycomplete_buffer_loading=1
+    autocmd FileType ruby,eruby nested let g:rubycomplete_rails = 1
+    autocmd FileType ruby,eruby nested let g:rubycomplete_classes_in_global=1
 
-  " Chef
-  autocmd BufNewFile,BufRead */{attributes,definitions,libraries,providers,recipes,resources}/*.rb nested setlocal filetype=ruby.chef
-  "" Too annoying -- it picks up rails files. eruby works well enough.
-  " autocmd BufNewFile,BufRead */templates/*.erb                                                     nested setlocal filetype=eruby.chef
-  autocmd BufNewFile,BufRead metadata.rb                                                           nested setlocal filetype=ruby.chef
-  autocmd BufNewFile,BufRead */chef-repo/environments/*.rb                                         nested setlocal filetype=ruby.chef
-  autocmd BufNewFile,BufRead */chef-repo/roles/*.rb                                                nested setlocal filetype=ruby.chef
+    " Chef
+    autocmd BufNewFile,BufRead */{attributes,definitions,libraries,providers,recipes,resources}/*.rb nested setlocal filetype=ruby.chef
+    "" Too annoying -- it picks up rails files. eruby works well enough.
+    " autocmd BufNewFile,BufRead */templates/*.erb                                                     nested setlocal filetype=eruby.chef
+    autocmd BufNewFile,BufRead metadata.rb                                                           nested setlocal filetype=ruby.chef
+    autocmd BufNewFile,BufRead */chef-repo/environments/*.rb                                         nested setlocal filetype=ruby.chef
+    autocmd BufNewFile,BufRead */chef-repo/roles/*.rb                                                nested setlocal filetype=ruby.chef
 
-  " Other ruby
-  autocmd BufNewFile,BufRead *.cap      nested setlocal filetype=ruby
-  autocmd BufNewFile,BufRead *.html.erb nested setlocal filetype=eruby.html
-  autocmd BufNewFile,BufRead *.js.erb   nested setlocal filetype=eruby.javascript
-  autocmd BufNewFile,BufRead *.rb.erb   nested setlocal filetype=eruby.ruby
-  autocmd BufNewFile,BufRead *.sh.erb   nested setlocal filetype=eruby.sh
-  autocmd BufNewFile,BufRead *.yml.erb   nested setlocal filetype=eruby.yaml
-  autocmd BufNewFile,BufRead *.txt.erb   nested setlocal filetype=eruby.text
+    " Other ruby
+    autocmd BufNewFile,BufRead *.cap      nested setlocal filetype=ruby
+    autocmd BufNewFile,BufRead *.html.erb nested setlocal filetype=eruby.html
+    autocmd BufNewFile,BufRead *.js.erb   nested setlocal filetype=eruby.javascript
+    autocmd BufNewFile,BufRead *.rb.erb   nested setlocal filetype=eruby.ruby
+    autocmd BufNewFile,BufRead *.sh.erb   nested setlocal filetype=eruby.sh
+    autocmd BufNewFile,BufRead *.yml.erb   nested setlocal filetype=eruby.yaml
+    autocmd BufNewFile,BufRead *.txt.erb   nested setlocal filetype=eruby.text
+  augroup END
 endif
 
 
@@ -1006,39 +1024,51 @@ endif
 " java/c/cpp/objc syntax
 "-----------------------------------------------------------------------------
 if has('autocmd')
-  autocmd FileType java,c,cpp,objc nested setlocal smartindent tabstop=4 shiftwidth=4 softtabstop=4
-  autocmd FileType java,c,cpp,objc nested let b:loaded_delimitMate = 1
+  augroup CandFriends
+    autocmd!
+    autocmd FileType java,c,cpp,objc nested setlocal smartindent tabstop=4 shiftwidth=4 softtabstop=4
+    autocmd FileType java,c,cpp,objc nested let b:loaded_delimitMate = 1
+  augroup END
 endif
 
 " JavaScript syntax
 "-----------------------------------------------------------------------------
 if has('autocmd')
-  autocmd FileType javascript nested setlocal smartindent expandtab
-  if has('conceal')
-    autocmd FileType json nested setlocal concealcursor= conceallevel=1
-  endif
+  augroup JavaScript
+    autocmd!
+    autocmd FileType javascript nested setlocal smartindent expandtab
+    if has('conceal')
+      autocmd FileType json nested setlocal concealcursor= conceallevel=1
+    endif
+  augroup END
 endif
 
 " markdown specific settings
 "-----------------------------------------------------------------------------
 if has('autocmd')
-  if exists('g:loaded_pandoc')
-    autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=pandoc
-    autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nnoremap <buffer> <silent> <Leader>g :call Preserve('MarkdownTidyWrap')<CR>
-  else
-    autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=markdown textwidth=79
-  endif
-  autocmd FileType markdown nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor=""
-  if executable('pandoc')
-    autocmd FileType pandoc   nested setlocal equalprg=pandoc\ -t\ markdown_github-fenced_code_blocks\ --standalone
-  endif
+  augroup MarkdownPandoc
+    autocmd!
+    if exists('g:loaded_pandoc')
+      autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=pandoc
+      autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nnoremap <buffer> <silent> <Leader>g :call Preserve('MarkdownTidyWrap')<CR>
+    else
+      autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=markdown textwidth=79
+    endif
+    autocmd FileType markdown nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor=""
+    if executable('pandoc')
+      autocmd FileType pandoc   nested setlocal equalprg=pandoc\ -t\ markdown_github-fenced_code_blocks\ --standalone
+    endif
+  augroup END
 endif
 
 " Git commit files
 "-----------------------------------------------------------------------------
 if has('autocmd')
-  autocmd FileType gitcommit            nested setlocal spell
-  autocmd VimEnter .git/PULLREQ_EDITMSG nested setlocal filetype=markdown
+  augroup GitCommits
+    autocmd!
+    autocmd FileType gitcommit            nested setlocal spell
+    autocmd VimEnter .git/PULLREQ_EDITMSG nested setlocal filetype=markdown
+  augroup END
 endif
 
 " Fix constant spelling and typing mistakes

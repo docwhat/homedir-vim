@@ -941,6 +941,7 @@ endif
 if has('autocmd')
   augroup VoomKeys
     autocmd!
+    autocmd FileType rst      nested nnoremap <buffer> <silent> <leader>o :VoomToggle rest<cr>
     autocmd FileType pandoc   nested nnoremap <buffer> <silent> <leader>o :VoomToggle pandoc<cr>
     autocmd FileType markdown nested nnoremap <buffer> <silent> <leader>o :VoomToggle markdown<cr>
     autocmd FileType html     nested nnoremap <buffer> <silent> <leader>o :VoomToggle html<cr>

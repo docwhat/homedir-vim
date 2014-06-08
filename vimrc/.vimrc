@@ -1020,7 +1020,16 @@ if has('autocmd')
   augroup END
 endif
 
-
+" Man pages
+" You can use this with:
+" export MANPAGER="col -b | vim -c 'set ft=man nomod' -"
+if has('autocmd')
+  augroup ManPages
+    autocmd FileType man nested nnoremap <buffer> q :quit<cr>
+    autocmd FileType man nested let &listchars=""
+    nnoremap <buffer> q :quit
+  augroup END
+endif
 
 " java/c/cpp/objc syntax
 "-----------------------------------------------------------------------------

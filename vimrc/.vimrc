@@ -473,7 +473,7 @@ function! LoadPlugins()
       let g:pantondoc_disabled_modules = [ 'folding' ]
       let g:pandoc#modules#disabled = [ 'folding' ]
       let g:pantondoc_use_pandoc_equalprg = 0
-      let g:pandoc_use_embeds_in_codeblocks_for_langs = ['ruby', 'html', 'xml', 'js=javascript', 'json', 'coffee', 'groovy']
+      let g:pandoc_use_embeds_in_codeblocks_for_langs = ['sh', 'ruby', 'html', 'xml', 'js=javascript', 'json', 'coffee', 'groovy']
       Plugin 'vim-pandoc/vim-pantondoc'
       Plugin 'vim-pandoc/vim-pandoc-syntax'
       Plugin 'vim-pandoc/vim-pandoc-after'

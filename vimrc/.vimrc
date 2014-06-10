@@ -471,6 +471,7 @@ function! LoadPlugins()
   if has('python') && executable('pandoc')
     if v:version >= 704
       let g:pantondoc_disabled_modules = [ 'folding' ]
+      let g:pandoc#modules#disabled = [ 'folding' ]
       let g:pantondoc_use_pandoc_equalprg = 0
       let g:pandoc_use_embeds_in_codeblocks_for_langs = ['ruby', 'html', 'xml', 'js=javascript', 'json', 'coffee', 'groovy']
       Plugin 'vim-pandoc/vim-pantondoc'

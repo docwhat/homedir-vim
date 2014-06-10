@@ -470,10 +470,14 @@ function! LoadPlugins()
   Plugin 'tpope/vim-markdown'
   if has('python') && executable('pandoc')
     if v:version >= 704
+      " old style
       let g:pantondoc_disabled_modules = [ 'folding' ]
-      let g:pandoc#modules#disabled = [ 'folding' ]
       let g:pantondoc_use_pandoc_equalprg = 0
       let g:pandoc_use_embeds_in_codeblocks_for_langs = ['sh', 'ruby', 'html', 'xml', 'js=javascript', 'json', 'coffee', 'groovy']
+      " new style
+      let g:pandoc#modules#disabled = [ 'folding' ]
+      let g:pandoc#formatting#pandoc_equalprog = 0
+      let g:pandoc#formatting#mode = 'ha'
       Plugin 'vim-pandoc/vim-pantondoc'
       Plugin 'vim-pandoc/vim-pandoc-syntax'
       Plugin 'vim-pandoc/vim-pandoc-after'
@@ -1067,7 +1071,9 @@ if has('autocmd')
     endif
     autocmd FileType markdown nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor=""
     if executable('pandoc')
-      autocmd FileType pandoc   nested setlocal equalprg=pandoc\ -t\ markdown_github-fenced_code_blocks\ --standalone
+      command! -buffer MarkdownTidyWrap %!pandoc -t markdown_github-fenced_code_blocks -s
+      " autocmd FileType pandoc   nested setlocal equalprg=pandoc\ -t\ markdown_github-fenced_code_blocks\ --standalone
+      autocmd FileType pandoc   nested let &l:equalprg="pandoc -t markdown-fenced_code_blocks"
     endif
   augroup END
 endif

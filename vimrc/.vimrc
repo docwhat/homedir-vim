@@ -470,10 +470,14 @@ function! LoadPlugins()
   Plugin 'tpope/vim-markdown'
   if has('python') && executable('pandoc')
     if v:version >= 704
+      " old style
       let g:pantondoc_disabled_modules = [ 'folding' ]
-      let g:pandoc#modules#disabled = [ 'folding' ]
       let g:pantondoc_use_pandoc_equalprg = 0
       let g:pandoc_use_embeds_in_codeblocks_for_langs = ['sh', 'ruby', 'html', 'xml', 'js=javascript', 'json', 'coffee', 'groovy']
+      " new style
+      let g:pandoc#modules#disabled = [ 'folding' ]
+      let g:pandoc#formatting#pandoc_equalprog = 0
+      let g:pandoc#formatting#mode = 'ha'
       Plugin 'vim-pandoc/vim-pantondoc'
       Plugin 'vim-pandoc/vim-pandoc-syntax'
       Plugin 'vim-pandoc/vim-pandoc-after'

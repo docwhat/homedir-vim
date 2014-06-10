@@ -1065,15 +1065,20 @@ if has('autocmd')
     autocmd!
     if exists('g:loaded_pandoc')
       autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=pandoc
-      autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nnoremap <buffer> <silent> <Leader>g :call Preserve('MarkdownTidyWrap')<CR>
     else
       autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=markdown textwidth=79
     endif
     autocmd FileType markdown nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor=""
     if executable('pandoc')
       command! -buffer MarkdownTidyWrap %!pandoc -t markdown_github-fenced_code_blocks -s
-      " autocmd FileType pandoc   nested setlocal equalprg=pandoc\ -t\ markdown_github-fenced_code_blocks\ --standalone
-      autocmd FileType pandoc   nested let &l:equalprg="pandoc -t markdown-fenced_code_blocks"
+      autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested let &l:equalprg="pandoc -t markdown-fenced_code_blocks --standalone"
+      function! SetPandocEqualPrg()
+            let &l:equalprg="pandoc -t markdown-fenced_code_blocks -s"
+            if &textwidth > 0
+              let &l:equalprg.=" --columns " . &textwidth
+            endif
+      endfunction
+      autocmd FileType pandoc nested call SetPandocEqualPrg()
     endif
   augroup END
 endif

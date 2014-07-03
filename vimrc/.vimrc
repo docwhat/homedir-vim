@@ -1022,7 +1022,17 @@ if has('autocmd')
     autocmd BufNewFile,BufRead *.sh.erb   nested setlocal filetype=eruby.sh
     autocmd BufNewFile,BufRead *.yml.erb   nested setlocal filetype=eruby.yaml
     autocmd BufNewFile,BufRead *.txt.erb   nested setlocal filetype=eruby.text
+
   augroup END
+    if executable('rubocop')
+      function! RubyDelint()
+        silent !rubocop -a '%'
+        edit
+        SyntasticCheck
+        redraw!
+      endfunction
+      command! RubyDelint call RubyDelint()
+    endif
 endif
 
 " Man pages

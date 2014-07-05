@@ -901,10 +901,10 @@ nmap <silent> <Leader><space> :call Preserve("%s/\\s\\+$//e")<CR>
 nnoremap <silent> <Leader>h :nohlsearch<CR><C-L>
 
 " Get Jared and Selker to use hjkl instead of cursor keys...
-nmap <Left>  :echo "I don't like that direction..."<cr>
-nmap <Right> :echo "Republican, eh?"<cr>
-nmap <Up>    :echo "This is why we can't have nice things."<cr>
-nmap <Down>  :echo "That's what she said."<cr>
+nnoremap <Left>  :echoe "I don't like that direction... try 'h' instead."<cr>
+nnoremap <Right> :echoe "Republican, eh? I prefer 'l'."<cr>
+nnoremap <Up>    :echoe "This is why we can't have nice things. You should have used 'k'."<cr>
+nnoremap <Down>  :echoe "That's what she said... and then used 'j'."<cr>
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.

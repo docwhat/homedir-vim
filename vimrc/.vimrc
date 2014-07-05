@@ -85,6 +85,19 @@ set matchpairs=(:),{:},[:]       " List of characters we expect in balanced pair
 set cursorline                   " highlights the current line
 set history=1000                 " Save more history.
 
+" Open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
+
+if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+
+if filereadable(expand("~/.vimrc.local-pre"))
+  source ~/.vimrc.local-pre
+endif
+
 " Vundler - vim package manager
 "-----------------------------------------------------------------------------
 function! LoadPlugins()
@@ -508,16 +521,24 @@ function! LoadPlugins()
   Plugin 'kien/ctrlp.vim'
   let g:ctrlp_map  = '<leader>t'
   let g:ctrlp_match_window_reversed = 0
-  let g:ctrlp_custom_ignore = {
-        \ 'dir': '\v[\/](\.git|\.hg|\.svn|CVS|tmp|Library|Applications|Music|[^\/]*-store)$',
-        \ 'file': '\v\.(exe|so|dll)$',
-        \ }
-  let g:ctrlp_user_command = {
-        \ 'types' : {
-        \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
-        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-        \ }
-        \ }
+  if executable('ag')
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
+  else
+    let g:ctrlp_custom_ignore = {
+          \ 'dir': '\v[\/](\.git|\.hg|\.svn|CVS|tmp|Library|Applications|Music|[^\/]*-store)$',
+          \ 'file': '\v\.(exe|so|dll)$',
+          \ }
+    let g:ctrlp_user_command = {
+          \ 'types' : {
+          \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+          \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+          \ }
+          \ }
+  endif
   let g:ctrlp_max_height = 30
   if has('macunix')
     let g:ctrlp_mruf_case_sensitive = 0
@@ -1026,15 +1047,15 @@ if has('autocmd')
     autocmd BufNewFile,BufRead *.txt.erb   nested setlocal filetype=eruby.text
 
   augroup END
-    if executable('rubocop')
-      function! RubyDelint()
-        silent !rubocop -a '%'
-        edit
-        SyntasticCheck
-        redraw!
-      endfunction
-      command! RubyDelint call RubyDelint()
-    endif
+  if executable('rubocop')
+    function! RubyDelint()
+      silent !rubocop -a '%'
+      edit
+      SyntasticCheck
+      redraw!
+    endfunction
+    command! RubyDelint call RubyDelint()
+  endif
 endif
 
 " Man pages
@@ -1085,10 +1106,10 @@ if has('autocmd')
       command! -buffer MarkdownTidyWrap %!pandoc -t markdown_github-fenced_code_blocks -s
       autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested let &l:equalprg="pandoc -t markdown-fenced_code_blocks --standalone"
       function! SetPandocEqualPrg()
-            let &l:equalprg="pandoc -t markdown-fenced_code_blocks -s"
-            if &textwidth > 0
-              let &l:equalprg.=" --columns " . &textwidth
-            endif
+        let &l:equalprg="pandoc -t markdown-fenced_code_blocks -s"
+        if &textwidth > 0
+          let &l:equalprg.=" --columns " . &textwidth
+        endif
       endfunction
       autocmd FileType pandoc nested call SetPandocEqualPrg()
     endif

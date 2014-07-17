@@ -906,7 +906,7 @@ map <silent> <Leader>b :buffers<CR>
 "map <silent> <Leader>tp !!tmux show-buffer <Bar> cat<CR>
 
 " With a visual block seleced, fold on space. Refold on space in command mode.
-nnoremap <silent> <Space> @=(foldlevel('.')?'za':'1')<CR>
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':'\<Space>')<CR>
 xnoremap <Space> zf
 
 " Prevent highlight being lost on (de)indent.

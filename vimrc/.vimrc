@@ -1065,9 +1065,9 @@ endif
 " Example https://github.com/docwhat/dotfiles/blob/master/bin/manpager
 if has('autocmd')
   function! ILikeHelpToTheRight()
-    if !exists('s:help_is_moved') || s:help_is_moved != "right"
+    if !exists('w:help_is_moved') || w:help_is_moved != "right"
       wincmd L
-      let s:help_is_moved = "right"
+      let w:help_is_moved = "right"
     endif
   endfunction
 

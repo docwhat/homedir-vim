@@ -1058,14 +1058,27 @@ if has('autocmd')
   endif
 endif
 
-" Man pages
-" You can use this with:
-" export MANPAGER="col -b | vim -c 'set ft=man nomod' -"
+" Man pages and Help pages
+" You can use this with a simple shell script and set and export the MANPAGER
+" environment variable to point at it.
+"
+" Example https://github.com/docwhat/dotfiles/blob/master/bin/manpager
 if has('autocmd')
-  augroup ManPages
-    autocmd FileType man nested nnoremap <buffer> q :quit<cr>
+  function! ILikeHelpToTheRight()
+    if !exists('s:help_is_moved') || s:help_is_moved != "right"
+      wincmd L
+      let s:help_is_moved = "right"
+    endif
+  endfunction
+
+  augroup ManAndHelpPages
+    autocmd FileType help nested call ILikeHelpToTheRight()
+    autocmd FileType man,help nested nnoremap <buffer> q :q!<cr>
+    autocmd FileType man,help nested nnoremap <buffer> <space> <c-d>
+    autocmd FileType man,help nested nnoremap <buffer> b <c-u>
     autocmd FileType man nested let &listchars=""
-    nnoremap <buffer> q :quit
+    " Prevent recursive vim calls when using :Man
+    autocmd FileType man let $MANPAGER="cat"
   augroup END
 endif
 

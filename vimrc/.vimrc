@@ -400,6 +400,11 @@ function! LoadPlugins()
   " Deal with git in a sane way
   Plugin 'tpope/vim-fugitive'
 
+  " Deal with github in a sane way
+  " Add your github credentials to ~/.vimrc.local
+  " See https://github.com/tpope/vim-rhubarb
+  Plugin 'tpope/vim-rhubarb'
+
   " Support '.' correctly for plugins that support this module.
   Plugin 'tpope/vim-repeat'
 

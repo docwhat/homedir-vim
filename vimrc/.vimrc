@@ -512,6 +512,9 @@ function! LoadPlugins()
   " PowerShell -- Changing your Windows command line environment
   Plugin 'PProvost/vim-ps1'
 
+  " Docker
+  Plugin 'dotcloud/docker', { 'rtp': 'contrib/syntax/vim' }
+
   Plugin 'markcornick/vim-bats'
 
   Plugin 'mattn/webapi-vim'

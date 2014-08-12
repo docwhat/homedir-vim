@@ -1124,10 +1124,11 @@ if has('autocmd')
     endif
     autocmd FileType markdown nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor=""
     if executable('pandoc')
-      command! -buffer MarkdownTidyWrap %!pandoc -t markdown_github-fenced_code_blocks -s
-      autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested let &l:equalprg="pandoc -t markdown-fenced_code_blocks --standalone"
+     let g:pandoc_markdown_equalprg="pandoc --to=markdown-fenced_code_blocks-fenced_code_attributes --standalone"
+      command! -buffer MarkdownTidyWrap execute "%!" . g:pandoc_markdown_equalprg
+      autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested let &l:equalprg=g:pandoc_markdown_equalprg
       function! SetPandocEqualPrg()
-        let &l:equalprg="pandoc -t markdown-fenced_code_blocks -s"
+        let &l:equalprg=g:pandoc_markdown_equalprg
         if &textwidth > 0
           let &l:equalprg.=" --columns " . &textwidth
         endif

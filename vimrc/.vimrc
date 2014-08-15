@@ -1124,7 +1124,7 @@ if has('autocmd')
     endif
     autocmd FileType markdown nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor=""
     if executable('pandoc')
-     let g:pandoc_markdown_equalprg="pandoc --to=markdown-fenced_code_blocks-fenced_code_attributes --standalone"
+     let g:pandoc_markdown_equalprg="pandoc --from=markdown --to=markdown-simple_tables-pipe_tables-multiline_tables --standalone"
       command! -buffer MarkdownTidyWrap execute "%!" . g:pandoc_markdown_equalprg
       autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested let &l:equalprg=g:pandoc_markdown_equalprg
       function! SetPandocEqualPrg()

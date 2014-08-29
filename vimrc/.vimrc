@@ -355,6 +355,7 @@ function! LoadPlugins()
     let g:syntastic_ruby_rubocop_args     = '--display-cop-names'
     let g:syntastic_scss_checkers         = ['sass']
     let g:syntastic_sass_checkers         = ['sass']
+    let g:syntastic_chef_checkers         = [''] " I'm sick of foodcritic
     let g:syntastic_xml_checkers          = ['xmllint']
     let g:syntastic_xslt_checkers         = ['xmllint']
     " npm install js-yaml

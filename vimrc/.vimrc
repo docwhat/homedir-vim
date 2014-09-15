@@ -139,6 +139,8 @@ function! LoadPlugins()
     let g:neocomplete#force_omni_input_patterns      = {}
     let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::\w*'
 
+    let g:neocomplete#enable_omni_fallback = 0
+
     let g:neocomplete#same_filetypes           = {}
     let g:neocomplete#same_filetypes.gitconfig = '_'
     let g:neocomplete#same_filetypes._         = '_'

@@ -408,6 +408,9 @@ function! LoadPlugins()
   " See https://github.com/tpope/vim-rhubarb
   Plugin 'tpope/vim-rhubarb'
 
+  " Better commit message editing
+  Plugin 'rhysd/committia.vim'
+
   " Support '.' correctly for plugins that support this module.
   Plugin 'tpope/vim-repeat'
 

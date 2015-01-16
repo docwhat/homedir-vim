@@ -865,22 +865,52 @@ if !exists(':DiffOrig')
         \ | wincmd p | diffthis
 endif
 
-
-function! StripTrailingWhite()
-  let l:winview = winsaveview()
-  silent! %s/\s\+$//
-  call winrestview(l:winview)
-endfunction
-if has('autocmd')
-  autocmd BufWritePre * nested call StripTrailingWhite()
-endif
-
 " Needed for some snippets
 function! Filename(...)
   let filename = expand('%:t:r')
   if filename == '' | return a:0 == 2 ? a:2 : '' | endif
   return !a:0 || a:1 == '' ? filename : substitute(a:1, '$1', filename, 'g')
 endfunction
+
+" Whitespace Triming methods
+"-----------------------------------------------------------------------------
+" Use :StripTrailingWhiteOnSaveToggle to disable whitespace stripping.
+" Use :StripTrailingWhite to call whitespace stripping manually.
+
+function! s:StripTrailingWhite()
+  let l:winview = winsaveview()
+  silent! %s/\s\+$//
+  call winrestview(l:winview)
+endfunction
+command! StripTrailingWhite call <SID>StripTrailingWhite()
+
+" Strips whitespace on file save
+function! s:StripTrailingWhiteOnSave()
+  if g:strip_trainging_white_on_save == 1
+    call s:StripTrailingWhite()
+  endif
+endfunction
+
+function! s:StripTrailingWhiteOnSaveToggle()
+  if g:strip_trainging_white_on_save == 0
+    let g:strip_trainging_white_on_save = 1
+    echo "Strip Trailing Whitespace On Save: Enabled"
+  else
+    let g:strip_trainging_white_on_save = 0
+    echo "Strip Trailing Whitespace On Save: Disabled"
+  endif
+endfunction
+command! StripTrailingWhiteOnSaveToggle call <SID>StripTrailingWhiteOnSaveToggle()
+
+" Set this to true by default
+let g:strip_trainging_white_on_save = 1
+
+if has('autocmd')
+  augroup StripTrailingWhite
+    autocmd!
+    autocmd BufWritePre *.{md,txt,rb,c,h,php,java,js,json,xml,xsl} nested call s:StripTrailingWhiteOnSave()
+  augroup END
+endif
 
 " Omnicompletion
 "-----------------------------------------------------------------------------
@@ -1127,7 +1157,7 @@ if has('autocmd')
     endif
     autocmd FileType markdown nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor=""
     if executable('pandoc')
-     let g:pandoc_markdown_equalprg="pandoc --from=markdown --to=markdown-simple_tables-fenced_code_attributes --standalone"
+      let g:pandoc_markdown_equalprg="pandoc --from=markdown --to=markdown-simple_tables-fenced_code_attributes --standalone"
       command! -buffer MarkdownTidyWrap execute "%!" . g:pandoc_markdown_equalprg
       autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested let &l:equalprg=g:pandoc_markdown_equalprg
       function! SetPandocEqualPrg()

@@ -30,6 +30,14 @@
 "     brew install vim
 "
 
+if v:progname == 'nvim'
+  let g:my_vim_dir = expand('~/.nvim')
+  let g:my_vimrc = g:my_vim_dir . '/nvimrc'
+else
+  let g:my_vim_dir = expand('~/.vim')
+  let g:my_vimrc = expand('~/.vimrc')
+endif
+
 " Remove ALL autocommands to prevent them from being loaded twice.
 if has('autocmd')
   autocmd!
@@ -94,8 +102,8 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
 
-if filereadable(expand("~/.vimrc.local-pre"))
-  source ~/.vimrc.local-pre
+if filereadable(g:my_vimrc . '.local-pre')
+  execute 'source ' . g:my_vimrc . '.local-pre'
 endif
 
 " Vundler - vim package manager
@@ -112,7 +120,7 @@ function! LoadPlugins()
   " :e sftp://[user@]machine/path                 uses sftp
   if v:version > 702
     Plugin 'netrw.vim'
-    let g:netrw_home=expand('~/.vim')
+    let g:netrw_home=g:my_vim_dir
   endif
 
   if has('lua') && (v:version > 703 || (v:version == 703 && has('patch885')))
@@ -120,7 +128,7 @@ function! LoadPlugins()
     " ---------------
     let g:neocomplete#enable_at_startup              = 1
     let g:neocomplete#force_overwrite_completefunc   = 1
-    let g:neocomplete#data_directory                 = '~/.vim/neocomplcache'
+    let g:neocomplete#data_directory                 = g:my_vim_dir . '/neocomplcache'
 
     let g:neocomplete#auto_completion_start_length   = 2
     let g:neocomplete#manual_completion_start_length = 0
@@ -187,7 +195,7 @@ function! LoadPlugins()
     let g:neocomplcache_force_overwrite_completefunc = 1
 
     " Store temporary files in standard location.
-    let g:neocomplcache_temporary_dir='~/.vim/neocomplcache'
+    let g:neocomplcache_temporary_dir = g:my_vim_dir . '/neocomplcache'
 
     " Define keyword.
     let g:neocomplcache_keyword_patterns = {}
@@ -244,7 +252,7 @@ function! LoadPlugins()
 
     Plugin 'honza/vim-snippets'
     " Tell NeoSnippet about these snippets
-    let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+    let g:neosnippet#snippets_directory = g:my_vim_dir . '/bundle/vim-snippets/snippets'
 
     Plugin 'Shougo/neosnippet'
     Plugin 'Shougo/neosnippet-snippets'
@@ -280,7 +288,7 @@ function! LoadPlugins()
       endif
     endif
   endfunction
-  let NERDTreeBookmarksFile = expand('~/.vim/NERDTreeBookmarks')
+  let NERDTreeBookmarksFile = g:my_vim_dir . '/NERDTreeBookmarks'
   let NERDTreeShowBookmarks=1
   let NERDTreeQuitOnOpen=1
   let NERDTreeMouseMode=2
@@ -577,28 +585,28 @@ function! LoadPlugins()
   "   iI (alias for ii)
   Plugin 'michaeljsmith/vim-indent-object'
 
-  if filereadable(expand("~/.vimrc.bundles"))
-    source ~/.vimrc.bundles
+  if filereadable(g:my_vimrc . '.bundles')
+    execute 'source ' . g:my_vimrc . '.bundles'
   endif
 endfunction
 
 " Only install vundle and bundles if git exists...
 if executable('git') && has('autocmd')
 
-  if !isdirectory(expand('~/.vim/bundle/vundle'))
+  if !isdirectory(g:my_vim_dir . '/bundle/vundle')
     echomsg '*******************************'
     echomsg 'Bootstrapping vim configuration'
     echomsg '*******************************'
     echomsg ''
     echomsg 'This will take a minute or two...'
     echomsg ''
-    silent !mkdir -p ~/.vim/bundle && git clone --quiet https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+    execute 'silent !mkdir -p ' . g:my_vim_dir . '/bundle && git clone --quiet https://github.com/gmarik/vundle.git ' . g:my_vim_dir . '/bundle/vundle'
     let s:bootstrap=1
   endif
 
   filetype off
-  set rtp+=~/.vim/bundle/vundle/
-  call vundle#begin()
+  execute 'set rtp+=' . g:my_vim_dir . '/bundle/vundle/'
+  call vundle#begin(g:my_vim_dir . '/bundle/')
   Plugin 'gmarik/vundle'
   call LoadPlugins()
   call vundle#end()
@@ -794,13 +802,13 @@ set display+=lastline                     " show as much as possible of the last
 " Save your backups to a less annoying place than the current directory.
 " If you have .vim-backup in the current directory, it'll use that.
 " Otherwise it saves it to ~/.vim/backup or . if all else fails.
-if isdirectory($HOME . '/.vim/backup') == 0
-  silent !mkdir -p ~/.vim/backup >/dev/null 2>&1
+if isdirectory(g:my_vim_dir . '/backup') == 0
+  execute 'silent !mkdir -p ' . g:my_vim_dir . '/backup >/dev/null 2>&1'
 endif
 set backupdir-=.
 set backupdir+=.
 set backupdir-=~/
-set backupdir^=~/.vim/backup/
+execute 'set backupdir^=' . g:my_vim_dir . '/backup/'
 set backupdir^=./.vim-backup/
 set backup
 " Prevent backups from overwriting each other. The naming is weird,
@@ -818,16 +826,16 @@ endif
 " Save your swp files to a less annoying place than the current directory.
 " If you have .vim-swap in the current directory, it'll use that.
 " Otherwise it saves it to ~/.vim/swap, ~/tmp or .
-if isdirectory($HOME . '/.vim/swap') == 0
-  silent !mkdir -p ~/.vim/swap >/dev/null 2>&1
+if isdirectory(g:my_vim_dir . '/swap') == 0
+  execute 'silent !mkdir -p ' . g:my_vim_dir . '/swap >/dev/null 2>&1'
 endif
 set directory=./.vim-swap//
-set directory+=~/.vim/swap//
+execute 'set directory+=' . g:my_vim_dir . '/swap//'
 set directory+=~/tmp//
 set directory+=.
 
 " viminfo stores the the state of your previous editing session
-set viminfo+=n~/.vim/viminfo
+execute 'set viminfo+=n' . g:my_vim_dir . '/viminfo'
 set viminfo^=!,h,f0,:100,/100,@100
 
 if exists('+undofile')
@@ -835,11 +843,11 @@ if exists('+undofile')
   " This, like swap and backups, uses .vim-undo first, then ~/.vim/undo
   " :help undo-persistence
   " This is only present in 7.3+
-  if isdirectory($HOME . '/.vim/undo') == 0
-    silent !mkdir -p ~/.vim/undo > /dev/null 2>&1
+  if isdirectory(g:my_vim_dir . '/undo') == 0
+    execute 'silent !mkdir -p ' . g:my_vim_dir . '/undo >/dev/null 2>&1'
   endif
-  set undodir=./.vim-undo//
-  set undodir+=~/.vim/undo//
+  set undodir=./.vim-undo/
+  execute 'set undodir+=' . g:my_vim_dir . '/undo/'
   set undofile
   set undolevels=1000         " maximum number of changes that can be undone
   set undoreload=10000        " maximum number lines to save for undo on a buffer reload
@@ -1214,8 +1222,8 @@ endif
 "-----------------------------------------------------------------------------
 " If the file ~/.vimrc.local exists, then it will be loaded as well.
 
-if filereadable(expand("~/.vimrc.local"))
-  source ~/.vimrc.local
+if filereadable(g:my_vimrc . '.local')
+  execute 'source ' . g:my_vimrc . '.local'
 endif
 
 set secure

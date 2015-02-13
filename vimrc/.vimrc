@@ -431,6 +431,9 @@ function! LoadPlugins()
   " Allow executing vim with a file:lineno
   Plugin 'bogado/file-line'
 
+  " Rust Language
+  Plugin 'wting/rust.vim'
+
   " GraphViz
   Plugin 'wannesm/wmgraphviz.vim'
   let g:WMGraphviz_output='png'

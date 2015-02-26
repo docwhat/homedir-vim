@@ -526,6 +526,9 @@ function! LoadPlugins()
   " Groovy -- Make sure you set the GROOVY_HOME environment variable
   Plugin 'vim-scripts/groovy.vim--Ruley.git'
 
+  " Super Shell Indent -- Better (but slower) indenting for shell scripts.
+  Plugin 'vim-scripts/Super-Shell-Indent'
+
   " PowerShell -- Changing your Windows command line environment
   Plugin 'PProvost/vim-ps1'
 

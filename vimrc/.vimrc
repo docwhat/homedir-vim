@@ -444,9 +444,6 @@ function! LoadPlugins()
   " Allow C-A/C-X to work correctly with dates/times.
   Plugin 'tpope/vim-speeddating'
 
-  " The only theme worth knowing.
-  Plugin 'altercation/vim-colors-solarized'
-
   if v:version >= 702
     Plugin 'bling/vim-airline'
     let g:airline_powerline_fonts = 1
@@ -775,12 +772,6 @@ set synmaxcol=200     " don't syntax highlight past the 120th column
 
 " Syntastical statusline format - Ignored when powerline is enabled.
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
-
-try
-  colorscheme solarized
-catch /^Vim\%((\a\+)\)\=:E185/
-  " deal wit it
-endtry
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if v:version >= 702 && has('mouse')

@@ -724,12 +724,6 @@ function! PostPluginSetup()
   if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
     runtime! macros/matchit.vim
   endif
-
-  " highlight Pmenu          ctermfg=12 ctermbg=0 guibg=Magenta
-  highlight PmenuSel       ctermfg=4 ctermbg=7 guifg=LightBlue
-  " highlight PmenuSbar      ctermfg=7 ctermbg=12 guibg=Grey
-  " highlight PmenuThumb     ctermfg=12 ctermbg=8 guibg=White
-
 endfunction
 
 if has('autocmd')

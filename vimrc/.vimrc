@@ -187,6 +187,14 @@ function! LoadPlugins()
       set conceallevel=2 concealcursor=i
     endif
 
+    " Disable NeoComplCache for certain filetypes
+    if has('autocmd')
+      augroup NeoComplete
+        autocmd!
+        autocmd FileType pandoc,markdown nested NeoCompleteLock
+      augroup END
+    endif
+
   elseif v:version > 702
     " Use NeoComplCache
     " -----------------

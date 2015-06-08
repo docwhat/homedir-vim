@@ -370,6 +370,9 @@ function! LoadPlugins()
     let g:syntastic_sh_checkers           = ['shellcheck', 'checkbashisms', 'sh']
     let g:syntastic_sh_checkbashisms_args = '-x'
     let g:syntastic_ruby_checkers         = ['mri', 'jruby', 'rubocop']
+    if executable('rubocop-workaround.sh')
+      let g:syntastic_ruby_rubocop_exec   = 'rubocop-workaround.sh'
+    endif
     let g:syntastic_ruby_rubocop_args     = '--display-cop-names'
     let g:syntastic_eruby_ruby_quiet_messages = {'regex': 'possibly useless use of a variable in void context'}
     let g:syntastic_scss_checkers         = ['sass']

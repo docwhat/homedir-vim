@@ -12,7 +12,8 @@
 "
 " You may also wish to install some extra tools to make it work better:
 " * Exuberant ctags - Used for Tagbar to show you where you are in the file. (mac: brew install ctags)
-" * flake8          - Used by Syntastical to check Python. (all: easy_install flake8)
+" * flake8          - Used by Syntastical to check Python. (all: pip install flake8)
+" * pep8            - Used by Syntastical to check Python. (all: pip install pep8)
 " * jslint          - Used by Syntastical to check Javascript. (mac: brew install jslint)
 "
 " This file uses folding mode in vim. To navigate this file, use the following
@@ -377,6 +378,7 @@ function! LoadPlugins()
     let g:syntastic_eruby_ruby_quiet_messages = {'regex': 'possibly useless use of a variable in void context'}
     let g:syntastic_scss_checkers         = ['sass']
     let g:syntastic_sass_checkers         = ['sass']
+    let g:syntastic_python_checkers       = ['python', 'flake8', 'pep8', 'pylint']
     let g:syntastic_chef_checkers         = [''] " I'm sick of foodcritic
     let g:syntastic_xml_checkers          = ['xmllint']
     let g:syntastic_xslt_checkers         = ['xmllint']

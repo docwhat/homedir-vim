@@ -1011,14 +1011,25 @@ nmap <leader>et :tabe %%
 let g:xmpfilter_cmd = 'seeing_is_believing'
 if has('autocmd')
   augroup SeeingIsBelieving
+    " Mark current line
     autocmd FileType ruby nmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
     autocmd FileType ruby xmap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
     autocmd FileType ruby imap <buffer> <Leader>M <Plug>(seeing_is_believing-mark)
 
-    " auto insert mark at appropriate spot.
-    autocmd FileType ruby nmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
-    autocmd FileType ruby xmap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
-    autocmd FileType ruby imap <buffer> <Leader>R <Plug>(seeing_is_believing-run)
+    " Clean marks
+    autocmd FileType ruby nmap <buffer> <Leader>C <Plug>(seeing_is_believing-clean)
+    autocmd FileType ruby xmap <buffer> <Leader>C <Plug>(seeing_is_believing-clean)
+    autocmd FileType ruby imap <buffer> <Leader>C <Plug>(seeing_is_believing-clean)
+
+    " Run with existing marks.
+    autocmd FileType ruby nmap <buffer> <Leader>R <Plug>(seeing_is_believing-run_-x)
+    autocmd FileType ruby xmap <buffer> <Leader>R <Plug>(seeing_is_believing-run_-x)
+    autocmd FileType ruby imap <buffer> <Leader>R <Plug>(seeing_is_believing-run_-x)
+
+    " Auto insert marks and run.
+    autocmd FileType ruby nmap <buffer> <Leader>A <Plug>(seeing_is_believing-run)
+    autocmd FileType ruby xmap <buffer> <Leader>A <Plug>(seeing_is_believing-run)
+    autocmd FileType ruby imap <buffer> <Leader>A <Plug>(seeing_is_believing-run)
   augroup END
 endif
 

@@ -400,6 +400,7 @@ function! LoadPlugins()
   Plugin 'tpope/vim-bundler'
   Plugin 'tpope/vim-cucumber'
   Plugin 'tpope/vim-rake'
+  Plugin 'tpope/vim-projectionist'
 
   " Get me some RVM/Rbenv support
   if exists("$rvm_path")

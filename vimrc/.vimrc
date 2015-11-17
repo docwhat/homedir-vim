@@ -423,6 +423,10 @@ function! LoadPlugins()
   " ds/cs/ys for deleting, changing, your surrounding chars (like ', ", etc.)
   Plugin 'tpope/vim-surround'
 
+  " Rainbow color parenthises
+  Plugin 'luochen1990/rainbow'
+  let g:rainbow_active = 1
+
   " Deal with git in a sane way
   Plugin 'tpope/vim-fugitive'
 

@@ -1187,7 +1187,7 @@ if has('autocmd')
     else
       autocmd BufNewFile,BufRead *.mdwn,*.mkd,*.md,*.markdown nested setlocal filetype=markdown textwidth=79
     endif
-    autocmd FileType markdown nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor=""
+    autocmd FileType markdown nested setlocal tabstop=4 shiftwidth=4 softtabstop=4 spell concealcursor= conceallevel=1
     if executable('pandoc')
       let g:pandoc_markdown_equalprg="pandoc --from=markdown --to=markdown-simple_tables-fenced_code_attributes --standalone"
       command! -buffer MarkdownTidyWrap execute "%!" . g:pandoc_markdown_equalprg
@@ -1197,6 +1197,7 @@ if has('autocmd')
         if &textwidth > 0
           let &l:equalprg.=" --columns " . &textwidth
         endif
+        setlocal concealcursor= conceallevel=1
       endfunction
       autocmd FileType pandoc nested call SetPandocEqualPrg()
     endif

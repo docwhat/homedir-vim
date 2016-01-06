@@ -1059,7 +1059,7 @@ if has('gui_running')
     "set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 15,Consolas\ Regular\ 16,Courier\ New\ Regular\ 18
   elseif has('gui_macvim')
     set transparency=3
-    set guifont=Meslo\ LG\ S\ DZ\ for\ Powerline:h14,Menlo:h14
+    set guifont=Fira\ Code:h14,Menlo:h14
   else
     " We need good defaults for Windows
     "set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h15,Consolas\ Regular:h16,Courier\ New\ Regular:h18

@@ -464,9 +464,11 @@ function! LoadPlugins()
   Plugin 'tpope/vim-speeddating'
 
   if v:version >= 702
-    Plugin 'bling/vim-airline'
+    Plugin 'vim-airline/vim-airline'
+    Plugin 'vim-airline/vim-airline-themes'
     let g:airline_powerline_fonts = 1
     let g:airline_theme='badwolf'
+    let g:airline#extensions#tabline#enabled = 1
     set noshowmode
   endif
 

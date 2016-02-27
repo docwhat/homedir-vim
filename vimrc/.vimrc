@@ -92,7 +92,7 @@ set showmatch                    " Show the matching bracket
 set matchpairs=(:),{:},[:]       " List of characters we expect in balanced pairs
 
 set cursorline                   " highlights the current line
-set history=1000                 " Save more history.
+set history=10000                " Save more history.
 
 " Open new split panes to right and bottom, which feels more natural
 set splitbelow

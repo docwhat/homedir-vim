@@ -4,11 +4,14 @@
 "
 " QuickStart
 "
-" Vim should auto-install Vundle and all the required parts...
+" You should have `curl` and `git` already installed.
+"
+" The plugins should be installed automagically the first time you run Vim.
+"
 " If it fails for some reason, then you can do it manually with:
-"    mkdir -p ~/.vim/bundle && git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle && vim -c ':PluginInstall' -c ':qa!'
-" Update your vundle packages with:
-"    vim -c ':PluginUpdate' -c ':qa!'
+"    curl -qSLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim' && vim -c ':qa!'
+" Update your plugins with the :PlugUpdate command or via the command line:
+"   env VIMRC_FORCE_BOOTSTRAP=1 vim -c ':qa!'
 "
 " You may also wish to install some extra tools to make it work better:
 " * Exuberant ctags - Used for Tagbar to show you where you are in the file. (mac: brew install ctags)
@@ -107,9 +110,12 @@ if filereadable(g:my_vimrc . '.local-pre')
   execute 'source ' . g:my_vimrc . '.local-pre'
 endif
 
-" Vundler - vim package manager
+" Plugins
 "-----------------------------------------------------------------------------
 function! LoadPlugins()
+
+  Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+
   " Allows editing remote files.
   " :e dav://machine[:port]/path                  uses cadaver
   " :e fetch://[user@]machine/path                uses fetch
@@ -120,7 +126,7 @@ function! LoadPlugins()
   " :e scp://[user@]machine[[:#]port]/path        uses scp
   " :e sftp://[user@]machine/path                 uses sftp
   if v:version > 702
-    Plugin 'netrw.vim'
+    Plug 'netrw.vim'
     let g:netrw_home=g:my_vim_dir
   endif
 
@@ -158,9 +164,9 @@ function! LoadPlugins()
       return neocomplete#close_popup() . "\<CR>"
     endfunction
 
-    Plugin 'Shougo/neocomplete'
-    Plugin 'Shougo/neosnippet'
-    Plugin 'Shougo/neosnippet-snippets'
+    Plug 'Shougo/neocomplete'
+    Plug 'Shougo/neosnippet'
+    Plug 'Shougo/neosnippet-snippets'
 
     inoremap <expr><C-g>     neocomplete#undo_completion()
     inoremap <expr><C-l>     neocomplete#complete_common_string()
@@ -241,7 +247,7 @@ function! LoadPlugins()
       augroup END
     endif
 
-    Plugin 'Shougo/neocomplcache'
+    Plug 'Shougo/neocomplcache'
 
     inoremap <expr> <C-g> neocomplcache#undo_completion()
     inoremap <expr> <C-l> neocomplcache#complete_common_string()
@@ -259,12 +265,12 @@ function! LoadPlugins()
     " ----------
     " We have NeoComplCache or NeoComplete
 
-    Plugin 'honza/vim-snippets'
+    Plug 'honza/vim-snippets'
     " Tell NeoSnippet about these snippets
     let g:neosnippet#snippets_directory = g:my_vim_dir . '/bundle/vim-snippets/snippets'
 
-    Plugin 'Shougo/neosnippet'
-    Plugin 'Shougo/neosnippet-snippets'
+    Plug 'Shougo/neosnippet'
+    Plug 'Shougo/neosnippet-snippets'
 
     imap <C-k>     <Plug>(neosnippet_expand_or_jump)
     smap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -284,7 +290,7 @@ function! LoadPlugins()
 
   " Press F2 to see a list of files and directories from your
   " current working directory
-  Plugin 'scrooloose/nerdtree'
+  Plug 'scrooloose/nerdtree'
   nnoremap <silent> <leader>nt :call NERDTreeFindOrClose()<CR>
   function! NERDTreeFindOrClose()
     if exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1
@@ -315,7 +321,7 @@ function! LoadPlugins()
     " <leader>cl -- comment aligned style
     " <leader>cu -- uncomment
     " <leader>ci -- toggle comments
-    Plugin 'scrooloose/nerdcommenter'
+    Plug 'scrooloose/nerdcommenter'
     let g:NERDRemoveExtraSpaces=1
     let g:NERDSpaceDelims=1
     let g:NERDCommentWholeLinesInVMode=2
@@ -324,18 +330,18 @@ function! LoadPlugins()
   " Navigate seemlessly between tmux panes and vim windows.
   " Note: See https://github.com/christoomey/vim-tmux-navigator for
   " how to setup your ~/.tmux.conf file.
-  Plugin 'christoomey/vim-tmux-navigator'
+  Plug 'christoomey/vim-tmux-navigator'
 
   " NGinx configuration files.
-  Plugin 'evanmiller/nginx-vim-syntax'
+  Plug 'evanmiller/nginx-vim-syntax'
 
   " Adds matching 'end*' type syntax for ruby, vimscript, and lua
-  Plugin 'tpope/vim-endwise'
-  Plugin 'tpope/vim-abolish'
+  Plug 'tpope/vim-endwise'
+  Plug 'tpope/vim-abolish'
 
   " Move lines with '[e' and ']e' along with a lot of other
   " fun things.  :help unimpaired
-  Plugin 'tpope/vim-unimpaired'
+  Plug 'tpope/vim-unimpaired'
   " Bubble single line
   nmap <C-S-k> <Plug>unimpairedMoveUp
   nmap <C-S-j> <Plug>unimpairedMoveDown
@@ -345,23 +351,23 @@ function! LoadPlugins()
   xmap <C-S-j> <Plug>unimpairedMoveDown gv
 
   " Detect indentation
-  Plugin 'tpope/vim-sleuth'
+  Plug 'tpope/vim-sleuth'
 
   " Focus (zooms a buffer) -- <leader>fmt
-  Plugin 'merlinrebrovic/focus.vim'
+  Plug 'merlinrebrovic/focus.vim'
 
   " lets you align comments, equal signs, etc.
-  Plugin 'godlygeek/tabular'
+  Plug 'godlygeek/tabular'
 
   if v:version > 700
     " Exhuberant CTags browsers
-    Plugin 'majutsushi/tagbar'
+    Plug 'majutsushi/tagbar'
     nnoremap <silent> <Leader>tb :TagbarToggle<CR>
   endif
 
   " Syntax checking
   if exists('*getmatches')
-    Plugin 'scrooloose/syntastic'
+    Plug 'scrooloose/syntastic'
     let g:syntastic_error_symbol          = '✗✗'
     let g:syntastic_warning_symbol        = '⚠⚠'
     let g:syntastic_style_error_symbol    = '✗'
@@ -384,143 +390,146 @@ function! LoadPlugins()
     let g:syntastic_xslt_checkers         = ['xmllint']
     " npm install js-yaml
     let g:syntastic_yaml_checkers         = ['jsyaml']
-    Plugin 'dbakker/vim-lint'
+    Plug 'dbakker/vim-lint'
   endif
 
   " Display an indent line
-  Plugin 'Yggdroot/indentLine'
+  Plug 'Yggdroot/indentLine'
   let g:indentLine_char = "⋮"
   let g:indentLine_noConcealCursor = 1
 
   " Latest vim-ruby
-  Plugin 'vim-ruby/vim-ruby'
+  Plug 'vim-ruby/vim-ruby'
 
   " Rails, bundler, etc.
-  Plugin 'tpope/vim-rails'
-  Plugin 'tpope/vim-bundler'
-  Plugin 'tpope/vim-cucumber'
-  Plugin 'tpope/vim-rake'
-  Plugin 'tpope/vim-projectionist'
+  Plug 'tpope/vim-rails'
+  Plug 'tpope/vim-bundler'
+  Plug 'tpope/vim-cucumber'
+  Plug 'tpope/vim-rake'
+  Plug 'tpope/vim-projectionist'
 
   " Get me some RVM/Rbenv support
   if exists("$rvm_path")
-    Plugin 'tpope/vim-rvm'
+    Plug 'tpope/vim-rvm'
   else
-    Plugin 'tpope/vim-rbenv'
+    Plug 'tpope/vim-rbenv'
   endif
 
-  Plugin 't9md/vim-ruby-xmpfilter'
+  Plug 't9md/vim-ruby-xmpfilter'
 
   " Ruby Block Object
   " Adds:
   "   r (Ruby block)
-  Plugin 'kana/vim-textobj-user'
-  Plugin 'nelstrom/vim-textobj-rubyblock'
+  Plug 'kana/vim-textobj-user'
+  Plug 'nelstrom/vim-textobj-rubyblock'
 
   " Ruby refactoring tools. All beging with :R
-  Plugin 'ecomba/vim-ruby-refactoring'
+  Plug 'ecomba/vim-ruby-refactoring'
 
   " ds/cs/ys for deleting, changing, your surrounding chars (like ', ", etc.)
-  Plugin 'tpope/vim-surround'
+  Plug 'tpope/vim-surround'
 
   " Rainbow color parenthises
-  Plugin 'luochen1990/rainbow'
+  Plug 'luochen1990/rainbow'
   let g:rainbow_active = 1
 
   " Deal with git in a sane way
-  Plugin 'tpope/vim-fugitive'
+  Plug 'tpope/vim-fugitive'
 
   " Deal with github in a sane way
   " Add your github credentials to ~/.vimrc.local
   " See https://github.com/tpope/vim-rhubarb
-  Plugin 'tpope/vim-rhubarb'
+  Plug 'tpope/vim-rhubarb'
 
   " Better commit message editing
-  Plugin 'rhysd/committia.vim'
+  Plug 'rhysd/committia.vim'
 
   " Support '.' correctly for plugins that support this module.
-  Plugin 'tpope/vim-repeat'
+  Plug 'tpope/vim-repeat'
 
   " Allow chording 'jk' as a replacement for ESC
-  Plugin 'kana/vim-arpeggio'
+  Plug 'kana/vim-arpeggio'
 
   " Multiple Cursors -- "Out of the box, all you need to know is a single key Ctrl-n."
-  Plugin 'terryma/vim-multiple-cursors'
+  Plug 'terryma/vim-multiple-cursors'
 
   " Allow executing vim with a file:lineno
-  Plugin 'bogado/file-line'
+  Plug 'bogado/file-line'
 
   " Rust Language
-  Plugin 'wting/rust.vim'
+  Plug 'wting/rust.vim'
 
   " GraphViz
-  Plugin 'wannesm/wmgraphviz.vim'
+  Plug 'wannesm/wmgraphviz.vim'
   let g:WMGraphviz_output='png'
 
   " SSH authorized_keys
-  Plugin 'xevz/vim-sshauthkeys'
+  Plug 'xevz/vim-sshauthkeys'
 
   " Allow C-A/C-X to work correctly with dates/times.
-  Plugin 'tpope/vim-speeddating'
+  Plug 'tpope/vim-speeddating'
 
   if v:version >= 702
-    Plugin 'vim-airline/vim-airline'
-    Plugin 'vim-airline/vim-airline-themes'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
     let g:airline_powerline_fonts = 1
     let g:airline_theme='badwolf'
     let g:airline#extensions#tabline#enabled = 1
     set noshowmode
   endif
 
+  " Colors!
+  Plug 'nanotech/jellybeans.vim'
+
   " HTML5 + SVG support
-  Plugin 'othree/html5.vim'
+  Plug 'othree/html5.vim'
 
   " HTML/XML goodness.
   " See :h ragtag
-  Plugin 'tpope/vim-ragtag'
+  Plug 'tpope/vim-ragtag'
 
   " Show a facsimile of CSS colors as a highlight.
-  Plugin 'chrisbra/color_highlight'
+  Plug 'chrisbra/color_highlight'
   let g:colorizer_auto_filetype='css,scss,sass,html'
 
   " Puppet configuration syntax
-  Plugin 'rodjek/vim-puppet'
+  Plug 'rodjek/vim-puppet'
 
   " Chef support
-  Plugin 'MarcWeber/vim-addon-mw-utils'
-  Plugin 'tomtom/tlib_vim'
-  Plugin 'vadv/vim-chef'
+  Plug 'MarcWeber/vim-addon-mw-utils'
+  Plug 'tomtom/tlib_vim'
+  Plug 'vadv/vim-chef'
 
   if executable('ag')
     " Ag, the silver searcher
-    Plugin 'rking/ag.vim'
+    Plug 'rking/ag.vim'
   elseif executable('ack-grep')
     " Ack, the better-grepper-upper
     let g:ackprg='ack-grep -H --nocolor --nogroup --column'
-    Plugin 'mileszs/ack.vim'
+    Plug 'mileszs/ack.vim'
   elseif executable('ack')
     " Ack, the better-grepper-upper
     let g:ackprg='ack -H --nocolor --nogroup --column'
-    Plugin 'mileszs/ack.vim'
+    Plug 'mileszs/ack.vim'
   endif
 
   " Coffeescript Support
-  Plugin 'kchmck/vim-coffee-script'
+  Plug 'kchmck/vim-coffee-script'
 
   " Scala, breakfast of Joe's everywhere
-  Plugin 'derekwyatt/vim-scala'
+  Plug 'derekwyatt/vim-scala'
 
   " JSON & JS
-  Plugin 'elzr/vim-json'
-  Plugin 'pangloss/vim-javascript'
+  Plug 'elzr/vim-json'
+  Plug 'pangloss/vim-javascript'
 
   " Haskell support
-  Plugin 'Twinside/vim-syntax-haskell-cabal'
-  Plugin 'lukerandall/haskellmode-vim'
+  Plug 'Twinside/vim-syntax-haskell-cabal'
+  Plug 'lukerandall/haskellmode-vim'
 
   " Markdown
-  Plugin 'vim-scripts/VOoM'
-  Plugin 'tpope/vim-markdown'
+  Plug 'vim-scripts/VOoM'
+  Plug 'tpope/vim-markdown'
   if has('python') && executable('pandoc')
     if v:version >= 704
       " old style
@@ -531,32 +540,32 @@ function! LoadPlugins()
       let g:pandoc#modules#disabled = [ 'folding' ]
       let g:pandoc#formatting#pandoc_equalprog = 0
       let g:pandoc#formatting#mode = 'ha'
-      Plugin 'vim-pandoc/vim-pantondoc'
-      Plugin 'vim-pandoc/vim-pandoc-syntax'
-      Plugin 'vim-pandoc/vim-pandoc-after'
+      Plug 'vim-pandoc/vim-pantondoc'
+      Plug 'vim-pandoc/vim-pandoc-syntax'
+      Plug 'vim-pandoc/vim-pandoc-after'
     else
       " Folding slows things down and annoys me.
       let g:pandoc_no_folding = 1
-      Plugin 'vim-pandoc/vim-pandoc'
+      Plug 'vim-pandoc/vim-pandoc'
     endif
   endif
 
   " Groovy -- Make sure you set the GROOVY_HOME environment variable
-  Plugin 'vim-scripts/groovy.vim--Ruley.git'
+  Plug 'vim-scripts/groovy.vim--Ruley'
 
   " Super Shell Indent -- Better (but slower) indenting for shell scripts.
-  Plugin 'vim-scripts/Super-Shell-Indent'
+  Plug 'vim-scripts/Super-Shell-Indent'
 
   " PowerShell -- Changing your Windows command line environment
-  Plugin 'PProvost/vim-ps1'
+  Plug 'PProvost/vim-ps1'
 
   " Docker
-  Plugin 'dotcloud/docker', { 'rtp': 'contrib/syntax/vim' }
+  Plug 'dotcloud/docker', { 'rtp': 'contrib/syntax/vim' }
 
-  Plugin 'markcornick/vim-bats'
+  Plug 'markcornick/vim-bats'
 
-  Plugin 'mattn/webapi-vim'
-  Plugin 'mattn/gist-vim'
+  Plug 'mattn/webapi-vim'
+  Plug 'mattn/gist-vim'
   if has('macunix')
     let g:gist_clip_command = 'pbcopy'
   endif
@@ -564,7 +573,7 @@ function! LoadPlugins()
   " Like Command T for TextMate.
   " <leader>t to activate
   " <C-d> to toggle between just matching filename or whole path.
-  Plugin 'kien/ctrlp.vim'
+  Plug 'kien/ctrlp.vim'
   let g:ctrlp_map  = '<leader>t'
   let g:ctrlp_match_window_reversed = 0
   if executable('ag')
@@ -599,7 +608,7 @@ function! LoadPlugins()
   "   ,w (Camel word move)
   "   ,b (Camel backwards word move)
   "   ,e (Camel end-of-word move)
-  Bundle 'bkad/CamelCaseMotion'
+  Plug 'bkad/CamelCaseMotion'
 
   " Indent Objects
   " Adds:
@@ -607,57 +616,44 @@ function! LoadPlugins()
   "   ii (Just the inner parts)
   "   aI (Ruby/Bash style indents with endifs, etc.)
   "   iI (alias for ii)
-  Plugin 'michaeljsmith/vim-indent-object'
+  Plug 'michaeljsmith/vim-indent-object'
 
   if filereadable(g:my_vimrc . '.bundles')
     execute 'source ' . g:my_vimrc . '.bundles'
   endif
 endfunction
 
-" Only install vundle and bundles if git exists...
-if executable('git') && has('autocmd')
+" Only install the plugin system if we have the tools.
+if executable('git') && executable('curl') && has('autocmd')
+  let s:bootstrap=$VIMRC_FORCE_BOOTSTRAP
 
-  if !isdirectory(g:my_vim_dir . '/bundle/vundle')
-    echomsg '*******************************'
-    echomsg 'Bootstrapping vim configuration'
-    echomsg '*******************************'
-    echomsg ''
-    echomsg 'This will take a minute or two...'
-    echomsg ''
-    execute 'silent !mkdir -p ' . g:my_vim_dir . '/bundle && git clone --quiet https://github.com/gmarik/vundle.git ' . g:my_vim_dir . '/bundle/vundle'
+  let s:vim_plug_path = g:my_vim_dir . "/autoload/plug.vim"
+  if !filereadable(s:vim_plug_path)
     let s:bootstrap=1
   endif
 
-  filetype off
-  execute 'set rtp+=' . g:my_vim_dir . '/bundle/vundle/'
-  call vundle#begin(g:my_vim_dir . '/bundle/')
-  Plugin 'gmarik/vundle'
+  if s:bootstrap
+    execute 'silent !curl -qSLo ' . s:vim_plug_path . ' --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    execute 'source ' . s:vim_plug_path
+  endif
+  unlet s:vim_plug_path
+
+  let g:plug_shallow=0
+  call plug#begin()
   call LoadPlugins()
-  call vundle#end()
+  call plug#end()
   filetype plugin indent on
 
-  if exists('s:bootstrap') && s:bootstrap
-    unlet s:bootstrap
+  if s:bootstrap
     " TODO Run PluginInstall whenever the .vimrc changes (specifically the
     " Pluginsettings).
-    PluginInstall
-    quit " Close the bundle install window.
+    silent :PlugUpdate
+    quit " Close the plugin install window.
   endif
+  unlet s:bootstrap
 elseif has('autocmd')
   filetype plugin indent on
 endif
-
-
-"
-" Brief help
-" :PluginList          - list configured bundles
-" :PluginInstall       - install bundles
-" :PluginUpdate        - update bundles
-" :PluginSearch(!) foo - search(or refresh cache first) for foo
-" :PluginClean(!)      - confirm(or auto-approve) removal of unused bundles
-"
-" see :h vundle for more details or wiki for FAQ
-" NOTE: comments after Plugincommand are not allowed..
 
 " Create Parent Directories
 "-----------------------------------------------------------------------------

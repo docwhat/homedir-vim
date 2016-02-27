@@ -30,13 +30,12 @@
 " On OSX it is recommended you get a newer verson of vim. You can use
 " homebrew to do this:
 "
-"     brew tap homebrew/dupes
 "     brew install vim
 "
 
 if v:progname == 'nvim'
-  let g:my_vim_dir = expand('~/.nvim')
-  let g:my_vimrc = g:my_vim_dir . '/nvimrc'
+  let g:my_vim_dir = expand('~/.config/nvim')
+  let g:my_vimrc = g:my_vim_dir . '/init.vim'
 else
   let g:my_vim_dir = expand('~/.vim')
   let g:my_vimrc = expand('~/.vimrc')

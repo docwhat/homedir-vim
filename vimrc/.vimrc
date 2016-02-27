@@ -102,7 +102,7 @@ set splitright
 
 if executable('ag')
   " Use Ag over Grep
-  set grepprg=ag\ --nogroup\ --nocolor
+  set grepprg="ag --vimgrep"
 endif
 
 if filereadable(g:my_vimrc . '.local-pre')
@@ -289,7 +289,7 @@ function! LoadPlugins()
 
   " Press F2 to see a list of files and directories from your
   " current working directory
-  Plug 'scrooloose/nerdtree'
+  Plug 'scrooloose/nerdtree', { 'on': ['NERDTree', 'NERDTreeFind', 'NERDTreeToggle'] }
   nnoremap <silent> <leader>nt :call NERDTreeFindOrClose()<CR>
   function! NERDTreeFindOrClose()
     if exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1
@@ -337,17 +337,6 @@ function! LoadPlugins()
   " Adds matching 'end*' type syntax for ruby, vimscript, and lua
   Plug 'tpope/vim-endwise'
   Plug 'tpope/vim-abolish'
-
-  " Move lines with '[e' and ']e' along with a lot of other
-  " fun things.  :help unimpaired
-  Plug 'tpope/vim-unimpaired'
-  " Bubble single line
-  nmap <C-S-k> <Plug>unimpairedMoveUp
-  nmap <C-S-j> <Plug>unimpairedMoveDown
-
-  " Bubble visually selected lines
-  xmap <C-S-k> <Plug>unimpairedMoveUp gv
-  xmap <C-S-j> <Plug>unimpairedMoveDown gv
 
   " Detect indentation
   Plug 'tpope/vim-sleuth'
@@ -449,9 +438,6 @@ function! LoadPlugins()
   " Allow chording 'jk' as a replacement for ESC
   Plug 'kana/vim-arpeggio'
 
-  " Multiple Cursors -- "Out of the box, all you need to know is a single key Ctrl-n."
-  Plug 'terryma/vim-multiple-cursors'
-
   " Allow executing vim with a file:lineno
   Plug 'bogado/file-line'
 
@@ -490,9 +476,6 @@ function! LoadPlugins()
   " Show a facsimile of CSS colors as a highlight.
   Plug 'chrisbra/color_highlight'
   let g:colorizer_auto_filetype='css,scss,sass,html'
-
-  " Puppet configuration syntax
-  Plug 'rodjek/vim-puppet'
 
   " Chef support
   Plug 'MarcWeber/vim-addon-mw-utils'
@@ -1077,10 +1060,6 @@ if has('autocmd')
     " http://vim.wikia.com/wiki/Omnicomplete_-_Remove_Python_Pydoc_Preview_Window
     " maybe for ruby too?
     autocmd FileType python nested setlocal cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-    autocmd FileType python nested map <buffer> <S-e> :w<CR>:!/usr/bin/python %
-    autocmd FileType python nested setlocal makeprg=python\ -c\ \"import\ py_compile,sys;\ sys.stderr=sys.stdout;\ py_compile.compile(r'%')\"
-    autocmd FileType python nested setlocal efm=%.%#:\ (\'%m\'\\,\ (\'%f\'\\,\ %l\\,\ %c%.%# "
-    " autocmd FileType python nested set textwidth=79 " PEP-8 Friendly
     autocmd FileType python nested setlocal tabstop=4 shiftwidth=4 softtabstop=4
   augroup END
 endif
